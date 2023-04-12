@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url:
+    username:
+    password:
+  security:
+    oauth2:
+      client:
+        registration:
+          aliyun:
+            authorizationGrantType: authorization_code
+            clientAuthenticationMethod: basic
+            clientName: Aliyun
+            scope: openid,aliuid,profile
+            clientId:
+            clientSecret:
+redis:
+  datasource:
+    url:
+    password:

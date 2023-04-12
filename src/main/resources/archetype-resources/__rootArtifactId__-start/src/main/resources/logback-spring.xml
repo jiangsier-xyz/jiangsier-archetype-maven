@@ -1,0 +1,181 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- https://github.com/spring-projects/spring-boot/blob/v1.5.13.RELEASE/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <springProperty name="LOG_PATH" source="app.logging.home" defaultValue="${symbol_dollar}{user.home}/logs" />
+    <springProperty name="LOG_LEVEL" source="app.logging.level" defaultValue="DEBUG" />
+
+    <property name="TRACE_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-trace.log" />
+    <property name="DEBUG_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-debug.log" />
+    <property name="INFO_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-info.log" />
+    <property name="WARN_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-warn.log" />
+    <property name="ERROR_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-error.log" />
+    <property name="COMMON_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %c{36} - %m%n"/>
+    <property name="PERF_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-perf.log" />
+    <property name="PERF_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] - %m%n"/>
+
+    <appender name="TRACE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${symbol_dollar}{TRACE_LOG_FILE}</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{COMMON_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{TRACE_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>10GB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name ="TRACE_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref ="TRACE"/>
+    </appender>
+
+    <appender name="DEBUG"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${symbol_dollar}{DEBUG_LOG_FILE}</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{COMMON_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{DEBUG_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>3</maxHistory>
+            <maxFileSize>1GB</maxFileSize>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name ="DEBUG_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref ="DEBUG"/>
+    </appender>
+
+    <appender name="INFO"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${symbol_dollar}{INFO_LOG_FILE}</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{COMMON_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{INFO_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>10GB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name ="INFO_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref ="INFO"/>
+    </appender>
+
+    <appender name="WARN"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${symbol_dollar}{WARN_LOG_FILE}</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{COMMON_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{WARN_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>10GB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name ="WARN_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref ="WARN"/>
+    </appender>
+
+    <appender name="ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${symbol_dollar}{ERROR_LOG_FILE}</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{COMMON_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{ERROR_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <maxFileSize>10GB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name ="ERROR_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref ="ERROR"/>
+    </appender>
+
+    <appender name="PERF"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${symbol_dollar}{PERF_LOG_FILE}</file>
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{PERF_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{PERF_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>10GB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name ="PERF_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref ="PERF"/>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{COMMON_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="${symbol_dollar}{LOG_LEVEL}">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="DEBUG_ASYNC" />
+        <appender-ref ref="INFO_ASYNC" />
+        <appender-ref ref="WARN_ASYNC" />
+        <appender-ref ref="ERROR_ASYNC" />
+    </root>
+
+    <logger name="${package}.archetype.annotation.Trace" level="trace" additivity="false">
+        <appender-ref ref="PERF_ASYNC" />
+    </logger>
+
+    <logger name="org.redisson.cluster" level="off" additivity="false">
+        <appender-ref ref="ERROR_ASYNC" />
+    </logger>
+</configuration>

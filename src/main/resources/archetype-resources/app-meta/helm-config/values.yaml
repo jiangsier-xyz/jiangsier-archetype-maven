@@ -1,0 +1,79 @@
+global:
+  storageClass: ''
+  redis:
+    password: ''
+auth:
+  oauth2:
+    aliyun:
+      enable: true
+      authorizationGrantType: authorization_code
+      clientAuthenticationMethod: basic
+      clientName: Aliyun
+      scope: openid,aliuid,profile
+      clientId: ''
+      clientSecret: ''
+    google:
+      enable: true
+      scope: openid,profile,email
+      clientId: ''
+      clientSecret: ''
+autoscaling:
+  enabled: false
+bitnami:
+  mysql:
+    enabled: true
+  redis:
+    enabled: true
+cert:
+  manager:
+    namespace: cert-manager
+    version: v1.11.0
+  issuer:
+    enabled: false
+  certificate:
+    enabled: false
+  email: ''
+debug:
+  jpda:
+    enabled: false
+    port: 5005
+favicon:
+  style: random
+image:
+  pullPolicy: Always
+  repository: ${imageRepository}
+  tag: '${version}'
+ingress:
+  enabled: false
+  className: nginx
+  hosts:
+    - host: ${appDomain}
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    enabled: false
+mysql:
+  url: 'jdbc:mysql://${artifactId}-mysql:3306/members?useUnicode=true&characterEncoding=utf-8'
+  auth:
+    database: members
+    password: ''
+    rootPassword: ''
+    username: ''
+redis:
+  url: 'redis://${artifactId}-redis-cluster:6379'
+replicaCount: 2
+resources:
+  limits: {}
+  requests: {}
+securityContext:
+  runAsUser: 2023
+  runAsGroup: 2023
+service:
+  ports:
+    http: 80
+  type: ClusterIP
+serviceAccount:
+  create: true
+systemAccount: admin
+spring: {}

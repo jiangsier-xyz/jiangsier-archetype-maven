@@ -1,0 +1,9 @@
+<archetype-catalog>
+    <archetypes>
+        <archetype>
+            <groupId>xyz.jiangsier</groupId>
+            <artifactId>jiangsier-archetype-maven</artifactId>
+            <version>1.0.0</version>
+        </archetype>
+    </archetypes>
+</archetype-catalog>

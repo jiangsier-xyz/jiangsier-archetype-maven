@@ -1,0 +1,30 @@
+annotations:
+  licenses: MIT
+  group: ${groupId}
+apiVersion: v2
+appVersion: ${version}
+dependencies:
+- condition: bitnami.mysql.enabled
+  name: mysql
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - mysql
+  - sql
+  - database
+  version: 9.x.x
+- condition: bitnami.redis.enabled
+  name: redis-cluster
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+    - redis
+    - keyvalue
+    - database
+  version: 8.x.x
+description: A Helm chart for ${artifactId}
+maintainers:
+- email: leiyi.jp@gmail.com
+  name: Kelvin Jiang
+  url: https://github.com/jiangsier-xyz
+name: ${artifactId}
+type: application
+version: 0.1.1

@@ -1,0 +1,45 @@
+app:
+  logging:
+    home: logs
+    level: info
+auth:
+  login:
+    oauth2:
+      failureUri: /login/oauth2/failure
+      successUri: /login/oauth2/success
+    portal:
+      failureUri: /login/portal/failure
+      successUri: /login/portal/success
+  role:
+    adminUri: /admin/**
+    apiUri: /api/**
+    privateUri: /private/**
+    publicUri: /public/**,/css/**,/js/**,/images/**,/**/favicon.ico
+  token:
+    maxCountPerUser: 5
+    headerName: X-API-TOKEN
+    parameterName: _token
+    prefix: JSRAPI
+cache:
+  redisson:
+    config: classpath:/cache-config.yml
+redis:
+  datasource:
+    timeout: 10000
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+  security:
+    oauth2:
+      client:
+        provider:
+          aliyun:
+            authorizationUri: https://signin.aliyun.com/oauth2/v1/auth
+            issuerUri: https://oauth.aliyun.com
+            jwkSetUri: https://oauth.aliyun.com/v1/keys
+            tokenUri: https://oauth.aliyun.com/v1/token
+            userInfoUri: https://oauth.aliyun.com/v1/userinfo
+            userNameAttribute: sub
+perf:
+  trace:
+    excludeUri: /public/check/**,/**/favicon.ico,/error
