@@ -80,8 +80,8 @@ TODO
 ### Authentication and Authorization
 Authentication is the process of identifying visitor identity information (and granting certain roles/permissions).  
 Authorization is the process of judging whether the visitor is allowed to access the service/resource after the authentication is completed.
-> Objectively speaking, authorization may only require an access credential (such as a token), not necessarily complete identity information.
-> When using the Spring Security framework, just pre-set the permissions required by the services/resources in the configuration, and set the visitor permissions/roles when the authentication is successful. The authorization process will automatically completed by the framework.
+> Objectively speaking, authorization may only require an access credential (such as a token), not necessarily complete identity information.  
+> When using the Spring Security framework, just pre-set the permissions required by the services/resources in the configuration, and set the visitor permissions/roles when the authentication is successful. The authorization process will automatically completed by the framework.  
 > If the authentication fails, it is usually redirected to a specific page (such as a login page). If the authorization fails, it usually returns HTTP 403.
 
 #### User System
