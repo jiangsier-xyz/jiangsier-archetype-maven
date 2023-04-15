@@ -52,11 +52,13 @@ debug:
     port: 5005
 ```
 则我们渲染 Deployment 的时候，会增加相应的调试端口和环境变量。
+
 2. 使用 kubectl port-forward 将你的本地端口映射到 pod 的调试端口
 ```shell
 kubectl --kubeconfig=<your config> port-forward pod/<awesome-app-5454655984-n8kf8> 5005:5005 -n <namespace>
 ```
 你也可以使用工具脚本 [port-forward.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/port-forward.sh) 来简化这个过程。它从应用程序的 pods 中随机选择一个进行转发（注意，这未必是你想要的），并可以自动重连。
+
 3. 在 IDE 中配置远程调试，Host 设置为 localhost。正常情况下，你的 IDE 就可以 attach 到指定 pod 中的 JVM 进程上了。
 
 ## awesome-app 有什么
