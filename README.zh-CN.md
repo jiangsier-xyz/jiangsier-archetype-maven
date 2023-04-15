@@ -17,7 +17,7 @@ gen-proj.sh --group-id xyz.jiangsier \
 这个脚本不一定完全适用于你，请自由修改它。
 [jiangsier-archetype-demo](https://todo) 是完全由 jiangsier-archetype-maven 生成的项目。[https://jiangsier.xyz](https://jiangsier.xyz) 是它的体验地址。
 
-以下你的应用称为 awesome-app。
+以下将你的应用称为 awesome-app。
 
 ### 构建数据访问层
 awesome-app 默认的数据库表设计只是半成品，仅包含基本的用户体系相关信息。请定制你的数据库，将表结构信息更新到 [schema.sql](https://src/main/resources/archetype-resources/__rootArtifactId__-dal/src/main/resources/sql/schema.sql)，修改 [generatorConfig.xml](https://todo/src/main/resources/archetype-resources/__rootArtifactId__-dal/src/main/resources/mybatis-generator/generatorConfig.xml)，再使用 [mgb.sh](https://todo/src/main/resources/archetype-resources/bin/mgb.sh) 来生成你的数据访问层。
