@@ -3,6 +3,7 @@ jiangsier-archetype-maven 是一套原型工程，用来减少应用创建过程
 
 ## 为什么要做 jiangsier-archetype-maven
 现代框架，如 Spring Boot，已经极大减轻了应用创建过程中，非业务相关的开发工作量。但作为“框架”，它们需要兼顾灵活性和可扩展性，这带来了大量的、复杂的配置工作。有的配置项难以理解，甚至要阅读框架工程的源码，才能正确设置。
+
 对于常规的、背景并不复杂的应用，很多配置可以预设。另外，对于不同应用件的少量的定制，相比为此设置晦涩的（可能相互间还存在一定重复作用的）配置项，也许直接提供源代码让不同的业务方修改定制，是更高效的办法。这也是 jiangsier-archetype-maven 诞生的主要原因。基于 jiangsier-archetype-maven 创建的应用几乎可以直接安装运行，并且已经实现了很多分布式 Web 系统所需要的、业务无关的特性。
 
 ## jiangsier-archetype-maven 如何使用
@@ -15,10 +16,12 @@ gen-proj.sh --group-id xyz.jiangsier \
 ```
 这个脚本不一定完全适用于你，请自由修改它。
 [jiangsier-archetype-demo](https://todo) 是完全由 jiangsier-archetype-maven 生成的项目。[https://jiangsier.xyz](https://jiangsier.xyz) 是它的体验地址。
+
 以下你的应用称为 awesome-app。
 
 ### 构建数据访问层
 awesome-app 默认的数据库表设计只是半成品，仅包含基本的用户体系相关信息。请定制你的数据库，将表结构信息更新到 [schema.sql](https://src/main/resources/archetype-resources/__rootArtifactId__-dal/src/main/resources/sql/schema.sql)，修改 [generatorConfig.xml](https://todo/src/main/resources/archetype-resources/__rootArtifactId__-dal/src/main/resources/mybatis-generator/generatorConfig.xml)，再使用 [mgb.sh](https://todo/src/main/resources/archetype-resources/bin/mgb.sh) 来生成你的数据访问层。
+
 mgb.sh 首先在你的机器上使用 `docker run` 运行一个 MySQL 实例，然后通过 MGB(MyBatis Generator) 来运行 schema.sql，并依据创建的表和 generatorConfig.xml 配置来自动生成 MyBatis 数据访问层。做完这一切之后，停止 docker 容器的运行。这个过程中的 MySQL 的数据文件将不会被持久化。
 上述过程意味着你本机需要安装 Docker 运行环境。
 
@@ -34,6 +37,7 @@ mgb.sh 首先在你的机器上使用 `docker run` 运行一个 MySQL 实例，�
 ### 调试应用程序
 #### 本地调试
 默认情况下，awesome-app 使用 helm 中的部分配置来生成运行时需要的 Spring 配置，尽量避免同一个参数在多个地方、多种系统里维护（比如 MySQL URL）。具体的渲染模版请参考 [_spring.tpl](https://todo/src/main/resources/archetype-resources/app-meta/helm-config/templates/_spring.tpl)。渲染结果会以名为“awesome-app-spring-properties”的 Secret 资源被应用程序访问，对应的键/文件名是“application-private.yml”。
+
 如果想要进行本地调试，一般不会运行 helm 渲染，并且，许多服务的连接地址通常也不是 k8s 中自动部署的服务地址。你需要自行解决依赖服务（如 MySQL、Redis）的问题，并根据实际情况，手工维护一份 [application-private.yml](https://todo/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/resources/application-private-sample.yml)，再在 IDE 的调试选项中加载它，就可以正常调试你的应用了。
 > [mysql-local.sh](https://todo/src/main/resources/archetype-resources/bin/mysql-local.sh) 可以帮助你运行/停止一个本地 MySQL，希望能有助于你的调试。
 
@@ -73,7 +77,7 @@ awesome-app 基于 Redisson 实现了 Spring Session，并且设置了 Session �
 TODO
 
 ### 认证与鉴权
-认证，是识别访问者身份信息（并赋予一定角色/权限）的过程。
+认证，是识别访问者身份信息（并赋予一定角色/权限）的过程。  
 鉴权，是在完成认证的情况下，判断访问者是否被允许访问服务/资源的过程。
 > 客观来说，鉴权可能只需要一个访问凭证（如 token），未必需要完整的身份信息。
 > 如果是系统内部鉴权，使用 Spring Security 框架，在配置中预设置服务/资源所需权限，并在认证成功的同时设定好访问者权限/角色，鉴权过程由框架自动完成。
@@ -102,7 +106,9 @@ awesome-app 支持制定路径下的接口（默认"/api/\*\*"）使用 token �
 - 从参数中获取 token，默认参数名为“\_token”，可配置。
 - 从请求头中获取 token，默认键名为“X-API-TOKEN”，可配置。
 优先从参数中获取。如果配置了多个 \_token 参数，以第一个有效 token 为准。请求头中也可传递多个 token，以","进行分隔，以左数第一个有效 token 为准。
+
 已登录用户可以通过"/token/\*\*"系列接口来查看、创建、删除、禁用 token，详见 [AuthController.java](https://todo/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/java/controller/AuthController.java)。token 创建时以秒为单位指定有效期。如果不指定，默认为 1 天。每个用户最多可以创建 5 个token。
+
 在数据库表的设计中，token 可支持策略/权限范围，但目前实现只支持"全部范围"，意味着持有有效 token 即可拥有对应用户的全部接口权限。
 
 ### 性能追踪
@@ -139,6 +145,7 @@ ac11000216560387254571001d0093|-|c.a.t.e.c.c.TestComponent::login|S|19|Alice,*|t
 
 ## awesome-app 依赖什么
 作为云原生应用，awesome-app 所依赖的服务，均通过 helm repository 拉取，部署到您的集群，无需您购买单独的云服务。
+
 当然，从运维的角度，也许您更希望购买有 SLA(Service Level Agreement) 保障的云服务，那么只需要设置 [Helm 配置](https://todo/src/main/resources/archetype-resources/app-meta/helm-config/values.yaml)参数为
 ```yaml
 bitnami:
@@ -163,12 +170,16 @@ redis:
 
 ### MySQL
 几乎所有的应用都离不开数据库，awesome-app 也一样。考虑到 MySQL 的流行度，awesome-app 使用 MySQL 来作为自身的数据库，存放认证相关的信息，并且尽量使用标准的 SQL 语法，避免硬编码 MySQL 方言。
+
 awesome-app 默认部署 [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) 到同一命名空间，这时，MySQL url 默认是 `jdbc:mysql://awesome-app-mysql:3306/members?useUnicode=true&characterEncoding=utf-8`
+
 你也可以指定其他的 MySQL 实例。
 
 ### Redis
 如上文所述，awesome-app 使用 Redis 作为后端实现了大部分分布式能力。Redis 是 awesome-app 的必备组件。
+
 awesome-app 默认部署 [bitnami/redis-cluster](https://artifacthub.io/packages/helm/bitnami/redis-cluster) 到同一命名空间，这时，Reids url 默认是 `redis://awesome-app-redis-cluster:6379`
+
 你也可以指定其他的 Redis 实例。
 
 ## 附录
