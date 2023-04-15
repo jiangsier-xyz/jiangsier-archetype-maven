@@ -52,11 +52,13 @@ debug:
      port: 5005
 ```
 Then when we render the Deployment, the corresponding debugging port and environment variables will be added.
+
 2. Use kubectl port-forward to map your local port to the pod's debug port
 ```shell
 kubectl --kubeconfig=<your config> port-forward pod/<awesome-app-5454655984-n8kf8> 5005:5005 -n <namespace>
 ```
 You can also use the tools script [port-forward.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/port-forward.sh) to simplify the process. It randomly selects one of the application's pods to forward (note, this may not be what you want), and can automatically reconnect.
+
 3. Configure remote debugging in the IDE, and set the "Host" to localhost. Normally, your IDE can be attached to the JVM process in the specified pod.
 
 ## What awesome-app has
