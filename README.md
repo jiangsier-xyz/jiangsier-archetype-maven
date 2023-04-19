@@ -72,7 +72,7 @@ These annotations support keyBy parameters to generate cache keys themselves. ke
 
 The cache configuration is in [cache-config.yml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/resources/cache-config.yml), these caches can be passed through the corresponding `@XxxPeriodCacheEvict` annotation to clear, you can also use regular cache annotations to clear (you may need to use their names "shortPeriod", "middlePeriod", "longPeriod").
 
-### Distributed session
+### Distributed Session
 awesome-app implements Spring Session based on Redisson, and sets the Session expiration time to one hour, refer to [RedissonSessionConfig.java](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/java/config/RedissonCacheConfig.java). As long as a server in the cluster has a Session set, the entire cluster will know.
 
 Note that the implementation of RedissonConnectionFactory is related to the version of spring-session-data-redis. The second-party package currently used is redisson-spring-data-27 (because spring-session-data-redis uses 2.7.0). For specific correspondence, see [GitHub](https://github.com/redisson/redisson/tree/master/redisson-spring-data#usage).
