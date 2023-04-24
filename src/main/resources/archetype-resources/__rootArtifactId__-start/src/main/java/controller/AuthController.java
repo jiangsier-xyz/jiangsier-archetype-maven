@@ -137,14 +137,4 @@ public class AuthController {
         }
         return apiTokenService.listTokens(user);
     }
-
-    @GetMapping("/api/auth/authorities")
-    @ResponseBody
-    public Set<String> listAuthorities(Authentication authenticated) {
-        User user = authenticationToUser(authenticated);
-        if (Objects.isNull(user)) {
-            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);
-        }
-        return authorityService.listAuthorities(user);
-    }
 }

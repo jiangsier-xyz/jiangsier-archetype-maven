@@ -37,8 +37,6 @@ debug:
   jpda:
     enabled: false
     port: 5005
-favicon:
-  style: random
 image:
   pullPolicy: Always
   repository: ${imageRepository}

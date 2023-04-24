@@ -24,6 +24,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <spring-boot.version>2.7.0</spring-boot.version>
+    <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
     <mysql-connector-java.version>8.0.32</mysql-connector-java.version>
     <mybatis.version>3.5.11</mybatis.version>
     <mybatis-dynamic-sql.version>1.4.1</mybatis-dynamic-sql.version>
@@ -91,6 +92,12 @@
         <!-- for Spring Data Redis v.2.7.x -->
         <artifactId>redisson-spring-data-27</artifactId>
         <version>${redisson-spring-data.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc-openapi-ui.version}</version>
       </dependency>
 
       <!--mysql & mybatis-->

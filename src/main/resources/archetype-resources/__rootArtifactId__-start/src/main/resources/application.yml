@@ -40,6 +40,9 @@ spring:
             tokenUri: https://oauth.aliyun.com/v1/token
             userInfoUri: https://oauth.aliyun.com/v1/userinfo
             userNameAttribute: sub
+springdoc:
+  paths: /api/**
+  packagesToScan: ${package}.api
 perf:
   trace:
     excludeUri: /public/check/**,/**/favicon.ico,/error

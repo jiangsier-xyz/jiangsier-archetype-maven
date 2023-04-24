@@ -115,6 +115,9 @@ awesome-app 支持制定路径下的接口（默认"/api/\*\*"）使用 token �
 
 在数据库表的设计中，token 可支持策略/权限范围，但目前实现只支持"全部范围"，意味着持有有效 token 即可拥有对应用户的全部接口权限。
 
+**OpenAPI 规范**
+awesome-app 通过 [spring-doc](https://springdoc.org/) 框架支持 [OpenAPI 规范描述](https://swagger.io/specification/)。
+
 ### 性能追踪
 #### Bean 追踪
 可以在 bean 的实现类的方法上添加 `@Trace` 注解，来打印性能日志，参考 [TraceAspect.java](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/java/interceptor/TraceAspect.java)，格式如下：

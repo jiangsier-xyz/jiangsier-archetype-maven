@@ -98,6 +98,9 @@ Logged-in users can view, create, delete, and disable tokens through the "/token
 
 In the design of database tables, tokens can support policy/authority scope, but the current implementation only supports "full scope", which means that holding a valid token can have all the interface permissions of the corresponding user.
 
+**OpenAPI Specification**
+${artifactId} supports the [OpenAPI Specification](https://swagger.io/specification/) by the [spring-doc](https://springdoc.org/) framework.
+
 ${symbol_pound}${symbol_pound}${symbol_pound} Performance Tracing
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} Bean Tracing
 You can add `@Trace` annotation to the method of bean implementation class to print performance log, refer to [TraceAspect.java](${scmUrl}/blob/main/${artifactId}-start/src/main/java/interceptor/TraceAspect.java), the format is as follows:
