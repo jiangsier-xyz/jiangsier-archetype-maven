@@ -46,7 +46,7 @@ kubectl --kubeconfig=<your config> port-forward pod/<${artifactId}-5454655984-n8
 
 ${symbol_pound}${symbol_pound} ${artifactId} 有什么
 ${symbol_pound}${symbol_pound}${symbol_pound} 分布式缓存
-${artifactId} 基于 Redisson 实现了 Spring Cache，参考 [RedissonCacheConfig.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/config/RedissonCacheConfig.java)。另外，自定义了 [FullNameKeyGenerator.java](${scmUrl}/blob/main/${artifaceId}-service/src/main/java/cache/FullNameKeyGenerator.java) 来产生包含类名、方法名和参数值的缓存 key，以便支持预置的缓存在系统全范围内使用。预置缓存主要包括以下几个：
+${artifactId} 基于 Redisson 实现了 Spring Cache，参考 [RedissonCacheConfig.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/${packageDir}/config/RedissonCacheConfig.java)。另外，自定义了 [FullNameKeyGenerator.java](${scmUrl}/blob/main/${artifaceId}-service/src/main/java/${packageDir}/cache/FullNameKeyGenerator.java) 来产生包含类名、方法名和参数值的缓存 key，以便支持预置的缓存在系统全范围内使用。预置缓存主要包括以下几个：
 - `@ShortPeriodCache`：短期缓存，2 秒过期。适用于高频访问、可接受些微数据延迟的接口。
 - `@MiddlePeriodCache`：中期缓存，5 分钟过期，适合于大部分对实时结果要求不高的场景。
 - `@LongPeriodCache`：长期缓存，1 小时过期，适合于基本不变的信息，比如认证凭据、不同平台用户的绑定关系等。
@@ -56,7 +56,7 @@ ${artifactId} 基于 Redisson 实现了 Spring Cache，参考 [RedissonCacheConf
 缓存配置在 [cache-config.yml](${scmUrl}/blob/main/${artifaceId}-start/src/main/resources/cache-config.yml)，这些缓存可以通过对应的 `@XxxPeriodCacheEvict` 注解进行清除，也可以使用常规的缓存注解清理（这时你可能需要用到它们的名字“shortPeriod”、“middlePeriod”、“longPeriod”）。
 
 ${symbol_pound}${symbol_pound}${symbol_pound} 分布式会话
-${artifactId} 基于 Redisson 实现了 Spring Session，并且设置了 Session 过期时间为一小时，参考 [RedissonSessionConfig.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/config/RedissonCacheConfig.java)。只要集群里的一台服务器设置了 Session，则整个集群可见。
+${artifactId} 基于 Redisson 实现了 Spring Session，并且设置了 Session 过期时间为一小时，参考 [RedissonSessionConfig.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/${packageDir}/config/RedissonCacheConfig.java)。只要集群里的一台服务器设置了 Session，则整个集群可见。
 
 注意 RedissonConnectionFactory 的实现，与 spring-session-data-redis 版本有关，目前使用的二方包是 redisson-spring-data-27（因为 spring-session-data-redis 采用了 2.7.0）。具体对应关系见 [GitHub](https://github.com/redisson/redisson/tree/master/redisson-spring-data${symbol_pound}usage)。
 
@@ -77,7 +77,7 @@ ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} 门户认证
 门户认证指的是依赖登录页面中传入的用户名、密码，与数据库中的用户表匹配，完成认证。${artifactId} 没有修改 spring-security 的默认设置，登录页面是 GET 方式访问"/login"，登录处理的路径则是 POST 方式访问"/login"。通常情况下，这些页面是需要定制的。
 
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} OAuth2 认证
-大部分网站的 OAuth2 认证流程，都设计了额外的请求参数。比如 Google Cloud OAuth2 授权参数参考[这里](https://developers.google.com/identity/protocols/oauth2/web-server${symbol_pound}creatingclient)。为了能适当设置这些参数，本系统设计了 [OAuth2AuthorizationRequestCustomizer.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/auth/customizer/OAuth2AuthorizationRequestCustomizer.java) 用于实际跳转前对请求内容进行定制化处理。由于 Spring Security 框架的默认的 OAuth2AuthorizationRequestResolver 实现只支持设置一个 Customizer，考虑到可扩展性（支持更多网站的 OAuth2 认证），此类并没有直接按照 Google 的协议实现，而是根据 OAuth2 认证服务商的名称来动态查找可以处理的 bean 对象。针对 Google 的协议扩展，在 [GoogleOAuth2AuthorizationRequestCustomizer.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/auth/customizer/GoogleOAuth2AuthorizationRequestCustomizer.java) 中进行了处理。
+大部分网站的 OAuth2 认证流程，都设计了额外的请求参数。比如 Google Cloud OAuth2 授权参数参考[这里](https://developers.google.com/identity/protocols/oauth2/web-server${symbol_pound}creatingclient)。为了能适当设置这些参数，本系统设计了 [OAuth2AuthorizationRequestCustomizer.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/${packageDir}/auth/customizer/OAuth2AuthorizationRequestCustomizer.java) 用于实际跳转前对请求内容进行定制化处理。由于 Spring Security 框架的默认的 OAuth2AuthorizationRequestResolver 实现只支持设置一个 Customizer，考虑到可扩展性（支持更多网站的 OAuth2 认证），此类并没有直接按照 Google 的协议实现，而是根据 OAuth2 认证服务商的名称来动态查找可以处理的 bean 对象。针对 Google 的协议扩展，在 [GoogleOAuth2AuthorizationRequestCustomizer.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/${packageDir}/auth/customizer/GoogleOAuth2AuthorizationRequestCustomizer.java) 中进行了处理。
 
 另外，${artifactId} 还支持了阿里云的 OAuth2 认证。
 
@@ -94,7 +94,7 @@ ${artifactId} 支持制定路径下的接口（默认“/api/\*\*”）使用 to
 - 从请求头中获取 token，默认键名为“X-API-TOKEN”，可配置。
 优先从参数中获取。如果配置了多个 \_token 参数，以第一个有效 token 为准。请求头中也可传递多个 token，以","进行分隔，以左数第一个有效 token 为准。
 
-已登录用户可以通过"/token/\*\*"系列接口来查看、创建、删除、禁用 token，详见 [AuthController.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/controller/AuthController.java)。token 创建时以秒为单位指定有效期。如果不指定，默认为 1 天。每个用户最多可以创建 5 个token。
+已登录用户可以通过"/token/\*\*"系列接口来查看、创建、删除、禁用 token，详见 [AuthController.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/${packageDir}/controller/AuthController.java)。token 创建时以秒为单位指定有效期。如果不指定，默认为 1 天。每个用户最多可以创建 5 个token。
 
 在数据库表的设计中，token 可支持策略/权限范围，但目前实现只支持"全部范围"，意味着持有有效 token 即可拥有对应用户的全部接口权限。
 
@@ -103,7 +103,7 @@ ${artifactId} 通过 [spring-doc](https://springdoc.org/) 框架支持 [OpenAPI 
 
 ${symbol_pound}${symbol_pound}${symbol_pound} 性能追踪
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} Bean 追踪
-可以在 bean 的实现类的方法上添加 `@Trace` 注解，来打印性能日志，参考 [TraceAspect.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/interceptor/TraceAspect.java)，格式如下：
+可以在 bean 的实现类的方法上添加 `@Trace` 注解，来打印性能日志，参考 [TraceAspect.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/${packageDir}/interceptor/TraceAspect.java)，格式如下：
 ```
 traceId|userId|className::methodName|status(S/F/B)|elapseTime(ms)|args|return|errorMessage|extInfo
 ```
@@ -131,7 +131,7 @@ ac11000216560387254571001d0093|-|c.a.t.e.c.c.TestComponent::login|S|19|Alice,*|t
 ```
 
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} HTTP 追踪
-所有 HTTP API 的调用被统一追踪，相关实现在 [TraceInterceptor.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/interceptor/TraceInterceptor.java)。
+所有 HTTP API 的调用被统一追踪，相关实现在 [TraceInterceptor.java](${scmUrl}/blob/main/${artifaceId}-start/src/main/java/${packageDir}/interceptor/TraceInterceptor.java)。
 
 ${symbol_pound}${symbol_pound} ${artifactId} 依赖什么
 作为云原生应用，${artifactId} 所依赖的服务，均通过 helm repository 拉取，部署到您的集群，无需您购买单独的云服务。
@@ -186,6 +186,6 @@ target | 当前被调用的对象 | ${symbol_pound}target
 targetClass | 当前被调用的对象的类型 | ${symbol_pound}targetClass<br/>访问当前实例的 Class 对象
 args | 当前方法参数组成的数组 | ${symbol_pound}args[0]
 
-如果需要扩展更多的信息，可以修改 [SpELUtils.java](${scmUrl}/blob/main/${artifaceId}-common/src/main/java/util/SpELUtils.java)。
+如果需要扩展更多的信息，可以修改 [SpELUtils.java](${scmUrl}/blob/main/${artifaceId}-common/src/main/java/${packageDir}/util/SpELUtils.java)。
 
 SpEL 更多的强大能力，可以参考其[文档](https://www.tutorialspoint.com/spring_expression_language/index.htm)。

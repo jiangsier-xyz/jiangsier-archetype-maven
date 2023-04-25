@@ -7,6 +7,8 @@ archetype_version=1.0.0
 group_id=
 artifact_id=
 version=1.0.0-SNAPSHOT
+package=
+package_dir=
 image_repository=
 scm_connection=
 scm_url=
@@ -45,6 +47,11 @@ do
       shift
       shift
       ;;
+    --package)
+      package=$2
+      shift
+      shift
+      ;;
     --image-repository)
       image_repository=$2
       shift
@@ -72,7 +79,7 @@ do
       ;;
     -h|--help)
       echo "USAGE"
-      echo "    gen-proj.sh [--group-id] [--artifact-id] [--version] [--image-repository] [--scm-connection] [--scm-url] [-o|--output] [-v|--verbose]"
+      echo "    gen-proj.sh [--group-id] [--artifact-id] [--version] [--package] [--image-repository] [--scm-connection] [--scm-url] [-o|--output] [-v|--verbose]"
       echo "EXAMPLES"
       echo "    gen-proj.sh --group-id xyz.jiangsier --artifact-id jiangsier-archetype-demo --image-repository jiangsier/jiangsier-archetype-demo"
       exit 0
@@ -93,6 +100,12 @@ if [[ -z "${artifact_id}" ]]; then
   echo "Please specify artifact id."
   exit 1
 fi
+
+if [[ -z "${package}" ]]; then
+  package=${group_id}
+fi
+
+package_dir=${package//./\/}
 
 if [[ -z "${image_repository}" ]]; then
   image_repository=${group_id}/${artifact_id}
@@ -139,6 +152,8 @@ mvn archetype:generate -B \
   -DgroupId=${group_id} \
   -DartifactId=${artifact_id} \
   -Dversion=${version} \
+  -Dpackage=${package} \
+  -DpackageDir=${package_dir} \
   -DimageRepository=${image_repository} \
   -DappDomain=${domain} \
   -DscmConnection=${scm_connection} \
