@@ -26,9 +26,9 @@ import ${package}.auth.handler.OAuth2AuthenticationFailureHandler;
 import ${package}.auth.handler.OAuth2AuthenticationSuccessHandler;
 import ${package}.auth.provider.ApiTokenAuthenticationProvider;
 import ${package}.auth.user.SysUserDetailsManager;
-import ${package}.member.SysAuthorityService;
-import ${package}.member.SysBindService;
-import ${package}.member.SysUserService;
+import ${package}.account.SysAuthorityService;
+import ${package}.account.SysBindService;
+import ${package}.account.SysUserService;
 import ${package}.util.AuthorityUtils;
 
 import java.util.Arrays;

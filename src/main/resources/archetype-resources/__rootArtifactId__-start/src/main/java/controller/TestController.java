@@ -32,7 +32,7 @@ import ${package}.cache.LongPeriodCache;
 import ${package}.cache.LongPeriodCacheEvict;
 import ${package}.cache.MiddlePeriodCache;
 import ${package}.cache.ShortPeriodCache;
-import ${package}.member.SysAuthorityService;
+import ${package}.account.SysAuthorityService;
 import ${package}.model.User;
 
 import javax.servlet.http.Cookie;
@@ -265,13 +265,13 @@ public class TestController {
         return TEST_PAGE;
     }
 
-    /*==== members ====*/
+    /*==== accounts ====*/
     @Autowired
     private SysAuthorityService authorityService;
     @Autowired
     private UserDetailsManager userDetailsManager;
 
-    @GetMapping("/members/user")
+    @GetMapping("/accounts/user")
     public String user(Model model) {
         Date now = new Date(System.currentTimeMillis());
 

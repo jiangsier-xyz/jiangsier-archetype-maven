@@ -2,7 +2,7 @@
 spring:
   datasource:
     {{- with .Values.mysql }}
-    url: {{ default "jdbc:mysql://mysql:3306/members?useUnicode=true&characterEncoding=utf-8" .url }}
+    url: {{ default "jdbc:mysql://mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8" .url }}
     username: {{ default "root" .auth.username }}
     password: {{ default .auth.rootPassword .auth.password }}
     {{- end }}

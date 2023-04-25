@@ -17,8 +17,6 @@ auth:
     publicUri: /public/**,/css/**,/js/**,/images/**,/**/favicon.ico
   token:
     maxCountPerUser: 5
-    headerName: X-API-TOKEN
-    parameterName: _token
     prefix: JSRAPI
 cache:
   redisson:
@@ -43,6 +41,8 @@ spring:
 springdoc:
   paths: /api/**
   packagesToScan: ${package}.api
+  headerName: X-API-TOKEN
+  parameterName: _token
 perf:
   trace:
     excludeUri: /public/check/**,/**/favicon.ico,/error

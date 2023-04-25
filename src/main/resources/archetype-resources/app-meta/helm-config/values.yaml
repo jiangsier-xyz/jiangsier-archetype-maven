@@ -52,9 +52,9 @@ ingress:
   tls:
     enabled: false
 mysql:
-  url: 'jdbc:mysql://${artifactId}-mysql:3306/members?useUnicode=true&characterEncoding=utf-8'
+  url: 'jdbc:mysql://${artifactId}-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8'
   auth:
-    database: members
+    database: accounts
     password: ''
     rootPassword: ''
     username: ''

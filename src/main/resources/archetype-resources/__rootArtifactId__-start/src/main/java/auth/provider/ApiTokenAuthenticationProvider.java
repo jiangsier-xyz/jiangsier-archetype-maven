@@ -16,8 +16,8 @@ import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.stereotype.Component;
 import ${package}.auth.authentication.ApiTokenAuthenticationToken;
 import ${package}.auth.user.SysUserDetails;
-import ${package}.member.SysApiTokenService;
-import ${package}.member.SysAuthorityService;
+import ${package}.account.SysApiTokenService;
+import ${package}.account.SysAuthorityService;
 import ${package}.model.User;
 
 import javax.servlet.http.HttpServletRequest;

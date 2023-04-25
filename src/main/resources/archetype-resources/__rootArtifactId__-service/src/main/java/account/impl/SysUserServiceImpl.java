@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.member.impl;
+package ${package}.account.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import ${package}.cache.MiddlePeriodCache;
 import ${package}.cache.MiddlePeriodCacheEvict;
 import ${package}.mapper.UserDynamicSqlSupport;
 import ${package}.mapper.UserMapper;
-import ${package}.member.SysUserService;
+import ${package}.account.SysUserService;
 import ${package}.model.User;
 
 import java.util.Date;

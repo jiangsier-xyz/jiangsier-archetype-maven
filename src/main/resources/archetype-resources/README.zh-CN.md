@@ -81,7 +81,7 @@ ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} OAuth2 认证
 
 另外，${artifactId} 还支持了阿里云的 OAuth2 认证。
 
-**绑定模式**
+**绑定模式**<br>
 一般情况下，OAuth2 用于“认证”。即通过重定向完成外站的登录后，当前用户拥有一个新的登录态；相反，如果在外站登录失败，则当前用户将处于“登出”状态。
 
 根据实际的业务场景，你很可能需要的是一个“绑定”逻辑：用户身份永远是你自己的系统用户，在外站的认证只是用来做一个账号关联，并且，你可以以此获取用户在外站（作为资源服务器）的访问凭证和刷新凭证，以便获取他在外站上的资源。
@@ -98,7 +98,7 @@ ${artifactId} 支持制定路径下的接口（默认“/api/\*\*”）使用 to
 
 在数据库表的设计中，token 可支持策略/权限范围，但目前实现只支持"全部范围"，意味着持有有效 token 即可拥有对应用户的全部接口权限。
 
-**OpenAPI 规范**
+**OpenAPI 规范**<br>
 ${artifactId} 通过 [spring-doc](https://springdoc.org/) 框架支持 [OpenAPI 规范描述](https://swagger.io/specification/)。
 
 ${symbol_pound}${symbol_pound}${symbol_pound} 性能追踪
@@ -119,7 +119,7 @@ status 参数说明：
 `@Trace`(ignoreReturn=true) 忽略返回值，作用同上。
 `@Trace`(extInfo="'Hello ' + ${symbol_pound}username") 打印额外信息，支持 SpEL（Spring Expression Language）语法以便提供一种灵活的方式来访问运行时信息，注意表达式的结果必须是字符串。具体内容见[附录](${symbol_pound}todo)。
 
-**信息保密**
+**信息保密**<br>
 如果方法的参数值具有敏感性，不希望被性能追踪的切面打印具体内容，可以通过在参数上注解 `@Secret` 实现，如
 ```java
 @Trace
@@ -161,7 +161,7 @@ redis:
 ${symbol_pound}${symbol_pound}${symbol_pound} MySQL
 几乎所有的应用都离不开数据库，${artifactId} 也一样。考虑到 MySQL 的流行度，${artifactId} 使用 MySQL 来作为自身的数据库，存放认证相关的信息，并且尽量使用标准的 SQL 语法，避免硬编码 MySQL 方言。
 
-${artifactId} 默认部署 [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) 到同一命名空间，这时，MySQL url 默认是 `jdbc:mysql://${artifactId}-mysql:3306/members?useUnicode=true&characterEncoding=utf-8`
+${artifactId} 默认部署 [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) 到同一命名空间，这时，MySQL url 默认是 `jdbc:mysql://${artifactId}-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8`
 
 你也可以指定其他的 MySQL 实例。
 

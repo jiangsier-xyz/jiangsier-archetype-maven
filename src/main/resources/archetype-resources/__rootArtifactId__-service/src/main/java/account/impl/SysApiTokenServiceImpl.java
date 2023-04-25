@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.member.impl;
+package ${package}.account.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import ${package}.cache.LongPeriodCacheEvict;
 import ${package}.mapper.ApiTokenDynamicSqlSupport;
 import ${package}.mapper.ApiTokenMapper;
-import ${package}.member.ApiTokenType;
-import ${package}.member.SysApiTokenService;
+import ${package}.account.ApiTokenType;
+import ${package}.account.SysApiTokenService;
 import ${package}.model.ApiToken;
 import ${package}.model.User;
 

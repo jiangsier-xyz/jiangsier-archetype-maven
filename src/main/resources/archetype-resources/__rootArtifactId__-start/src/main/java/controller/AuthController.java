@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
-import ${package}.member.SysApiTokenService;
-import ${package}.member.SysAuthorityService;
-import ${package}.member.SysUserService;
+import ${package}.account.SysApiTokenService;
+import ${package}.account.SysAuthorityService;
+import ${package}.account.SysUserService;
 import ${package}.model.User;
 
 import javax.servlet.http.HttpServletRequest;

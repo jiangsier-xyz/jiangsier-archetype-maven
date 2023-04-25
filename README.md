@@ -98,7 +98,7 @@ The OAuth2 authentication process of most websites is designed with additional r
 
 In addition, awesome-app also supports Alibaba Cloud's OAuth2 authentication.
 
-**Binding Mode**
+**Binding Mode**<br>
 In general, OAuth2 is used for "authentication". That is, after the login of the external site is completed through redirection, the current user has a new login state; on the contrary, if the login fails at the external site, the current user will be in the "logout" state.
 
 According to the actual business scenario, what you probably need is a "binding" logic: the user identity is always your own system user, and the authentication on the external site is only used for account-account binding. Then you may allow to obtain the user's external access token and refresh token of the website (as a resource server), in order to call the APIs of the external site to access the user's resources.
@@ -115,7 +115,7 @@ Logged-in users can view, create, delete, and disable tokens through the "/token
 
 In the design of database tables, tokens can support policy/authority scope, but the current implementation only supports "full scope", which means that holding a valid token can have all the interface permissions of the corresponding user.
 
-**OpenAPI Specification**
+**OpenAPI Specification**<br>
 awesome-app supports the [OpenAPI Specification](https://swagger.io/specification/) by the [spring-doc](https://springdoc.org/) framework.
 
 ### Performance Tracing
@@ -136,7 +136,7 @@ status parameter description:
 `@Trace`(ignoreReturn=true) ignores the return value, the same as above.
 `@Trace`(extInfo="'Hello ' + #username") prints additional information, supports SpEL (Spring Expression Language) syntax to provide a flexible way to access runtime information, note that the result of the expression must be a string. See [Appendix](#todo) for details.
 
-**Information Confidentiality**
+**Information Confidentiality**<br>
 If the parameter value of the method is sensitive, and you do not want to print the specific content, you can achieve it by annotating `@Secret` on the parameter, such as
 ```java
 @Trace
@@ -178,14 +178,14 @@ Then awesome-app will not automatically install MySQL and Redis, and directly us
 ### MySQL
 Almost all applications are inseparable from the database, and awesome-app is the same. Considering the popularity of MySQL, awesome-app uses MySQL as its own database to store authentication-related information, and uses standard SQL sentences as much as possible to avoid hardcoding the MySQL dialect.
 
-awesome-app deploys [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) to the same namespace by default. And the default MySQL url is `jdbc:mysql://awesome-app-mysql:3306/members?useUnicode=true&characterEncoding=utf-8`
+awesome-app deploys [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) to the same namespace by default. And the default MySQL url is `jdbc:mysql://awesome-app-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8`
 
 You can also specify other MySQL instances.
 
 ### Redis
 As mentioned above, awesome-app uses Redis as the backend to achieve most of its distributed capabilities. Redis is a must-have component of awesome-app.
 
-awesome-app deploys [bitnami/redis-cluster](https://artifacthub.io/packages/helm/bitnami/redis-cluster) to the same namespace by default. And the default Reids url is `redis://awesome-app -redis-cluster:6379`
+awesome-app deploys [bitnami/redis-cluster](https://artifacthub.io/packages/helm/bitnami/redis-cluster) to the same namespace by default. And the default Reids url is `redis://awesome-app-redis-cluster:6379`
 
 You can also specify other Redis instances.
 

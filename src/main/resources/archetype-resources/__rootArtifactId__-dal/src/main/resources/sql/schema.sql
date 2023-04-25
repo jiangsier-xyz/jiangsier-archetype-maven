@@ -1,11 +1,11 @@
-CREATE DATABASE IF NOT EXISTS `members` CHARACTER SET utf8mb4;
+CREATE DATABASE IF NOT EXISTS `accounts` CHARACTER SET utf8mb4;
 
 
 /******************************************/
-/*   DatabaseName = members   */
+/*   DatabaseName = accounts   */
 /*   TableName = user   */
 /******************************************/
-CREATE TABLE IF NOT EXISTS `members`.`user` (
+CREATE TABLE IF NOT EXISTS `accounts`.`user` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS `members`.`user` (
 ;
 
 /******************************************/
-/*   DatabaseName = members   */
+/*   DatabaseName = accounts   */
 /*   TableName = authority   */
 /******************************************/
-CREATE TABLE IF NOT EXISTS `members`.`authority` (
+CREATE TABLE IF NOT EXISTS `accounts`.`authority` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
@@ -60,10 +60,10 @@ CREATE TABLE IF NOT EXISTS `members`.`authority` (
 ;
 
 /******************************************/
-/*   DatabaseName = members   */
+/*   DatabaseName = accounts   */
 /*   TableName = binding   */
 /******************************************/
-CREATE TABLE IF NOT EXISTS `members`.`binding` (
+CREATE TABLE IF NOT EXISTS `accounts`.`binding` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
@@ -81,10 +81,10 @@ CREATE TABLE IF NOT EXISTS `members`.`binding` (
 ;
 
 /******************************************/
-/*   DatabaseName = members   */
+/*   DatabaseName = accounts   */
 /*   TableName = api_token   */
 /******************************************/
-CREATE TABLE IF NOT EXISTS `members`.`api_token` (
+CREATE TABLE IF NOT EXISTS `accounts`.`api_token` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,

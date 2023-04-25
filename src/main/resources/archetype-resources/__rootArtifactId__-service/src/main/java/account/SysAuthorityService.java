@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.member;
+package ${package}.account;
 
 import org.springframework.lang.NonNull;
 import ${package}.model.User;

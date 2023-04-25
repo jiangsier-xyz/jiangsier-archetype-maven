@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
-import ${package}.member.SysAuthorityService;
-import ${package}.member.SysUserService;
+import ${package}.account.SysAuthorityService;
+import ${package}.account.SysUserService;
 import ${package}.model.User;
 
 import java.util.Objects;
 import java.util.Set;
 
-@Tag(name = "member")
+@Tag(name = "account")
 @Service
 @Validated
 @SuppressWarnings("unused")
-@RequestMapping("/api/member")
-public class Member {
+@RequestMapping("/api/account")
+public class Account {
     @Autowired
     private SysUserService userService;
 

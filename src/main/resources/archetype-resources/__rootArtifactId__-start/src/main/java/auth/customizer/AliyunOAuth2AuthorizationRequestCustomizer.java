@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
 import ${package}.auth.user.SysUserDetails;
-import ${package}.member.SysBindService;
+import ${package}.account.SysBindService;
 
 import java.util.HashMap;
 import java.util.Map;

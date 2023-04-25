@@ -8,6 +8,6 @@ if [[ -f "${HELM_CONFIG_HOME}/values-private.yaml" ]]; then
 fi
 
 helm install --kubeconfig ${KUBE_CONFIG} --namespace ${NAMESPACE} --create-namespace -f ${values_yaml} \
-  --set-file mysql.initdbScripts.members-schema\\.sql=${PROJECT_PATH}/${HELM_name}-dal/src/main/resources/sql/schema.sql \
+  --set-file mysql.initdbScripts.accounts-schema\\.sql=${PROJECT_PATH}/${HELM_name}-dal/src/main/resources/sql/schema.sql \
   ${ARGS[*]} \
   ${PROJECT_NAME} ${HELM_CONFIG_HOME}

@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.member.impl;
+package ${package}.account.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import ${package}.mapper.BindingDynamicSqlSupport;
 import ${package}.mapper.BindingMapper;
-import ${package}.member.SysBindService;
+import ${package}.account.SysBindService;
 import ${package}.model.Binding;
 import ${package}.model.User;
 
