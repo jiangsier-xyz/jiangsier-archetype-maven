@@ -238,13 +238,16 @@ public class SysUserDetailsManager implements UserDetailsManager {
     public SysUserDetails createSysUserFromOAuth2UserIfNecessary(OAuth2User oAuth2User,
                                                                  OAuth2AuthorizedClient oAuth2Client) {
         String platform = oAuth2Client.getClientRegistration().getRegistrationId();
-        String username = getUsername(oAuth2User, platform);
-        User user = userService.loadUserByUsernameAndPlatform(username, platform);
+        String sub = oAuth2User.getAttribute(IdTokenClaimNames.SUB);
+        User user = Optional.ofNullable(bindService.getUserIdByPlatformAndSub(platform, sub))
+                .filter(StringUtils::isNotBlank)
+                .map(userService::loadUserByUserId)
+                .orElse(null);
         if (Objects.isNull(user)) {
             String zoneInfo = oAuth2User.getAttribute(StandardClaimNames.ZONEINFO);
 
             user = new User()
-                    .withUsername(username)
+                    .withUsername(getUsername(oAuth2User, platform))
                     .withPassword(generatePassword())
                     .withNickname(getNickname(oAuth2User, platform))
                     .withGivenName(oAuth2User.getAttribute(StandardClaimNames.GIVEN_NAME))

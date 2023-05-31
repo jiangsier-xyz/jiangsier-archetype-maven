@@ -59,6 +59,13 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     @MiddlePeriodCache(keyBy = CACHE_KEY)
+    public User loadUserByUserId(String userId) {
+        return userMapper.selectOne(c -> c.where(UserDynamicSqlSupport.userId, isEqualTo(userId)))
+                .orElse(null);
+    }
+
+    @Override
+    @MiddlePeriodCache(keyBy = CACHE_KEY)
     public User loadUserByUsername(String username) {
         return userMapper.selectOne(c -> c.where(UserDynamicSqlSupport.username, isEqualTo(username)))
                 .orElse(null);

@@ -4,6 +4,7 @@ app:
     level: info
 auth:
   login:
+    uri: /login
     oauth2:
       failureUri: /login/oauth2/failure
       successUri: /login/oauth2/success
@@ -14,7 +15,7 @@ auth:
     adminUri: /admin/**
     apiUri: /api/**
     privateUri: /private/**
-    publicUri: /public/**,/css/**,/js/**,/images/**,/**/favicon.ico
+    publicUri: /public/**,/css/**,/js/**,/logo/**,/**/favicon.ico
   token:
     maxCountPerUser: 5
     prefix: JSRAPI

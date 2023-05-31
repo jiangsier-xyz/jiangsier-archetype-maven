@@ -93,4 +93,12 @@ public class SysBindServiceImpl implements SysBindService {
                 .map(Binding::getRefreshToken)
                 .orElse(null);
     }
+
+    @Override
+    public String getUserIdByPlatformAndSub(String platform, String sub) {
+        return bindingMapper.selectOne(c -> c.where(BindingDynamicSqlSupport.sub, isEqualTo(sub))
+                        .and(BindingDynamicSqlSupport.platform, isEqualTo(platform)))
+                .map(Binding::getUserId)
+                .orElse(null);
+    }
 }

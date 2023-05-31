@@ -10,8 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +37,9 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class AuthController {
     @Autowired
+    private InMemoryClientRegistrationRepository clientRegistrationRepository;
+
+    @Autowired
     private OAuth2AuthorizedClientService oAuth2ClientService;
 
     @Autowired
@@ -54,6 +59,15 @@ public class AuthController {
             return userService.loadUserByUsername(userName);
         }
         return null;
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        List<String> registrations = new LinkedList<>();
+        clientRegistrationRepository.iterator().forEachRemaining(
+                r -> registrations.add(r.getRegistrationId()));
+        model.addAttribute("registrations", registrations);
+        return "login";
     }
 
     @RequestMapping("/login/oauth2/success")

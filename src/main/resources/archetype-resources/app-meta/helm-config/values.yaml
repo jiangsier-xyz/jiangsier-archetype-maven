@@ -9,7 +9,7 @@ auth:
       authorizationGrantType: authorization_code
       clientAuthenticationMethod: basic
       clientName: Aliyun
-      scope: openid,aliuid,profile
+      scope: openid
       clientId: ''
       clientSecret: ''
     google:
