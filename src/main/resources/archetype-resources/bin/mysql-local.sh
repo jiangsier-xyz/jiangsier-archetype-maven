@@ -5,14 +5,14 @@ source $(dirname ${BASH_SOURCE[0]})/setenv.sh
 MODULE_PATH=${PROJECT_PATH}/${PROJECT_NAME}-dal
 RESOURCE_PATH=${MODULE_PATH}/src/main/resources
 MYSQL_VER=$(sed -n "s#^ *<mysql-connector-java.version>\([a-zA-Z0-9.]\{1,\}\)</mysql-connector-java.version> *\$#\1#p" ${PROJECT_PATH}/pom.xml)
-MYSQL_PASSWORD=hello1234
+MYSQL_PASSWORD=${LOCAL_spring_datasource_password:-hello1234}
 MYSQL_NAME=${PROJECT_NAME}-mysql
 MYSQL_DATA=$(mktemp -d)
 
 function cleanup {
-    docker stop $1 >/dev/null
-    sleep 5
-    docker rm -f $1 >/dev/null
+  docker stop $1 >/dev/null
+  sleep 5
+  docker rm -f $1 >/dev/null
 }
 
 function get_container_health {
@@ -74,5 +74,5 @@ else
     echo "Failed to find ${MYSQL_NAME}!"
     exit -3
   fi
-  print "MySQL is running in container ${cid}"
+  echo "MySQL is running in container ${cid}"
 fi

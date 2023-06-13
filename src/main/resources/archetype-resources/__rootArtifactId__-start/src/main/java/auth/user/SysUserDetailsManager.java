@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
@@ -298,18 +299,25 @@ public class SysUserDetailsManager implements UserDetailsManager {
     public boolean bindSysUserAndOAuth2UserIfNecessary(SysUserDetails sysUser,
                                                        OAuth2User oAuth2User,
                                                        OAuth2AuthorizedClient oAuth2Client) {
+        String platform = oAuth2Client.getClientRegistration().getRegistrationId();
         OAuth2RefreshToken refreshToken = oAuth2Client.getRefreshToken();
-        if (Objects.isNull(refreshToken)) {
+        if (Objects.isNull(refreshToken) && bindService.isBound(sysUser, platform)) {
             return false;
         }
-        String platform = oAuth2Client.getClientRegistration().getRegistrationId();
+        String refreshTokenValue = Optional.ofNullable(refreshToken)
+                .map(AbstractOAuth2Token::getTokenValue)
+                .orElse(null);
+        Date issuedAt = Optional.ofNullable(refreshToken)
+                .map(AbstractOAuth2Token::getIssuedAt)
+                .map(Date::from)
+                .orElseGet(Date::new);
+        Date expiresAt = Optional.ofNullable(refreshToken)
+                .map(AbstractOAuth2Token::getExpiresAt)
+                .map(Date::from)
+                .orElse(null);
         String sub = oAuth2User.getAttribute(IdTokenClaimNames.SUB);
         URL iss = oAuth2User.getAttribute(IdTokenClaimNames.ISS);
         Collection<String> aud = oAuth2User.getAttribute(IdTokenClaimNames.AUD);
-        String refreshTokenValue = refreshToken.getTokenValue();
-        Date issuedAt = Optional.ofNullable(refreshToken.getIssuedAt()).map(Date::from).orElse(null);
-        Date expiresAt = Optional.ofNullable(refreshToken.getExpiresAt()).map(Date::from).orElse(null);
-
         return bindService.bind(sysUser, platform, sub, iss, aud, refreshTokenValue, issuedAt, expiresAt);
     }
 }

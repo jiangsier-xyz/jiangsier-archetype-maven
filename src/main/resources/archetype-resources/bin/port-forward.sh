@@ -13,8 +13,8 @@ while true;do
           | awk -F'/' '{print $2}'| grep "${PROJECT_NAME}" \
           | grep -v -p "mysql" | grep -v -p "redis" | head -1)
   if [[ -z "${pod}" ]]; then
-      echo "Failed to find pod!"
-      exit -1
+    echo "Failed to find pod!"
+    exit -1
   fi
   kubectl port-forward --kubeconfig ${KUBE_CONFIG} --namespace ${NAMESPACE} \
     pod/${pod} ${HELM_debug_jpda_port}:${HELM_debug_jpda_port}

@@ -14,9 +14,9 @@ MYSQL_NAME=mysql-for-mgb
 MYSQL_DATA=$(mktemp -d)
 
 function cleanup {
-    docker stop $1 >/dev/null
-    sleep 5
-    docker rm -f $1 >/dev/null
+  docker stop $1 >/dev/null
+  sleep 5
+  docker rm -f $1 >/dev/null
 }
 
 function get_container_health {

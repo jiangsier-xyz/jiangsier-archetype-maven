@@ -35,9 +35,6 @@ public class SysBindServiceImpl implements SysBindService {
     @Override
     public boolean bind(User user, String platform, String sub, URL iss, Collection<String> aud,
                         String refreshToken, Date issuedAt, Date expiresAt) {
-        if (StringUtils.isBlank(refreshToken)) {
-            return false;
-        }
         Date now = new Date(System.currentTimeMillis());
         Binding binding = new Binding()
                 .withGmtCreate(now)

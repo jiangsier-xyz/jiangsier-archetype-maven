@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `accounts`.`binding` (
   `sub` varchar(256) NOT NULL,
   `iss` varchar(256) DEFAULT NULL,
   `aud` text DEFAULT NULL,
-  `refresh_token` text NOT NULL,
+  `refresh_token` text DEFAULT NULL,
   `issued_at` datetime DEFAULT NULL,
   `expires_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),

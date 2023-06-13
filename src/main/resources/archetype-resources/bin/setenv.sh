@@ -59,6 +59,11 @@ if [[ -f "${HELM_CONFIG_HOME}/values-private.yaml" ]]; then
   eval $(parse_yaml "${HELM_CONFIG_HOME}/values-private.yaml" HELM_)
 fi
 
+
+if [[ -f "${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/application-local.yml" ]]; then
+  eval $(parse_yaml "${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/application-local.yml" LOCAL_)
+fi
+
 if [[ -z "${NAMESPACE}" ]]; then
   if [[ -n "${HELM_annotations_group}" ]]; then
     NAMESPACE=${HELM_annotations_group//./-}
