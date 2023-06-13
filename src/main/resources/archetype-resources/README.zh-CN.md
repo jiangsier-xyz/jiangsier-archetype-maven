@@ -22,8 +22,8 @@ ${symbol_pound}${symbol_pound}${symbol_pound} 调试应用程序
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} 本地调试
 默认情况下，${artifactId} 使用 helm 中的部分配置来生成运行时需要的 Spring 配置，尽量避免同一个参数在多个地方、多种系统里维护（比如 MySQL URL）。具体的渲染模版请参考 [_spring.tpl](${scmUrl}/blob/main/app-meta/helm-config/templates/_spring.tpl)。渲染结果会以名为“${artifactId}-spring-properties”的 Secret 资源被应用程序访问，对应的键/文件名是“application-private.yml”。
 
-如果想要进行本地调试，一般不会运行 helm 渲染，并且，许多服务的连接地址通常也不是 k8s 中自动部署的服务地址。你需要自行解决依赖服务（如 MySQL、Redis）的问题，并根据实际情况，手工维护一份 [application-private.yml](${scmUrl}/blob/main/${artifaceId}-start/src/main/resources/application-private-sample.yml)，再在 IDE 的调试选项中加载它，就可以正常调试你的应用了。
-> [mysql-local.sh](${scmUrl}/blob/main/bin/mysql-local.sh) 可以帮助你运行/停止一个本地 MySQL，希望能有助于你的调试。
+如果想要进行本地调试，一般不会运行 helm 渲染，并且，许多服务的连接地址通常也不是 k8s 中自动部署的服务地址。你需要自行解决依赖服务（如 MySQL、Redis）的问题，并根据实际情况，手工维护一份 [application-local.yml](${scmUrl}/blob/main/${artifaceId}-start/src/main/resources/application-local.yml)，再在 IDE 的调试选项中加载它，就可以正常调试你的应用了。
+> [mysql-local.sh](${scmUrl}/blob/main/bin/mysql-local.sh) 和 [redis-local.sh](${scmUrl}/blob/main/bin/redis-local.sh) 可以帮助你运行/停止一个本地 MySQL 和 Redis，希望能有助于你的调试。
 
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} 远程调试
 有时候本地调试并不能重现服务器上的问题，或者你找不到应用程序依赖的服务的提供方，因此你期望对 k8s 集群里的 pods 直接进行远程调试。${artifactId} 做了这方面的考虑，你按照以下步骤来进行：
