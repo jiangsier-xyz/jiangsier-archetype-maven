@@ -4,7 +4,7 @@ ${artifactId} 是由 [jiangsier-archetype-maven](https://github.com/jiangsier-xy
 
 ${symbol_pound}${symbol_pound} ${artifactId} 如何使用
 ${symbol_pound}${symbol_pound}${symbol_pound} 构建数据访问层
-${artifactId} 默认的数据库表设计只是半成品，仅包含基本的用户体系相关信息。请定制你的数据库，将表结构信息更新到 [schema.sql](${scmUrl}/blob/main/${artifaceId}-dal/src/main/resources/sql/schema.sql)，修改 [generatorConfig.xml](${scmUrl}/blob/main/${artifaceId}-dal/src/main/resources/mybatis-generator/generatorConfig.xml)，再使用 [mgb.sh](${scmUrl}/blob/main/bin/mgb.sh) 来生成你的数据访问层。
+${artifactId} 默认的数据库表设计只是半成品，仅包含基本的用户体系相关信息。请定制你的数据库，将表结构信息更新到 [schema.sql](${scmUrl}/blob/main/${artifaceId}-dal/src/main/resources/sql/schema.sql)，修改 [generatorConfig.xml](${scmUrl}/blob/main/${artifactId}-dal/src/main/resources/mybatis-generator/generatorConfig.xml)，再使用 [mgb.sh](${scmUrl}/blob/main/bin/mgb.sh) 来生成你的数据访问层。
 
 mgb.sh 首先在你的机器上使用 `docker run` 运行一个 MySQL 实例，然后通过 MGB(MyBatis Generator) 来运行 schema.sql，并依据创建的表和 generatorConfig.xml 配置来自动生成 MyBatis 数据访问层。做完这一切之后，停止 docker 容器的运行。这个过程中的 MySQL 的数据文件将不会被持久化。
 上述过程意味着你本机需要安装 Docker 运行环境。
@@ -22,7 +22,8 @@ ${symbol_pound}${symbol_pound}${symbol_pound} 调试应用程序
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} 本地调试
 默认情况下，${artifactId} 使用 helm 中的部分配置来生成运行时需要的 Spring 配置，尽量避免同一个参数在多个地方、多种系统里维护（比如 MySQL URL）。具体的渲染模版请参考 [_spring.tpl](${scmUrl}/blob/main/app-meta/helm-config/templates/_spring.tpl)。渲染结果会以名为“${artifactId}-spring-properties”的 Secret 资源被应用程序访问，对应的键/文件名是“application-private.yml”。
 
-如果想要进行本地调试，一般不会运行 helm 渲染，并且，许多服务的连接地址通常也不是 k8s 中自动部署的服务地址。你需要自行解决依赖服务（如 MySQL、Redis）的问题，并根据实际情况，手工维护一份 [application-local.yml](${scmUrl}/blob/main/${artifaceId}-start/src/main/resources/application-local.yml)，再在 IDE 的调试选项中加载它，就可以正常调试你的应用了。
+如果想要进行本地调试，一般不会运行 helm 渲染，并且，许多服务的连接地址通常也不是 k8s 中自动部署的服务地址。你需要自行解决依赖服务（如 MySQL、Redis）的问题，并根据实际情况，手工维护一份 [application-local.yml](${scmUrl}/blob/main/${
+Id}-start/src/main/resources/application-local.yml)，再在 IDE 的调试选项中加载它，就可以正常调试你的应用了。
 > [mysql-local.sh](${scmUrl}/blob/main/bin/mysql-local.sh) 和 [redis-local.sh](${scmUrl}/blob/main/bin/redis-local.sh) 可以帮助你运行/停止一个本地 MySQL 和 Redis，希望能有助于你的调试。
 
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} 远程调试
