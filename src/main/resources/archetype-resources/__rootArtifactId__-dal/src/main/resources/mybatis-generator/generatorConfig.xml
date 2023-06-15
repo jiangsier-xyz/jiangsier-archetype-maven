@@ -23,12 +23,12 @@
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="${package}.archetype.model"
+        <javaModelGenerator targetPackage="${package}.model"
                             targetProject="src/main/java">
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <javaClientGenerator targetPackage="${package}.archetype.mapper" targetProject="src/main/java"/>
+        <javaClientGenerator targetPackage="${package}.mapper" targetProject="src/main/java"/>
 
         <table tableName="user">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>

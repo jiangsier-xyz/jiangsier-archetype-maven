@@ -5,8 +5,6 @@ package ${package}.api.util;
 
 import ${package}.account.SysUserService;
 import ${package}.model.User;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -14,11 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 @Component
-@Slf4j
 public class AuthUtils implements ApplicationContextAware {
     private static SysUserService userService;
 
@@ -40,20 +36,5 @@ public class AuthUtils implements ApplicationContextAware {
         } else {
             return null;
         }
-    }
-
-    public static <T> T toResponse(User user, Class<T> clazz) {
-        if (Objects.isNull(user)) {
-            return null;
-        }
-
-        try {
-            T response = clazz.getDeclaredConstructor().newInstance();
-            BeanUtils.copyProperties(user, response);
-            return response;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            log.error("Failed to construct instance of {}", clazz.getSimpleName(), e);
-        }
-        return null;
     }
 }

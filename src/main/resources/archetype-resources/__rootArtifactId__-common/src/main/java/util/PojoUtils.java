@@ -74,9 +74,6 @@ public class PojoUtils {
         }
     }
 
-    /**
-     * 可以解析自定义的对象、map、List、数组、基本数据类型、String
-     */
     public static String object2JsonString(Object value, boolean recursive) {
         if (Objects.isNull(value)) {
             return "null";

@@ -1,19 +1,18 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.api.response;
+package ${package}.api.dto;
 
 import ${package}.util.TraceUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@Schema(description = "Traceable response.")
 @Data
-public class TraceableResponse {
+public class TraceableDTO {
     @Schema(description = "Trace identifier.")
     private String traceId;
 
-    public TraceableResponse() {
+    public TraceableDTO() {
         this.traceId = TraceUtils.getTraceId();
     }
 }

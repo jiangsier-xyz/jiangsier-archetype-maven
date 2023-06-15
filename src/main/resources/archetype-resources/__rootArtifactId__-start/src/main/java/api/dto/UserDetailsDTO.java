@@ -1,16 +1,16 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.api.response;
+package ${package}.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
 
-@Schema(description = "Account details.")
+@Schema(description = "User details.")
 @Data
-public class AccountDetailsInfoResponse extends TraceableResponse {
+public class UserDetailsDTO extends TraceableDTO {
     private String username;
     private String nickname;
     private String givenName;
