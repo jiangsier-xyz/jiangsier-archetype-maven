@@ -3,7 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.api.util;
 
-import ${package}.account.SysUserService;
+import ${package}.service.account.SysUserService;
 import ${package}.model.User;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

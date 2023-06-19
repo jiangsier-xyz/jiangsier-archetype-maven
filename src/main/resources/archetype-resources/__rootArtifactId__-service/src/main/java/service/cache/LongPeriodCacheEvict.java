@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.cache;
+package ${package}.service.cache;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.core.annotation.AliasFor;
@@ -12,9 +12,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@CacheEvict(cacheNames = "middlePeriod")
+@CacheEvict(cacheNames = "longPeriod")
 @SuppressWarnings("unused")
-public @interface MiddlePeriodCacheEvict {
+public @interface LongPeriodCacheEvict {
     @AliasFor("keyBy")
     String key() default "";
 

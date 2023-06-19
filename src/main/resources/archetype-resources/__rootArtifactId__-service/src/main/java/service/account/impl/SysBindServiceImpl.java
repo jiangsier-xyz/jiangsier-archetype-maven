@@ -1,15 +1,14 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.account.impl;
+package ${package}.service.account.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import ${package}.mapper.BindingDynamicSqlSupport;
 import ${package}.mapper.BindingMapper;
-import ${package}.account.SysBindService;
+import ${package}.service.account.SysBindService;
 import ${package}.model.Binding;
 import ${package}.model.User;
 

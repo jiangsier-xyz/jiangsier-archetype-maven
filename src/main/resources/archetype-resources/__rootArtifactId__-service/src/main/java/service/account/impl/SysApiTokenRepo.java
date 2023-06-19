@@ -1,12 +1,12 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.account.impl;
+package ${package}.service.account.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ${package}.cache.LongPeriodCache;
+import ${package}.service.cache.LongPeriodCache;
 import ${package}.mapper.ApiTokenDynamicSqlSupport;
 import ${package}.mapper.ApiTokenMapper;
 import ${package}.mapper.UserDynamicSqlSupport;

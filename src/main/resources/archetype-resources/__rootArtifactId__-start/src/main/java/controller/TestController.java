@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ${package}.annotation.Secret;
 import ${package}.annotation.Trace;
 import ${package}.auth.user.SysUserDetails;
-import ${package}.cache.LongPeriodCache;
-import ${package}.cache.LongPeriodCacheEvict;
-import ${package}.cache.MiddlePeriodCache;
-import ${package}.cache.ShortPeriodCache;
-import ${package}.account.SysAuthorityService;
+import ${package}.service.cache.LongPeriodCache;
+import ${package}.service.cache.LongPeriodCacheEvict;
+import ${package}.service.cache.MiddlePeriodCache;
+import ${package}.service.cache.ShortPeriodCache;
+import ${package}.service.account.SysAuthorityService;
 import ${package}.model.User;
 
 import javax.servlet.http.Cookie;

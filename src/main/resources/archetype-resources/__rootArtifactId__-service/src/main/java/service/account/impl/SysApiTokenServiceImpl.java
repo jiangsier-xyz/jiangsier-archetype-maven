@@ -1,18 +1,18 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.account.impl;
+package ${package}.service.account.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
-import ${package}.cache.LongPeriodCacheEvict;
+import ${package}.service.account.SysApiTokenService;
+import ${package}.service.cache.LongPeriodCacheEvict;
 import ${package}.mapper.ApiTokenDynamicSqlSupport;
 import ${package}.mapper.ApiTokenMapper;
-import ${package}.account.ApiTokenType;
-import ${package}.account.SysApiTokenService;
+import ${package}.service.account.ApiTokenType;
 import ${package}.model.ApiToken;
 import ${package}.model.User;
 

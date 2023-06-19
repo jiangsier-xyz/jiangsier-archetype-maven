@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.cache;
+package ${package}.service.cache;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;

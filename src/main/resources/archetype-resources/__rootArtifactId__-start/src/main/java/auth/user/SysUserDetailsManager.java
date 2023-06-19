@@ -20,9 +20,9 @@ import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.UserDetailsManager;
-import ${package}.account.SysAuthorityService;
-import ${package}.account.SysBindService;
-import ${package}.account.SysUserService;
+import ${package}.service.account.SysAuthorityService;
+import ${package}.service.account.SysBindService;
+import ${package}.service.account.SysUserService;
 import ${package}.model.User;
 
 import java.net.URL;

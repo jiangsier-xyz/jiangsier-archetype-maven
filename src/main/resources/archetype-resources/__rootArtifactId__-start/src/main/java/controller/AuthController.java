@@ -6,12 +6,8 @@ package ${package}.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -20,9 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpClientErrorException;
-import ${package}.account.SysApiTokenService;
-import ${package}.account.SysAuthorityService;
-import ${package}.account.SysUserService;
+import ${package}.service.account.SysApiTokenService;
+import ${package}.service.account.SysAuthorityService;
+import ${package}.service.account.SysUserService;
 import ${package}.model.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +26,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.Duration;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @Validated
@@ -72,35 +70,22 @@ public class AuthController {
 
     @RequestMapping("/login/oauth2/success")
     public String oAuth2Success(HttpServletRequest request) {
-        Map<String, Object> userInfo = new HashMap<>(1);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getDetails() instanceof OAuth2AuthenticationToken oAuth2Auth) {
-            String clientRegistrationId = oAuth2Auth.getAuthorizedClientRegistrationId();
-            String principalName = oAuth2Auth.getName();
-            OAuth2AuthorizedClient oAuth2Client =
-                    oAuth2ClientService.loadAuthorizedClient(clientRegistrationId, principalName);
-            OAuth2User oAuth2User = oAuth2Auth.getPrincipal();
-            userInfo.put("oAuth2Client", oAuth2Client);
-            request.setAttribute("userExtraInfo", userInfo);
-        }
-
-        return "forward:/public/test/info/user";
+        return "redirect:/swagger-ui/index.html";
     }
 
     @RequestMapping("/login/oauth2/failure")
     public String oAuth2Failure() {
-        return "forward:/public/test/info/user";
+        return "redirect:/login?error";
     }
 
     @RequestMapping("/login/portal/success")
     public String portalSuccess() {
-        return "forward:/public/test/info/user";
+        return "redirect:/swagger-ui/index.html";
     }
 
     @RequestMapping("/login/portal/failure")
     public String portalFailure() {
-        return "forward:/public/test/info/request";
+        return "redirect:/login?error";
     }
 
     @GetMapping("/token/create")

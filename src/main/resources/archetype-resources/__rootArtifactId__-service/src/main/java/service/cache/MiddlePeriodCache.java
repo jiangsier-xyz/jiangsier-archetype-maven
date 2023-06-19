@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.cache;
+package ${package}.service.cache;
 
 import org.springframework.cache.annotation.Cacheable;
 

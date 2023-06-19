@@ -3,7 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.api;
 
-import ${package}.account.SysUserService;
+import ${package}.service.account.SysUserService;
 import ${package}.api.dto.UserBasicInfoDTO;
 import ${package}.api.dto.UserDetailsDTO;
 import ${package}.api.util.AuthUtils;
