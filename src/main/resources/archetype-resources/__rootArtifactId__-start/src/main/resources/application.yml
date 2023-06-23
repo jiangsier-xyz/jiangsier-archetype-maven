@@ -12,7 +12,7 @@ auth:
       failureUri: /login/portal/failure
       successUri: /login/portal/success
   role:
-    adminUri: /admin/**
+    adminUri: /admin/**,/api/admin/**
     apiUri: /api/**
     privateUri: /private/**
     publicUri: /public/**,/css/**,/js/**,/logo/**,/**/favicon.ico

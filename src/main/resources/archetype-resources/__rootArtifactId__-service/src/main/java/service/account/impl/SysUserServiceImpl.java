@@ -3,16 +3,17 @@
 #set( $symbol_escape = '\' )
 package ${package}.service.account.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ${package}.service.account.SysUserService;
-import ${package}.service.cache.MiddlePeriodCache;
-import ${package}.service.cache.MiddlePeriodCacheEvict;
 import ${package}.mapper.UserDynamicSqlSupport;
 import ${package}.mapper.UserMapper;
 import ${package}.model.User;
+import ${package}.service.account.SysUserService;
+import ${package}.service.cache.MiddlePeriodCache;
+import ${package}.service.cache.MiddlePeriodCacheEvict;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -83,5 +84,18 @@ public class SysUserServiceImpl implements SysUserService {
         return userMapper.selectOne(c -> c.where(UserDynamicSqlSupport.username, isEqualTo(username))
                         .and(UserDynamicSqlSupport.platform, isEqualTo(platform)))
                 .orElse(null);
+    }
+
+    @Override
+    public List<User> listUsers(int limit, int offset) {
+        return userMapper.select(c -> {
+            if (limit > 0) {
+                c.limit(limit);
+            }
+            if (offset > 0) {
+                c.offset(offset);
+            }
+            return c;
+        });
     }
 }

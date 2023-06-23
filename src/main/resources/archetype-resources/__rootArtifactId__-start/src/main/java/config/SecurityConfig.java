@@ -139,7 +139,10 @@ public class SecurityConfig {
         if (ArrayUtils.isNotEmpty(apiUri)) {
             http.addFilterAfter(
                     apiAuthenticationFilter(apiTokenAuthenticationProvider), UsernamePasswordAuthenticationFilter.class);
+            http.csrf().ignoringAntMatchers(apiUri);
         }
+
+        http.userDetailsService(userDetailsManager);
 
         return http.build();
     }

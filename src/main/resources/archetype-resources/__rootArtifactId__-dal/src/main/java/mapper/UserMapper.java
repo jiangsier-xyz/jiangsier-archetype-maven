@@ -3,9 +3,10 @@
 #set( $symbol_escape = '\' )
 package ${package}.mapper;
 
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static ${package}.mapper.UserDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
+import ${package}.model.User;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.processing.Generated;
@@ -14,7 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
@@ -31,25 +31,22 @@ import org.mybatis.dynamic.sql.util.mybatis3.CommonCountMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonDeleteMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
-import ${package}.model.User;
 
 @Mapper
 public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, CommonUpdateMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    BasicColumn[] selectList = BasicColumn.columnList(id, gmtCreate, gmtModified, userId, username, password, nickname, givenName, middleName, familyName, preferredUsername, profile, picture, website, email, emailVerified, gender, birthdate, zoneinfo, locale, phoneNumber, phoneNumberVerified, updatedAt, platform, enabled, locked, expiresAt, passwordExpiresAt, address);
+    BasicColumn[] selectList = BasicColumn.columnList(userId, gmtCreate, gmtModified, username, password, nickname, givenName, middleName, familyName, preferredUsername, profile, picture, website, email, emailVerified, gender, birthdate, zoneinfo, locale, phoneNumber, phoneNumberVerified, updatedAt, platform, enabled, locked, expiresAt, passwordExpiresAt, address);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="row.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<User> insertStatement);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="UserResult", value = {
-        @Result(column="id", property="id", jdbcType=JdbcType.BIGINT, id=true),
+        @Result(column="user_id", property="userId", jdbcType=JdbcType.VARCHAR, id=true),
         @Result(column="gmt_create", property="gmtCreate", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="gmt_modified", property="gmtModified", jdbcType=JdbcType.TIMESTAMP),
-        @Result(column="user_id", property="userId", jdbcType=JdbcType.VARCHAR),
         @Result(column="username", property="username", jdbcType=JdbcType.VARCHAR),
         @Result(column="password", property="password", jdbcType=JdbcType.VARCHAR),
         @Result(column="nickname", property="nickname", jdbcType=JdbcType.VARCHAR),
@@ -94,18 +91,18 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default int deleteByPrimaryKey(Long id_) {
+    default int deleteByPrimaryKey(String userId_) {
         return delete(c -> 
-            c.where(id, isEqualTo(id_))
+            c.where(userId, isEqualTo(userId_))
         );
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insert(User row) {
         return MyBatis3Utils.insert(this::insert, row, user, c ->
-            c.map(gmtCreate).toProperty("gmtCreate")
+            c.map(userId).toProperty("userId")
+            .map(gmtCreate).toProperty("gmtCreate")
             .map(gmtModified).toProperty("gmtModified")
-            .map(userId).toProperty("userId")
             .map(username).toProperty("username")
             .map(password).toProperty("password")
             .map(nickname).toProperty("nickname")
@@ -137,9 +134,9 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insertSelective(User row) {
         return MyBatis3Utils.insert(this::insert, row, user, c ->
-            c.map(gmtCreate).toPropertyWhenPresent("gmtCreate", row::getGmtCreate)
+            c.map(userId).toPropertyWhenPresent("userId", row::getUserId)
+            .map(gmtCreate).toPropertyWhenPresent("gmtCreate", row::getGmtCreate)
             .map(gmtModified).toPropertyWhenPresent("gmtModified", row::getGmtModified)
-            .map(userId).toPropertyWhenPresent("userId", row::getUserId)
             .map(username).toPropertyWhenPresent("username", row::getUsername)
             .map(password).toPropertyWhenPresent("password", row::getPassword)
             .map(nickname).toPropertyWhenPresent("nickname", row::getNickname)
@@ -184,9 +181,9 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    default Optional<User> selectByPrimaryKey(Long id_) {
+    default Optional<User> selectByPrimaryKey(String userId_) {
         return selectOne(c ->
-            c.where(id, isEqualTo(id_))
+            c.where(userId, isEqualTo(userId_))
         );
     }
 
@@ -197,9 +194,9 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateAllColumns(User row, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(gmtCreate).equalTo(row::getGmtCreate)
+        return dsl.set(userId).equalTo(row::getUserId)
+                .set(gmtCreate).equalTo(row::getGmtCreate)
                 .set(gmtModified).equalTo(row::getGmtModified)
-                .set(userId).equalTo(row::getUserId)
                 .set(username).equalTo(row::getUsername)
                 .set(password).equalTo(row::getPassword)
                 .set(nickname).equalTo(row::getNickname)
@@ -229,9 +226,9 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(User row, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(gmtCreate).equalToWhenPresent(row::getGmtCreate)
+        return dsl.set(userId).equalToWhenPresent(row::getUserId)
+                .set(gmtCreate).equalToWhenPresent(row::getGmtCreate)
                 .set(gmtModified).equalToWhenPresent(row::getGmtModified)
-                .set(userId).equalToWhenPresent(row::getUserId)
                 .set(username).equalToWhenPresent(row::getUsername)
                 .set(password).equalToWhenPresent(row::getPassword)
                 .set(nickname).equalToWhenPresent(row::getNickname)
@@ -264,7 +261,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
         return update(c ->
             c.set(gmtCreate).equalTo(row::getGmtCreate)
             .set(gmtModified).equalTo(row::getGmtModified)
-            .set(userId).equalTo(row::getUserId)
             .set(username).equalTo(row::getUsername)
             .set(password).equalTo(row::getPassword)
             .set(nickname).equalTo(row::getNickname)
@@ -290,7 +286,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .set(expiresAt).equalTo(row::getExpiresAt)
             .set(passwordExpiresAt).equalTo(row::getPasswordExpiresAt)
             .set(address).equalTo(row::getAddress)
-            .where(id, isEqualTo(row::getId))
+            .where(userId, isEqualTo(row::getUserId))
         );
     }
 
@@ -299,7 +295,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
         return update(c ->
             c.set(gmtCreate).equalToWhenPresent(row::getGmtCreate)
             .set(gmtModified).equalToWhenPresent(row::getGmtModified)
-            .set(userId).equalToWhenPresent(row::getUserId)
             .set(username).equalToWhenPresent(row::getUsername)
             .set(password).equalToWhenPresent(row::getPassword)
             .set(nickname).equalToWhenPresent(row::getNickname)
@@ -325,7 +320,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .set(expiresAt).equalToWhenPresent(row::getExpiresAt)
             .set(passwordExpiresAt).equalToWhenPresent(row::getPasswordExpiresAt)
             .set(address).equalToWhenPresent(row::getAddress)
-            .where(id, isEqualTo(row::getId))
+            .where(userId, isEqualTo(row::getUserId))
         );
     }
 }

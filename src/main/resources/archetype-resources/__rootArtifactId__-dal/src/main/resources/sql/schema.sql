@@ -6,7 +6,6 @@ CREATE DATABASE IF NOT EXISTS `accounts` CHARACTER SET utf8mb4;
 /*   TableName = user   */
 /******************************************/
 CREATE TABLE IF NOT EXISTS `accounts`.`user` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
   `user_id` varchar(32) NOT NULL COMMENT 'immutable user identifier',
@@ -35,12 +34,11 @@ CREATE TABLE IF NOT EXISTS `accounts`.`user` (
   `locked` tinyint NOT NULL DEFAULT 0,
   `expires_at` datetime DEFAULT NULL,
   `password_expires_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_user_id` (`user_id`),
+  PRIMARY KEY (`user_id`),
   UNIQUE KEY `uk_username` (`username`),
   KEY `idx_user_pass` (`username`,`password`),
   KEY `idx_user_platform` (`username`,`platform`)
-) ENGINE=InnoDB AUTO_INCREMENT=265 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='user table'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='user table'
 ;
 
 /******************************************/

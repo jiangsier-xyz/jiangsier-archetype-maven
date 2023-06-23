@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 public class TraceableDTO {
     @Schema(description = "Trace identifier.")
-    private String traceId;
+    private String requestId;
 
     public TraceableDTO() {
-        this.traceId = TraceUtils.getTraceId();
+        this.requestId = TraceUtils.getTraceId();
     }
 }

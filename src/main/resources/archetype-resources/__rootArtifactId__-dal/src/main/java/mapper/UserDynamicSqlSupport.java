@@ -14,16 +14,13 @@ public final class UserDynamicSqlSupport {
     public static final User user = new User();
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<Long> id = user.id;
+    public static final SqlColumn<String> userId = user.userId;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Date> gmtCreate = user.gmtCreate;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Date> gmtModified = user.gmtModified;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<String> userId = user.userId;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> username = user.username;
@@ -102,13 +99,11 @@ public final class UserDynamicSqlSupport {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final class User extends AliasableSqlTable<User> {
-        public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
+        public final SqlColumn<String> userId = column("user_id", JDBCType.VARCHAR);
 
         public final SqlColumn<Date> gmtCreate = column("gmt_create", JDBCType.TIMESTAMP);
 
         public final SqlColumn<Date> gmtModified = column("gmt_modified", JDBCType.TIMESTAMP);
-
-        public final SqlColumn<String> userId = column("user_id", JDBCType.VARCHAR);
 
         public final SqlColumn<String> username = column("username", JDBCType.VARCHAR);
 
