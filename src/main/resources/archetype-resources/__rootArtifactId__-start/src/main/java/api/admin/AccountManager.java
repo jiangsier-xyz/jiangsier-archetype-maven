@@ -46,27 +46,27 @@ public class AccountManager {
             summary = "List users.",
             description = "Get user list."
     )
-    @GetMapping("/accounts")
-    public List<UserBasicInfoDTO> list() {
-        return list(0, 0);
+    @GetMapping("/users")
+    public List<UserBasicInfoDTO> listUsers() {
+        return listUsers(0, 0);
     }
 
     @Operation(
             summary = "List users.",
             description = "Get user list. Returns a maximum of pageSize user informations."
     )
-    @GetMapping("/accounts/{pageSize}")
-    public List<UserBasicInfoDTO> list(
+    @GetMapping("/users/{pageSize}")
+    public List<UserBasicInfoDTO> listUsers(
             @Parameter(description = "Maximum size") @PathVariable("pageSize") Integer pageSize) {
-        return list(pageSize, 0);
+        return listUsers(pageSize, 0);
     }
 
     @Operation(
             summary = "List users.",
             description = "Get user list page by page. Returns the pageNum page, and a maximum of pageSize user informations."
     )
-    @GetMapping("/accounts/{pageSize}/{pageNum}")
-    public List<UserBasicInfoDTO> list(
+    @GetMapping("/users/{pageSize}/{pageNum}")
+    public List<UserBasicInfoDTO> listUsers(
             @Parameter(description = "Maximum size") @PathVariable("pageSize") Integer pageSize,
             @Parameter(description = "Current page") @PathVariable("pageNum") Integer pageNum) {
         int limit = Objects.nonNull(pageSize) && pageSize > 0 ? pageSize : 0;
@@ -83,8 +83,8 @@ public class AccountManager {
             summary = "Get user details.",
             description = "Return the user details, fields refer to OpenID Connect (OIDC) [standard claims](https://openid.net/specs/openid-connect-core-1_0.html${symbol_pound}Claims)."
     )
-    @GetMapping("/account/{username}")
-    public UserDetailsDTO details(
+    @GetMapping("/user/{username}")
+    public UserDetailsDTO userDetails(
             @Parameter(description = "Username") @PathVariable("username") @NotBlank
             String username) {
         User user = userService.loadUserByUsername(username);
@@ -95,8 +95,8 @@ public class AccountManager {
             summary = "Create a user.",
             description = "Create a user by passing the user details."
     )
-    @PostMapping("/account")
-    public Boolean create(
+    @PostMapping("/user")
+    public Boolean createUser(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User details")
             @RequestBody
             @NotNull
@@ -108,8 +108,8 @@ public class AccountManager {
             summary = "Update a user.",
             description = "Update a user details."
     )
-    @PutMapping("/account")
-    public Boolean update(
+    @PutMapping("/user")
+    public Boolean updateUser(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User details")
             @RequestBody
             @NotNull
@@ -121,8 +121,8 @@ public class AccountManager {
             summary = "Delete a user.",
             description = "Delete a user by username."
     )
-    @DeleteMapping("/account/{username}")
-    public Boolean delete(
+    @DeleteMapping("/user/{username}")
+    public Boolean deleteUser(
             @Parameter(description = "Username") @PathVariable("username") @NotBlank
             String username) {
         return userService.deleteUser(username);

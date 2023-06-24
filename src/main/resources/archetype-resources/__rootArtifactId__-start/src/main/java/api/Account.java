@@ -14,12 +14,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Service
 @Tag(name = "account")
@@ -37,7 +35,8 @@ public class Account {
     )
     @GetMapping("/basic/{username}")
     public UserBasicInfoDTO basic(
-            @Schema(description = "Username") @PathVariable("username") @NotBlank String username) {
+            @Parameter(description = "Username") @PathVariable("username") @NotBlank
+            String username) {
         User user = userService.loadUserByUsername(username);
         return UserBasicInfoDTO.fromUser(user);
     }
@@ -49,5 +48,20 @@ public class Account {
     public UserDetailsDTO details() {
         User user = AuthUtils.currentUser();
         return UserDetailsDTO.fromUser(user);
+    }
+
+    @Operation(
+            summary = "Update current user details.",
+            description = "Update current user details of the account."
+    )
+    @PostMapping("/update")
+    public Boolean update(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "User details")
+            @RequestBody
+            @NotNull
+            UserDetailsDTO userDetails) {
+        User user =userDetails.toUser();
+        user.setUserId(AuthUtils.currentUser().getUserId());
+        return userService.updateUser(user);
     }
 }
