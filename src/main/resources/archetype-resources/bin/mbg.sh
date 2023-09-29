@@ -6,7 +6,7 @@ MODULE_PATH=${PROJECT_PATH}/${PROJECT_NAME}-dal
 RESOURCE_PATH=${MODULE_PATH}/src/main/resources
 
 MYSQL_DRIVER=com.mysql.cj.jdbc.Driver
-MYSQL_VER=$(sed -n "s#^ *<mysql-connector-java.version>\([a-zA-Z0-9.]\{1,\}\)</mysql-connector-java.version> *\$#\1#p" ${PROJECT_PATH}/pom.xml)
+MYSQL_VER=8.0.33
 MYSQL_URL="jdbc:mysql://127.0.0.1:3306?useUnicode=true&characterEncoding=utf-8"
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=passwordformgb

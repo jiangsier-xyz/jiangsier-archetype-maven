@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.interceptor;
+package ${package}.access.trace;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,7 +37,7 @@ import java.util.Optional;
 @Service
 @SuppressWarnings("unused")
 public class TraceAspect {
-    private static final Logger logger = LoggerFactory.getLogger(Trace.class);
+    private static final Logger logger = LoggerFactory.getLogger(TraceAspect.class);
 
     @Pointcut("@annotation(${package}.annotation.Trace)")
     public void tracePointCut() {}

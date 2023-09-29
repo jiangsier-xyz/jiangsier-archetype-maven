@@ -1,14 +1,14 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.auth.customizer;
+package ${package}.access.auth.customizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
-import ${package}.auth.user.SysUserDetails;
+import ${package}.access.auth.user.SysUserDetails;
 import ${package}.service.account.SysBindService;
 
 import java.util.HashMap;

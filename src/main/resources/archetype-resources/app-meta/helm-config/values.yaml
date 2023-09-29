@@ -7,7 +7,7 @@ auth:
     aliyun:
       enable: true
       authorizationGrantType: authorization_code
-      clientAuthenticationMethod: basic
+      clientAuthenticationMethod: client_secret_basic
       clientName: Aliyun
       scope: openid
       clientId: ''
@@ -39,27 +39,27 @@ debug:
     port: 5005
 image:
   pullPolicy: Always
-  repository: ${imageRepository}
-  tag: '${version}'
+  repository: jiangsier/jiangsier-archetype-demo
+  tag: 'latest'
 ingress:
   enabled: false
   className: nginx
   hosts:
-    - host: ${appDomain}
+    - host: jiangsier.xyz
       paths:
         - path: /
           pathType: Prefix
   tls:
     enabled: false
 mysql:
-  url: 'jdbc:mysql://${artifactId}-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8'
+  url: 'jdbc:mysql://jiangsier-archetype-demo-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8'
   auth:
     database: accounts
     password: ''
     rootPassword: ''
     username: ''
 redis:
-  url: 'redis://${artifactId}-redis-cluster:6379'
+  url: 'redis://jiangsier-archetype-demo-redis-cluster:6379'
 replicaCount: 2
 resources:
   limits: {}

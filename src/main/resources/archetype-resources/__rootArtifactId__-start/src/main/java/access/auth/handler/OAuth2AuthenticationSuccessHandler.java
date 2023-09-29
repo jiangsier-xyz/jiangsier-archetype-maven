@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.auth.handler;
+package ${package}.access.auth.handler;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -14,13 +14,13 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import ${package}.auth.customizer.OAuth2AuthorizationRequestCustomizer;
-import ${package}.auth.user.SysUserDetails;
-import ${package}.auth.user.SysUserDetailsManager;
+import ${package}.access.auth.customizer.OAuth2AuthorizationRequestCustomizer;
+import ${package}.access.auth.user.SysUserDetails;
+import ${package}.access.auth.user.SysUserDetailsManager;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 

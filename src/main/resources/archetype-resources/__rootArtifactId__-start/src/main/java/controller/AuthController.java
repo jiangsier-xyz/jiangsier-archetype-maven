@@ -21,10 +21,10 @@ import ${package}.service.account.SysAuthorityService;
 import ${package}.service.account.SysUserService;
 import ${package}.model.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;

@@ -15,7 +15,7 @@ auth:
     adminUri: /admin/**,/api/admin/**
     apiUri: /api/**
     privateUri: /private/**
-    publicUri: /public/**,/css/**,/js/**,/logo/**,/**/favicon.ico
+    publicUri: /public/**,/css/**,/js/**,/logo/**,/favicon.ico
   token:
     maxCountPerUser: 5
     prefix: JSRAPI
@@ -40,11 +40,16 @@ spring:
             tokenUri: https://oauth.aliyun.com/v1/token
             userInfoUri: https://oauth.aliyun.com/v1/userinfo
             userNameAttribute: sub
+        registration:
+          aliyun:
+            authorizationGrantType: authorization_code
+            clientAuthenticationMethod: client_secret_basic
+            clientName: Aliyun
+            redirectUri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: openid
 springdoc:
   paths: /api/**
-  packagesToScan: ${package}.api
-  headerName: X-API-TOKEN
-  parameterName: _token
+  packagesToScan: xyz.jiangsier.api
 perf:
   trace:
-    excludeUri: /public/check/**,/**/favicon.ico,/error
+    excludeUri: /public/check/**,/favicon.ico,/error

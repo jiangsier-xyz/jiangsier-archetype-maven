@@ -1,8 +1,9 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.auth.customizer;
+package ${package}.access.auth.customizer;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
@@ -17,14 +18,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -45,9 +44,6 @@ public class OAuth2AuthorizationRequestCustomizer implements Consumer<OAuth2Auth
 
     private static final StringKeyGenerator DEFAULT_STATE_GENERATOR =
             new Base64StringKeyGenerator(Base64.getUrlEncoder());
-
-    @Autowired
-    private ClientRegistrationRepository repo;
 
     @Autowired
     private RedissonClient persistentClient;

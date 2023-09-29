@@ -3,9 +3,9 @@
 #set( $symbol_escape = '\' )
 package ${package}.model;
 
+import javax.annotation.processing.Generated;
 import java.io.Serializable;
 import java.util.Date;
-import javax.annotation.processing.Generated;
 
 public class User implements Serializable {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")

@@ -3,11 +3,12 @@
 #set( $symbol_escape = '\' )
 package ${package}.mapper;
 
-import java.sql.JDBCType;
-import java.util.Date;
-import javax.annotation.processing.Generated;
 import org.mybatis.dynamic.sql.AliasableSqlTable;
 import org.mybatis.dynamic.sql.SqlColumn;
+
+import javax.annotation.processing.Generated;
+import java.sql.JDBCType;
+import java.util.Date;
 
 public final class UserDynamicSqlSupport {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")

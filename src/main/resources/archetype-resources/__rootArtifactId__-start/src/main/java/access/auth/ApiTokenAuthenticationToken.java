@@ -1,12 +1,12 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.auth.authentication;
+package ${package}.access.auth;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import ${package}.auth.user.SysUserDetails;
+import ${package}.access.auth.user.SysUserDetails;
 import ${package}.util.AuthorityUtils;
 
 import java.util.LinkedList;

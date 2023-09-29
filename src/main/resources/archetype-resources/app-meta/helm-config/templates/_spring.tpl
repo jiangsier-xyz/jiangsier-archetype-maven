@@ -15,7 +15,7 @@ spring:
           {{- with .Values.auth.oauth2.aliyun }}
           aliyun:
             authorizationGrantType: {{ default "authorization_code" .authorizationGrantType }}
-            clientAuthenticationMethod: {{ default "basic" .clientAuthenticationMethod }}
+            clientAuthenticationMethod: {{ default "client_secret_basic" .clientAuthenticationMethod }}
             clientName: {{ default "Aliyun" .clientName }}
             scope: {{ default "openid,aliuid,profile" .scope }}
             clientId: {{ .clientId | quote }}
@@ -26,7 +26,7 @@ spring:
           {{- with .Values.auth.oauth2.google }}
           google:
             authorizationGrantType: {{ default "authorization_code" .authorizationGrantType }}
-            clientAuthenticationMethod: {{ default "basic" .clientAuthenticationMethod }}
+            clientAuthenticationMethod: {{ default "client_secret_basic" .clientAuthenticationMethod }}
             clientName: {{ default "Google" .clientName }}
             scope: {{ default "openid,profile,email" .scope }}
             clientId: {{ .clientId | quote }}

@@ -4,7 +4,7 @@ source $(dirname ${BASH_SOURCE[0]})/setenv.sh
 
 MODULE_PATH=${PROJECT_PATH}/${PROJECT_NAME}-dal
 RESOURCE_PATH=${MODULE_PATH}/src/main/resources
-MYSQL_VER=$(sed -n "s#^ *<mysql-connector-java.version>\([a-zA-Z0-9.]\{1,\}\)</mysql-connector-java.version> *\$#\1#p" ${PROJECT_PATH}/pom.xml)
+MYSQL_VER=8.0.33
 MYSQL_PASSWORD=${LOCAL_spring_datasource_password:-hello1234}
 MYSQL_NAME=${PROJECT_NAME}-mysql
 MYSQL_DATA=$(mktemp -d)

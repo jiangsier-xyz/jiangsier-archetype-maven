@@ -5,7 +5,7 @@
 <configuration>
     <!-- https://github.com/spring-projects/spring-boot/blob/v1.5.13.RELEASE/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <springProperty name="LOG_PATH" source="app.logging.home" defaultValue="${symbol_dollar}{user.home}/logs" />
+    <springProperty name="LOG_PATH" source="app.logging.home" defaultValue="${symbol_dollar}{APP_HOME}/logs" />
     <springProperty name="LOG_LEVEL" source="app.logging.level" defaultValue="DEBUG" />
 
     <property name="TRACE_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-trace.log" />
@@ -16,6 +16,8 @@
     <property name="COMMON_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %c{36} - %m%n"/>
     <property name="PERF_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-perf.log" />
     <property name="PERF_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] - %m%n"/>
+    <property name="ACCESS_LOG_FILE" value="${symbol_dollar}{LOG_PATH}/common-access.log" />
+    <property name="ACCESS_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] - %m%n"/>
 
     <appender name="TRACE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -156,6 +158,25 @@
         <appender-ref ref ="PERF"/>
     </appender>
 
+    <appender name="ACCESS"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${symbol_dollar}{ACCESS_LOG_FILE}</file>
+        <encoder>
+            <pattern><![CDATA[${symbol_dollar}{ACCESS_LOG_PATTERN}]]></pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${symbol_dollar}{ACCESS_LOG_FILE}.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>10GB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name ="ACCESS_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref ="ACCESS"/>
+    </appender>
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern><![CDATA[${symbol_dollar}{COMMON_LOG_PATTERN}]]></pattern>
@@ -171,8 +192,12 @@
         <appender-ref ref="ERROR_ASYNC" />
     </root>
 
-    <logger name="${package}.archetype.annotation.Trace" level="trace" additivity="false">
+    <logger name="${package}.access.trace.TraceAspect" level="trace" additivity="false">
         <appender-ref ref="PERF_ASYNC" />
+    </logger>
+
+    <logger name="${package}.access.trace.TraceInterceptor" level="trace" additivity="false">
+        <appender-ref ref="ACCESS_ASYNC" />
     </logger>
 
     <logger name="org.redisson.cluster" level="off" additivity="false">

@@ -1,8 +1,8 @@
 annotations:
   licenses: MIT
-  group: ${groupId}
+  group: xyz.jiangsier
 apiVersion: v2
-appVersion: ${version}
+appVersion: latest
 dependencies:
 - condition: bitnami.mysql.enabled
   name: mysql
@@ -20,11 +20,11 @@ dependencies:
     - keyvalue
     - database
   version: 8.x.x
-description: A Helm chart for ${artifactId}
+description: A Helm chart for jiangsier-archetype-demo
 maintainers:
 - email: leiyi.jp@gmail.com
   name: Kelvin Jiang
   url: https://github.com/jiangsier-xyz
-name: ${artifactId}
+name: jiangsier-archetype-demo
 type: application
 version: 0.1.1
