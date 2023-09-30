@@ -92,6 +92,7 @@ ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} API Token Authentic
 ${artifactId} supports the APIs under specified path (default "/api/\*\*") to use token string for authentication. There are two ways to obtain token information:
 - Get the token from the parameter, the default parameter name is "\_token", which is configurable.
 - Get the token from the request header, the default key name is "X-API-TOKEN", which is configurable.
+- If non of them is configured, use Bearer Token for authentication.
 Priority is obtained from the parameters. If multiple \_token parameters are passed in, the first valid token shall prevail. Multiple tokens can also be passed in the request header, separated by "," and the first valid token from the left shall prevail.
 
 Logged-in users can view, create, delete, and disable tokens through the "/token/\*\*" series of APIs, see [AuthController.java](${scmUrl}/blob/main/${artifactId}-start/src/main/java/${packageDir}/controller/AuthController.java). The validity period is specified in seconds when the token is created. Defaults to 1 day if not specified. Each user can create up to 5 tokens.

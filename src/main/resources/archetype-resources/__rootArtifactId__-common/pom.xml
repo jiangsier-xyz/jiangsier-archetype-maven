@@ -10,8 +10,8 @@
 
     <artifactId>${artifactId}</artifactId>
     <scm>
-        <connection>scm:git:https://github.com/jiangsier-xyz/jiangsier-archetype-demo.git</connection>
-        <url>https://github.com/jiangsier-xyz/jiangsier-archetype-demo</url>
+        <connection>${scmConnection}</connection>
+        <url>${scmUrl}</url>
     </scm>
 
     <dependencies>
