@@ -109,6 +109,7 @@ TODO
 awesome-app 支持制定路径下的接口（默认"/api/\*\*"）使用 token 字符串进行认证。获取 token 信息的方式有两种：
 - 从参数中获取 token，默认参数名为“\_token”，可配置。
 - 从请求头中获取 token，默认键名为“X-API-TOKEN”，可配置。
+- 均未配置的情况下，采用 Bearer Token 方式鉴权。
 优先从参数中获取。如果配置了多个 \_token 参数，以第一个有效 token 为准。请求头中也可传递多个 token，以","进行分隔，以左数第一个有效 token 为准。
 
 已登录用户可以通过"/token/\*\*"系列接口来查看、创建、删除、禁用 token，详见 [AuthController.java](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/java/controller/AuthController.java)。token 创建时以秒为单位指定有效期。如果不指定，默认为 1 天。每个用户最多可以创建 5 个token。
