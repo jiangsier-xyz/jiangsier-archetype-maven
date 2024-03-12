@@ -16,8 +16,6 @@ gen-proj.sh --group-id xyz.jiangsier \
 ```
 这个脚本不一定完全适用于你，请自由修改它。
 
-[jiangsier-archetype-demo](https://github.com/jiangsier-xyz/jiangsier-archetype-demo) 是完全由 jiangsier-archetype-maven 生成的项目。[https://jiangsier.xyz](https://jiangsier.xyz) 是它的体验地址。
-
 以下将你的应用称为 awesome-app。
 
 ### 构建数据访问层
