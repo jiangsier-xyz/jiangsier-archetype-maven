@@ -16,11 +16,11 @@ You can use [build.sh](${scmUrl}/blob/main/bin/build.sh) to build your project. 
 3. Pull the dependent charts declared in the Helm configuration, currently relying on bitnami/mysql and bitnami/redis-cluster.
 
 ${symbol_pound}${symbol_pound}${symbol_pound} Install, upgrade and uninstall the application
-You can use [install.sh](${scmUrl}/blob/main/bin/install.sh), [upgrade.sh](${scmUrl}/blob/main/bin/upgrade.sh), [uninstall.sh](${scmUrl}/blob/main/bin/uninstall.sh) to install, upgrade, uninstall your application and Its dependencies (MySQL & Redis). Note that information such as database URL, password, etc. will be mounted to the container as a Secret resource through a Spring configuration file (application-private.yml) generated during installation, and loaded by the Spring-boot application. For details, please refer to [_spring.tpl](${scmUrl}/blob/main/app-meta/helm-config/templates/_spring.tpl) and [deployment.yaml](${scmUrl}/blob/main/app-meta/helm-config/templates/deployment.yaml).
+You can use [install.sh](${scmUrl}/blob/main/bin/install.sh), [upgrade.sh](${scmUrl}/blob/main/bin/upgrade.sh), [uninstall.sh](${scmUrl}/blob/main/bin/uninstall.sh) to install, upgrade, uninstall your application and Its dependencies (MySQL & Redis). Note that information such as database URL, password, etc. will be mounted to the container as a Secret resource through a Spring configuration file (application-private.yml) generated during installation, and loaded by the Spring-boot application. For details, please refer to [_spring.tpl](${scmUrl}/blob/main/configs/helm/templates/_spring.tpl) and [deployment.yaml](${scmUrl}/blob/main/configs/helm/templates/deployment.yaml).
 
 ${symbol_pound}${symbol_pound}${symbol_pound} Debugging the application
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} Local debugging
-By default, ${artifactId} uses part of the configuration in helm to generate the Spring configuration needed at runtime, and try to avoid maintaining same parameters in multiple places and systems (such as MySQL URL). The rendering template is [_spring.tpl](${scmUrl}/blob/main/app-meta/helm-config/templates/\_spring.tpl). The rendering result will be accessed by the application as a Secret resource named "${artifactId}-spring-properties", and the corresponding key/file name is "application-private.yml".
+By default, ${artifactId} uses part of the configuration in helm to generate the Spring configuration needed at runtime, and try to avoid maintaining same parameters in multiple places and systems (such as MySQL URL). The rendering template is [_spring.tpl](${scmUrl}/blob/main/configs/helm/templates/\_spring.tpl). The rendering result will be accessed by the application as a Secret resource named "${artifactId}-spring-properties", and the corresponding key/file name is "application-private.yml".
 
 If you want to debug locally, you generally don't run helm rendering, and the connection addresses of many services are usually not the service addresses automatically deployed in k8s. You need to solve the problem of dependent services (such as MySQL, Redis) by yourself, and manually maintain an [application-local.yml](${scmUrl}/blob/main/${artifactId}-start/src/main/resources/application-local.yml), and load it in the debug option of the IDE, then you can debug your application normally.
 > [mysql-local.sh](${scmUrl}/blob/main/bin/mysql-local.sh) and [redis-local.sh](${scmUrl}/blob/main/bin/redis-local.sh) can help you run/stop a local MySQL and Redis, hope they can help your debugging.
@@ -137,7 +137,7 @@ All HTTP API calls are uniformly traced, and the related implementation is in [T
 ${symbol_pound}${symbol_pound} What ${artifactId} depends on
 As a cloud-native application, the services that ${artifactId} depends on are all pulled from the helm repository and deployed to your cluster without requiring you to purchase separate cloud services.
 
-But, from the perspective of operation and maintenance, you may prefer to purchase cloud services guaranteed by SLA (Service Level Agreement), then you only need to set [Helm Configurations](${scmUrl}/blob/main/app-meta/helm-config/values.yaml) parameters as
+But, from the perspective of operation and maintenance, you may prefer to purchase cloud services guaranteed by SLA (Service Level Agreement), then you only need to set [Helm Configurations](${scmUrl}/blob/main/configs/helm/values.yaml) parameters as
 ```yaml
 bitnami:
    mysql:

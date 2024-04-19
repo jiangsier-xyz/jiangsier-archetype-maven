@@ -23,7 +23,7 @@
 
   <fileSets>
     <fileSet filtered="true" encoding="UTF-8" packaged="false">
-      <directory>app-meta</directory>
+      <directory>configs</directory>
     </fileSet>
     <fileSet filtered="false" packaged="false">
       <directory>bin</directory>
