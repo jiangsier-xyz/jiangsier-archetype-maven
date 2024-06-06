@@ -16,19 +16,20 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!--dependency versions-->
-    <spring-boot.version>3.1.4</spring-boot.version>
-    <springdoc.version>2.2.0</springdoc.version>
-    <mybatis.version>3.5.13</mybatis.version>
-    <mybatis-dynamic-sql.version>1.4.1</mybatis-dynamic-sql.version>
-    <mybatis-spring-boot-starter.version>2.3.0</mybatis-spring-boot-starter.version>
+    <spring-boot.version>3.2.6</spring-boot.version>
+    <springdoc.version>2.5.0</springdoc.version>
+    <mybatis.version>3.5.15</mybatis.version>
+    <mybatis-dynamic-sql.version>1.5.0</mybatis-dynamic-sql.version>
+    <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
     <commons-collections4.version>4.4</commons-collections4.version>
-    <commons-io.version>2.13.0</commons-io.version>
-    <redisson.version>3.23.5</redisson.version>
+    <commons-io.version>2.15.1</commons-io.version>
+    <redisson.version>3.31.0</redisson.version>
+    <objenesis.version>3.3</objenesis.version>
 
     <!--plugin versions-->
-    <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
-    <maven-antrun-plugin.version>3.0.0</maven-antrun-plugin.version>
-    <mybatis-generator-maven-plugin.version>1.4.1</mybatis-generator-maven-plugin.version>
+    <buildnumber-maven-plugin.version>3.2.0</buildnumber-maven-plugin.version>
+    <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+    <mybatis-generator-maven-plugin.version>1.4.2</mybatis-generator-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
@@ -112,6 +113,13 @@
         <artifactId>commons-io</artifactId>
         <version>${commons-io.version}</version>
       </dependency>
+
+      <!--misc-->
+      <dependency>
+        <groupId>org.objenesis</groupId>
+        <artifactId>objenesis</artifactId>
+        <version>${objenesis.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -146,20 +154,32 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <compilerArgs>
+              <arg>-parameters</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>${maven-antrun-plugin.version}</version>
         </plugin>
+
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>buildnumber-maven-plugin</artifactId>
           <version>${buildnumber-maven-plugin.version}</version>
         </plugin>
+
         <plugin>
           <groupId>org.mybatis.generator</groupId>
           <artifactId>mybatis-generator-maven-plugin</artifactId>
           <version>${mybatis-generator-maven-plugin.version}</version>
         </plugin>
+
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>

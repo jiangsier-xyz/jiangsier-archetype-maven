@@ -5,6 +5,7 @@ package ${package}.access.auth;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.Transient;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import ${package}.access.auth.user.SysUserDetails;
 import ${package}.util.AuthorityUtils;
@@ -13,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+@Transient
 public class ApiTokenAuthenticationToken extends AbstractAuthenticationToken {
     private final Set<String> tokens;
 

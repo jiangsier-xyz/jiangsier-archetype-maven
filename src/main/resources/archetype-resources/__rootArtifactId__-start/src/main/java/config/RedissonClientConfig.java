@@ -3,12 +3,16 @@
 #set( $symbol_escape = '\' )
 package ${package}.config;
 
+import com.esotericsoftware.kryo.Kryo;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.Codec;
+import org.redisson.codec.Kryo5Codec;
 import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ${package}.config.util.UnmodifiableCollectionsSerializer;
 
 @Configuration
 @SuppressWarnings("unused")
@@ -24,7 +28,7 @@ public class RedissonClientConfig {
 
     @Bean(destroyMethod="shutdown")
     public RedissonClient redissonClient() {
-        Config config = new Config();
+        Config config = new Config().setCodec(codec());
 
         if ("single".equalsIgnoreCase(mode)) {
             config.useSingleServer()
@@ -38,5 +42,15 @@ public class RedissonClientConfig {
                     .setTimeout(timeout);
         }
         return Redisson.create(config);
+    }
+
+    private Codec codec() {
+        return new Kryo5Codec() {
+            protected Kryo createKryo(ClassLoader classLoader) {
+                Kryo kryo = super.createKryo(classLoader);
+                UnmodifiableCollectionsSerializer.registerSerializers(kryo);
+                return kryo;
+            }
+        };
     }
 }
