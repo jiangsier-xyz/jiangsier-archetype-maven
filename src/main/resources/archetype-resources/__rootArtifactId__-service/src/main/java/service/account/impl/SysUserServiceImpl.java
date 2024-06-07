@@ -35,7 +35,30 @@ public class SysUserServiceImpl implements SysUserService {
                 .withGmtCreate(now)
                 .withGmtModified(now)
                 .withUserId(UUID.randomUUID().toString().replaceAll("-", "")));
-        return rows > 0;
+
+        if (rows == 0) {
+            user.withUserId(null)
+                    .withGmtCreate(null)
+                    .withGmtModified(null);
+            return false;
+        }
+
+        if (Objects.isNull(user.getPlatform())) {
+            user.setPlatform("system");
+        }
+        if (Objects.isNull(user.getEmailVerified())) {
+            user.setEmailVerified((byte)0);
+        }
+        if (Objects.isNull(user.getPhoneNumberVerified())) {
+            user.setPhoneNumberVerified((byte)0);
+        }
+        if (Objects.isNull(user.getEnabled())) {
+            user.setEnabled((byte)1);
+        }
+        if (Objects.isNull(user.getLocked())) {
+            user.setLocked((byte)0);
+        }
+        return true;
     }
 
     @Override
@@ -61,28 +84,34 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @MiddlePeriodCache(keyBy = CACHE_KEY)
     public User loadUserByUserId(String userId) {
-        return userMapper.selectOne(c -> c.where(UserDynamicSqlSupport.userId, isEqualTo(userId)))
+        return userMapper.selectOne(c ->
+                        c.where(UserDynamicSqlSupport.userId, isEqualTo(userId))
+                                .and(UserDynamicSqlSupport.enabled, isEqualTo((byte)1)))
                 .orElse(null);
     }
 
     @Override
     @MiddlePeriodCache(keyBy = CACHE_KEY)
     public User loadUserByUsername(String username) {
-        return userMapper.selectOne(c -> c.where(UserDynamicSqlSupport.username, isEqualTo(username)))
+        return userMapper.selectOne(c ->
+                        c.where(UserDynamicSqlSupport.username, isEqualTo(username))
+                                .and(UserDynamicSqlSupport.enabled, isEqualTo((byte)1)))
                 .orElse(null);
     }
 
     @Override
     public User loadUserByUsernameAndPassword(String username, String password) {
         return userMapper.selectOne(c -> c.where(UserDynamicSqlSupport.username, isEqualTo(username))
-                        .and(UserDynamicSqlSupport.password, isEqualTo(password)))
+                        .and(UserDynamicSqlSupport.password, isEqualTo(password))
+                        .and(UserDynamicSqlSupport.enabled, isEqualTo((byte)1)))
                 .orElse(null);
     }
 
     @Override
     public User loadUserByUsernameAndPlatform(String username, String platform) {
         return userMapper.selectOne(c -> c.where(UserDynamicSqlSupport.username, isEqualTo(username))
-                        .and(UserDynamicSqlSupport.platform, isEqualTo(platform)))
+                        .and(UserDynamicSqlSupport.platform, isEqualTo(platform))
+                        .and(UserDynamicSqlSupport.enabled, isEqualTo((byte)1)))
                 .orElse(null);
     }
 

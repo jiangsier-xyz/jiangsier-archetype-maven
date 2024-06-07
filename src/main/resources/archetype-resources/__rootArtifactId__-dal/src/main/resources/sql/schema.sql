@@ -1,11 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `accounts` CHARACTER SET utf8mb4;
+USE `accounts`;
 
-
-/******************************************/
-/*   DatabaseName = accounts   */
-/*   TableName = user   */
-/******************************************/
-CREATE TABLE IF NOT EXISTS `accounts`.`user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
   `user_id` varchar(32) NOT NULL COMMENT 'immutable user identifier',
@@ -41,11 +37,7 @@ CREATE TABLE IF NOT EXISTS `accounts`.`user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='user table'
 ;
 
-/******************************************/
-/*   DatabaseName = accounts   */
-/*   TableName = authority   */
-/******************************************/
-CREATE TABLE IF NOT EXISTS `accounts`.`authority` (
+CREATE TABLE IF NOT EXISTS `authority` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
@@ -57,11 +49,7 @@ CREATE TABLE IF NOT EXISTS `accounts`.`authority` (
 ) ENGINE=InnoDB AUTO_INCREMENT=265 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='authority table'
 ;
 
-/******************************************/
-/*   DatabaseName = accounts   */
-/*   TableName = binding   */
-/******************************************/
-CREATE TABLE IF NOT EXISTS `accounts`.`binding` (
+CREATE TABLE IF NOT EXISTS `binding` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
@@ -78,11 +66,7 @@ CREATE TABLE IF NOT EXISTS `accounts`.`binding` (
 ) ENGINE=InnoDB AUTO_INCREMENT=265 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='oauth2 binding table'
 ;
 
-/******************************************/
-/*   DatabaseName = accounts   */
-/*   TableName = api_token   */
-/******************************************/
-CREATE TABLE IF NOT EXISTS `accounts`.`api_token` (
+CREATE TABLE IF NOT EXISTS `api_token` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
