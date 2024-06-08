@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helpers.fullname" . }}
+  name: {{ include "helpers.fullname" . }}-main
   labels:
     {{- include "helpers.labels" . | nindent 4 }}
 spec:
@@ -41,7 +41,7 @@ spec:
               done
               exit 1
       containers:
-        - name: {{ .Chart.Name }}
+        - name: main
           env:
             - name: JAVA_OPTS
               value: -Dspring.config.location=classpath:/application.yml,/home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/config/application-private.yml
