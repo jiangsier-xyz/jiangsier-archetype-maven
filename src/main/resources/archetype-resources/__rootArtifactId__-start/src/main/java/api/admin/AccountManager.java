@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Service
+@Controller
 @Tag(name = "account manager (for admin)")
 @RequestMapping("/api/admin")
 @ResponseBody

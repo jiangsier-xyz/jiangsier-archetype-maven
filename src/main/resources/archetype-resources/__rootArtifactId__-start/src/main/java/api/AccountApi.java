@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.validation.constraints.NotBlank;
 
-@Service
+@Controller
 @Tag(name = "account")
 @RequestMapping("/api/account")
 @ResponseBody
