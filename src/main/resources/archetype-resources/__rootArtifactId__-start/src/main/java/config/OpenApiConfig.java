@@ -14,6 +14,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ${package}.util.AppMetaUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Configuration
@@ -21,8 +25,8 @@ import java.util.Objects;
 public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI(
-            @Value("${symbol_dollar}{auth.token.headerName:${symbol_pound}{null}}}") String securityHeaderName,
-            @Value("${symbol_dollar}{auth.token.parameterName:${symbol_pound}{null}}}") String securityParameterName) {
+            @Value("${symbol_dollar}{auth.token.headerName:${symbol_pound}{null}}") String securityHeaderName,
+            @Value("${symbol_dollar}{auth.token.parameterName:${symbol_pound}{null}}") String securityParameterName) {
         OpenAPI openAPI = new OpenAPI();
         if (Objects.isNull(securityHeaderName) && Objects.isNull(securityParameterName)) {
             openAPI.components(new Components()
@@ -59,5 +63,25 @@ public class OpenApiConfig {
                 .addServersItem(new Server().url("/"));
 
         return openAPI;
+    }
+
+    private String getReadmeContent() {
+        String path = "/README.md";
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try (InputStream in = OpenApiConfig.class.getResourceAsStream(path)) {
+            if (Objects.isNull(in)) {
+                return AppMetaUtils.getUrl();
+            }
+            byte[] data = new byte[512];
+            int n;
+            while ((n = in.read(data)) != -1) {
+                buffer.write(data, 0, n);
+            }
+        } catch (IOException e) {
+            log.error("Failed to load {}", path, e);
+            return AppMetaUtils.getUrl();
+        }
+
+        return buffer.toString(StandardCharsets.UTF_8);
     }
 }
