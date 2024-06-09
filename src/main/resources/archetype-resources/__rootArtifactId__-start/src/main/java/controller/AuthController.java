@@ -70,7 +70,7 @@ public class AuthController {
 
     @RequestMapping("/login/oauth2/success")
     public String oAuth2Success(HttpServletRequest request) {
-        return "redirect:/swagger-ui/index.html";
+        return "redirect:/public/docs/api";
     }
 
     @RequestMapping("/login/oauth2/failure")
@@ -80,7 +80,7 @@ public class AuthController {
 
     @RequestMapping("/login/portal/success")
     public String portalSuccess() {
-        return "redirect:/swagger-ui/index.html";
+        return "redirect:/public/docs/api";
     }
 
     @RequestMapping("/login/portal/failure")

@@ -41,8 +41,23 @@ spring:
             userInfoUri: https://oauth.aliyun.com/v1/userinfo
             userNameAttribute: sub
 springdoc:
+  apiDocs:
+    path: /public/openapi/v3/api-docs
+  swaggerUi:
+    path: /public/docs/api/swagger-ui
+  defaultProducesMediaType: application/json
   paths: /api/**
   packagesToScan: xyz.jiangsier.api
+  groupConfigs:
+    - group: g-all
+      displayName: All
+      pathsToMatch: /api/**
+    - group: g-admin
+      displayName: Admin
+      pathsToMatch: /api/admin/**
+    - group: g-account
+      displayName: Account
+      pathsToMatch: /api/account/**
 perf:
   trace:
     excludeUri: /public/check/**,/favicon.ico,/error
