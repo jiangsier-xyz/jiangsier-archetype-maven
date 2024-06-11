@@ -69,8 +69,6 @@ mvn -f ${MODULE_PATH}/pom.xml \
 
 cleanup ${cid}
 
-find ${MODULE_PATH} -name "*.java" | xargs sed -i '' 's/javax.annotation.Generated/javax.annotation.processing.Generated/g'
-
 rm -rf ${MYSQL_DATA}
 
 exit ${ret}
