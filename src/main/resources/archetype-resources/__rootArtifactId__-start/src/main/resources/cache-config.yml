@@ -1,10 +1,10 @@
-# 2 seconds cache
+# 10 seconds cache
 # NOTE: Because the cache is often invalidated,
 # it is recommended to set "sync" to true to prevent cache breakdown as
 # @Cacheable(cacheNames = "shortPeriod", sync = true...)
 shortPeriod:
-  ttl: 2000
-  maxIdleTime: 1000
+  ttl: 10000
+  maxIdleTime: 5000
 
 # 5 minutes cache
 middlePeriod:
