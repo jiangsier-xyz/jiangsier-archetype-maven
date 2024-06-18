@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Cacheable(cacheNames = "middlePeriod", keyGenerator="fullNameKeyGenerator")
+@Cacheable(cacheNames = "middlePeriod", keyGenerator="fullNameKeyGenerator", , unless="#result == null")
 @SuppressWarnings("unused")
 public @interface MiddlePeriodCache {
     String keyBy() default "";
