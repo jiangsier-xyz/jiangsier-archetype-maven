@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `family_name` varchar(128) DEFAULT NULL,
   `preferred_username` varchar(128) DEFAULT NULL,
   `profile` varchar(256) DEFAULT NULL,
-  `picture` varchar(256) DEFAULT NULL,
+  `picture` varchar(512) DEFAULT NULL,
   `website` varchar(256) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `email_verified` TINYINT NOT NULL DEFAULT 0,

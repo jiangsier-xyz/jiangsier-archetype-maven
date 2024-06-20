@@ -17,7 +17,7 @@ import ${package}.config.util.UnmodifiableCollectionsSerializer;
 @Configuration
 @SuppressWarnings("unused")
 public class RedissonClientConfig {
-    @Value("${symbol_dollar}{redis.mode:cluster}")
+    @Value("${symbol_dollar}{redis.mode:single}")
     private String mode;
     @Value("${symbol_dollar}{redis.datasource.url}")
     private String nodeAddress;

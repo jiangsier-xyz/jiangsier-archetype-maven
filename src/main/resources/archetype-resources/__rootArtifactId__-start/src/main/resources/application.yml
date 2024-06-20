@@ -23,7 +23,7 @@ cache:
   redisson:
     config: classpath:/cache-config.yml
 redis:
-  mode: cluster
+  mode: single
   datasource:
     timeout: 10000
 spring:

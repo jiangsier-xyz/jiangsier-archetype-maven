@@ -59,7 +59,7 @@ mysql:
     rootPassword: ''
     username: ''
 redis:
-  url: 'redis://jiangsier-archetype-demo-redis-cluster:6379'
+  url: 'redis://jiangsier-archetype-demo-redis-master:6379'
 replicaCount: 2
 resources:
   limits: {}

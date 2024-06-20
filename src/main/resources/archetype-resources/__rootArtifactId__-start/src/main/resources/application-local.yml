@@ -1,5 +1,4 @@
 redis:
-  mode: single
   datasource:
     url: redis://localhost:6379
     password: hello1234
