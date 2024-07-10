@@ -1,18 +1,18 @@
 annotations:
-  licenses: MIT
+  licenses: Apache-2.0
   group: xyz.jiangsier
-apiVersion: v2
-appVersion: latest
+apiVersion: v1
+appVersion: 0.0.1-SNAPSHOT
 dependencies:
-  - condition: bitnami.mysql.enabled
+  - condition: mysql.deployment.enabled
     name: mysql
     repository: oci://registry-1.docker.io/bitnamicharts
     tags:
       - mysql
       - sql
       - database
-    version: 10.x.x
-  - condition: bitnami.redis.enabled
+    version: 11.x.x
+  - condition: redis.deployment.enabled
     name: redis
     repository: oci://registry-1.docker.io/bitnamicharts
     tags:
@@ -27,4 +27,4 @@ maintainers:
   url: https://github.com/jiangsier-xyz
 name: jiangsier-archetype-demo
 type: application
-version: 0.1.1
+version: 0.0.1

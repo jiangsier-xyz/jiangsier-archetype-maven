@@ -13,7 +13,7 @@ ${symbol_pound}${symbol_pound}${symbol_pound} 构建应用程序
 你可以使用 [build.sh](${scmUrl}/blob/main/bin/build.sh) 来构建你的项目。它依次完成下面的工作：
 1. 使用 Maven 编译和打包你的项目。
 2. 使用 `docker buildx` 来同时生成 amd64 和 arm64 的 docker 镜像，并 push 到 Docker 仓库（默认是 hub.docker.com，请配置你自己的私有仓库）。
-3. 拉取 Helm 配置中声明的依赖 charts，目前依赖了 bitnami/mysql 和 bitnami/redis-cluster。
+3. 拉取 Helm 配置中声明的依赖 charts，目前依赖了 bitnami/mysql 和 bitnami/redis。
 
 ${symbol_pound}${symbol_pound}${symbol_pound} 安装、升级和卸载应用程序
 你可以分别使用 [install.sh](${scmUrl}/blob/main/bin/install.sh)、[upgrade.sh](${scmUrl}/blob/main/bin/upgrade.sh)、[uninstall.sh](${scmUrl}/blob/main/bin/uninstall.sh) 来安装、升级、卸载你的应用及其依赖（MySQL & Redis）。注意，诸如数据库 URL、密码等信息，会通过安装时生成的一个 Spring 配置文件（application-private.yml） 以 Secret 资源的方式挂载到容器，并被 Spring-boot 应用加载。具体内容可以参考 [_spring.tpl](${scmUrl}/blob/main/configs/helm/templates/_spring.tpl) 和 [deployment.yaml](${scmUrl}/blob/main/configs/helm/templates/deployment.yaml)。
@@ -139,13 +139,9 @@ ${symbol_pound}${symbol_pound} ${artifactId} 依赖什么
 
 当然，从运维的角度，也许您更希望购买有 SLA(Service Level Agreement) 保障的云服务，那么只需要设置 [Helm 配置](${scmUrl}/blob/main/configs/helm/values.yaml)参数为
 ```yaml
-bitnami:
-  mysql:
-    enabled: false
-  redis:
-    enabled: false
-
 mysql:
+  deployment:
+    enabled: false
   url: <your mysql url>
   auth:
     rootPassword: <your mysql root password>
@@ -153,6 +149,8 @@ mysql:
     password: <your mysql password for the username>
 
 redis:
+  deployment:
+    enabled: false
   url: <your redis url>
   auth:
     password: <your redis password>
@@ -169,7 +167,7 @@ ${artifactId} 默认部署 [bitnami/mysql](https://artifacthub.io/packages/helm/
 ${symbol_pound}${symbol_pound}${symbol_pound} Redis
 如上文所述，${artifactId} 使用 Redis 作为后端实现了大部分分布式能力。Redis 是 ${artifactId} 的必备组件。
 
-${artifactId} 默认部署 [bitnami/redis-cluster](https://artifacthub.io/packages/helm/bitnami/redis-cluster) 到同一命名空间，这时，Reids url 默认是 `redis://${artifactId}-redis-cluster:6379`
+${artifactId} 默认部署 [bitnami/redis](https://artifacthub.io/packages/helm/bitnami/redis) 到同一命名空间，这时，Reids url 默认是 `redis://${artifactId}-redis-master:6379`
 
 你也可以指定其他的 Redis 实例。
 

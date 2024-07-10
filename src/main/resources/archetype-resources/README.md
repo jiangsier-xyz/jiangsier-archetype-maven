@@ -13,7 +13,7 @@ ${symbol_pound}${symbol_pound}${symbol_pound} Building the application
 You can use [build.sh](${scmUrl}/blob/main/bin/build.sh) to build your project. It does the following in order:
 1. Compile and package your project using Maven.
 2. Use `docker buildx` to generate amd64 and arm64 docker images at the same time, and push to the Docker warehouse (the default is hub.docker.com, please configure your own private warehouse).
-3. Pull the dependent charts declared in the Helm configuration, currently relying on bitnami/mysql and bitnami/redis-cluster.
+3. Pull the dependent charts declared in the Helm configuration, currently relying on bitnami/mysql and bitnami/redis.
 
 ${symbol_pound}${symbol_pound}${symbol_pound} Install, upgrade and uninstall the application
 You can use [install.sh](${scmUrl}/blob/main/bin/install.sh), [upgrade.sh](${scmUrl}/blob/main/bin/upgrade.sh), [uninstall.sh](${scmUrl}/blob/main/bin/uninstall.sh) to install, upgrade, uninstall your application and Its dependencies (MySQL & Redis). Note that information such as database URL, password, etc. will be mounted to the container as a Secret resource through a Spring configuration file (application-private.yml) generated during installation, and loaded by the Spring-boot application. For details, please refer to [_spring.tpl](${scmUrl}/blob/main/configs/helm/templates/_spring.tpl) and [deployment.yaml](${scmUrl}/blob/main/configs/helm/templates/deployment.yaml).
@@ -139,13 +139,9 @@ As a cloud-native application, the services that ${artifactId} depends on are al
 
 But, from the perspective of operation and maintenance, you may prefer to purchase cloud services guaranteed by SLA (Service Level Agreement), then you only need to set [Helm Configurations](${scmUrl}/blob/main/configs/helm/values.yaml) parameters as
 ```yaml
-bitnami:
-   mysql:
-     enabled: false
-   redis:
-     enabled: false
-
 mysql:
+  deployment:
+    enabled: false
    url: <your mysql url>
    auth:
      rootPassword: <your mysql root password>
@@ -153,6 +149,8 @@ mysql:
      password: <your mysql password for the username>
 
 redis:
+  deployment:
+    enabled: false
    url: <your redis url>
    auth:
      password: <your redis password>
@@ -169,7 +167,7 @@ You can also specify other MySQL instances.
 ${symbol_pound}${symbol_pound}${symbol_pound} Redis
 As mentioned above, ${artifactId} uses Redis as the backend to achieve most of its distributed capabilities. Redis is a must-have component of ${artifactId}.
 
-${artifactId} deploys [bitnami/redis-cluster](https://artifacthub.io/packages/helm/bitnami/redis-cluster) to the same namespace by default. And the default Reids url is `redis://${artifactId}-redis-cluster:6379`
+${artifactId} deploys [bitnami/redis](https://artifacthub.io/packages/helm/bitnami/redis) to the same namespace by default. And the default Reids url is `redis://${artifactId}-redis-master:6379`
 
 You can also specify other Redis instances.
 

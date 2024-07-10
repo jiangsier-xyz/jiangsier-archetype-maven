@@ -28,7 +28,7 @@ The above process means that you need to install the Docker runtime environment 
 You can use [build.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/build.sh) to build your project. It does the following in order:
 1. Compile and package your project using Maven.
 2. Use `docker buildx` to generate amd64 and arm64 docker images at the same time, and push to the Docker warehouse (the default is hub.docker.com, please configure your own private warehouse).
-3. Pull the dependent charts declared in the Helm configuration, currently relying on bitnami/mysql and bitnami/redis-cluster.
+3. Pull the dependent charts declared in the Helm configuration, currently relying on bitnami/mysql and bitnami/redis.
 
 ### Install, upgrade and uninstall the application
 You can use [install.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/install.sh), [upgrade.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/upgrade.sh), [uninstall.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/uninstall.sh) to install, upgrade, uninstall your application and Its dependencies (MySQL & Redis). Note that information such as database URL, password, etc. will be mounted to the container as a Secret resource through a Spring configuration file (application-private.yml) generated during installation, and loaded by the Spring-boot application. For details, please refer to [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/_spring.tpl) and [deployment.yaml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/deployment.yaml).
@@ -154,13 +154,9 @@ As a cloud-native application, the services that awesome-app depends on are all 
 
 But, from the perspective of operation and maintenance, you may prefer to purchase cloud services guaranteed by SLA (Service Level Agreement), then you only need to set [Helm Configurations](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/values.yaml) parameters as
 ```yaml
-bitnami:
-   mysql:
-     enabled: false
-   redis:
-     enabled: false
-
 mysql:
+  deployment:
+    enabled: false
    url: <your mysql url>
    auth:
      rootPassword: <your mysql root password>
@@ -168,6 +164,8 @@ mysql:
      password: <your mysql password for the username>
 
 redis:
+  deployment:
+    enabled: false
    url: <your redis url>
    auth:
      password: <your redis password>
@@ -184,7 +182,7 @@ You can also specify other MySQL instances.
 ### Redis
 As mentioned above, awesome-app uses Redis as the backend to achieve most of its distributed capabilities. Redis is a must-have component of awesome-app.
 
-awesome-app deploys [bitnami/redis-cluster](https://artifacthub.io/packages/helm/bitnami/redis-cluster) to the same namespace by default. And the default Reids url is `redis://awesome-app-redis-cluster:6379`
+awesome-app deploys [bitnami/redis](https://artifacthub.io/packages/helm/bitnami/redis) to the same namespace by default. And the default Reids url is `redis://awesome-app-redis-master:6379`
 
 You can also specify other Redis instances.
 

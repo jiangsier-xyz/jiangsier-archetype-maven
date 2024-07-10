@@ -19,11 +19,6 @@ auth:
       clientSecret: ''
 autoscaling:
   enabled: false
-bitnami:
-  mysql:
-    enabled: true
-  redis:
-    enabled: true
 cert:
   manager:
     namespace: cert-manager
@@ -52,6 +47,8 @@ ingress:
   tls:
     enabled: false
 mysql:
+  deployment:
+    enabled: true
   url: 'jdbc:mysql://jiangsier-archetype-demo-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8'
   auth:
     database: accounts
@@ -59,6 +56,8 @@ mysql:
     rootPassword: ''
     username: ''
 redis:
+  deployment:
+    enabled: true
   url: 'redis://jiangsier-archetype-demo-redis-master:6379'
 replicaCount: 2
 resources:
