@@ -56,7 +56,7 @@ public class ApiTokenAuthenticationProvider implements AuthenticationProvider, A
         SysUserDetails sysUser = null;
         for (String token : tokens) {
             User user = apiTokenService.getUser(token);
-            if (Objects.nonNull(user)) {
+            if (user != null) {
                 sysUser = SysUserDetails.builder()
                         .fromUser(user)
                         .withAuthorityService(authorityService)

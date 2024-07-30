@@ -41,7 +41,7 @@ public class SysApiTokenServiceImpl implements SysApiTokenService {
 
     @Override
     public String createToken(User user, ApiTokenType type, String policy, TemporalAmount duration) {
-        if (Objects.nonNull(maxCount) && listTokens(user).size() >= maxCount) {
+        if (maxCount != null && listTokens(user).size() >= maxCount) {
             return null;
         }
         Date now = new Date(System.currentTimeMillis());
@@ -51,7 +51,7 @@ public class SysApiTokenServiceImpl implements SysApiTokenService {
                 .withGmtCreate(now)
                 .withGmtModified(now)
                 .withIssuedAt(now)
-                .withExpiresAt(Objects.nonNull(duration) ? Date.from(now.toInstant().plus(duration)) : null)
+                .withExpiresAt(duration != null ? Date.from(now.toInstant().plus(duration)) : null)
                 .withPolicy(policy)
                 .withType(type.getType())
                 .withUserId(user.getUserId())
@@ -87,7 +87,7 @@ public class SysApiTokenServiceImpl implements SysApiTokenService {
     public boolean disableToken(String token) {
         int rows = 0;
         ApiToken apiToken = apiTokenRepo.getApiToken(token);
-        if (Objects.nonNull(apiToken)) {
+        if (apiToken != null) {
             apiToken.setExpiresAt(apiToken.getIssuedAt());
             rows = apiTokenMapper.updateByPrimaryKey(apiToken);
         }
@@ -96,7 +96,7 @@ public class SysApiTokenServiceImpl implements SysApiTokenService {
 
     private boolean isEnabled(ApiToken apiToken) {
         Date now = new Date(System.currentTimeMillis());
-        return Objects.nonNull(apiToken) &&
+        return apiToken != null &&
                 apiToken.getIssuedAt().before(now) &&
                 (apiToken.getExpiresAt() == null || apiToken.getExpiresAt().after(now));
     }

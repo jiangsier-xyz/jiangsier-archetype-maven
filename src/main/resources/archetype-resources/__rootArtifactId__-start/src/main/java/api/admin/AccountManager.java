@@ -69,8 +69,8 @@ public class AccountManager {
     public List<UserBasicInfoDTO> listUsers(
             @Parameter(description = "Maximum size") @PathVariable("pageSize") Integer pageSize,
             @Parameter(description = "Current page") @PathVariable("pageNum") Integer pageNum) {
-        int limit = Objects.nonNull(pageSize) && pageSize > 0 ? pageSize : 0;
-        int offset = Objects.nonNull(pageSize) && Objects.nonNull(pageNum) && pageSize * pageNum > 0
+        int limit = pageSize != null && pageSize > 0 ? pageSize : 0;
+        int offset = pageSize != null && pageNum != null && pageSize * pageNum > 0
                 ? pageSize * pageNum
                 : 0;
         return userService.listUsers(limit, offset)

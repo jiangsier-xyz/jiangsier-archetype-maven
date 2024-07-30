@@ -37,7 +37,7 @@ public class TraceInterceptor implements HandlerInterceptor {
     );
 
     private boolean isBadRequest(int status, Exception ex) {
-        if (Objects.nonNull(ex) && badRequestExceptions.contains(ex.getClass())) {
+        if (ex != null && badRequestExceptions.contains(ex.getClass())) {
             return true;
         } else {
             return status >= 400 && status < 500;
@@ -70,7 +70,7 @@ public class TraceInterceptor implements HandlerInterceptor {
         String[] args = new String[]{ request.getQueryString() };
         int responseCode = response.getStatus();
         TraceUtils.TraceStatus status = TraceUtils.TraceStatus.SUCCESSFUL;
-        if (Objects.nonNull(ex) || responseCode >= 400) {
+        if (ex != null || responseCode >= 400) {
             status = isBadRequest(responseCode, ex) ?
                     TraceUtils.TraceStatus.BAD_REQUEST :
                     TraceUtils.TraceStatus.FAILED;

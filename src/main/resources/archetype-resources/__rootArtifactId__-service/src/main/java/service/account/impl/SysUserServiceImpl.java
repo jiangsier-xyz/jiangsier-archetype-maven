@@ -78,7 +78,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public boolean userExists(String username) {
-        return Objects.nonNull(loadUserByUsername(username));
+        return loadUserByUsername(username) != null;
     }
 
     @Override

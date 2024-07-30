@@ -53,7 +53,7 @@ public class SysBindServiceImpl implements SysBindService {
                 .orElse(null);
 
         int rows;
-        if (Objects.nonNull(oldBinding)) {
+        if (oldBinding != null) {
             binding.setGmtCreate(oldBinding.getGmtCreate());
             binding.setId(oldBinding.getId());
             rows = bindingMapper.updateByPrimaryKeySelective(binding);
