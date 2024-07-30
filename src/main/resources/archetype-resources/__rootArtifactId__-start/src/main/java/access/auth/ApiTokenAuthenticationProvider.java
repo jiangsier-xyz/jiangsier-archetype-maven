@@ -66,7 +66,7 @@ public class ApiTokenAuthenticationProvider implements AuthenticationProvider, A
             }
         }
 
-        if (Objects.isNull(sysUser)) {
+        if (sysUser == null) {
             throw new BadCredentialsException("Invalid tokens: " + String.join(",", tokens));
         }
 
@@ -91,7 +91,7 @@ public class ApiTokenAuthenticationProvider implements AuthenticationProvider, A
     }
 
     private boolean validateToken(String token) {
-        return Objects.isNull(prefix) ? StringUtils.isNotBlank(token) : token.startsWith(prefix);
+        return prefix == null ? StringUtils.isNotBlank(token) : token.startsWith(prefix);
     }
 
     private Set<String> resolveTokensFromQuery(HttpServletRequest request) {

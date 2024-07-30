@@ -137,7 +137,7 @@ public class AccountManager {
             @Parameter(description = "Username") @PathVariable("username") @NotBlank
             String username) {
         User user = userService.loadUserByUsername(username);
-        if (Objects.isNull(user)) {
+        if (user == null) {
             return null;
         }
         return authorityService.listAuthorities(user);
@@ -154,7 +154,7 @@ public class AccountManager {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Authorities") @RequestBody @NotEmpty
             Set<String> authorities) {
         User user = userService.loadUserByUsername(username);
-        if (Objects.isNull(user)) {
+        if (user == null) {
             return null;
         }
         return authorityService.updateAuthorities(user, authorities);
@@ -169,7 +169,7 @@ public class AccountManager {
             @Parameter(description = "Username") @PathVariable("username") @NotBlank
             String username) {
         User user = userService.loadUserByUsername(username);
-        if (Objects.isNull(user)) {
+        if (user == null) {
             return null;
         }
         return apiTokenService.listTokens(user);
@@ -186,7 +186,7 @@ public class AccountManager {
             @Parameter(description = "Validity of seconds.") @PathVariable("duration") @NotNull @PositiveOrZero
             Long duration) {
         User user = userService.loadUserByUsername(username);
-        if (Objects.isNull(user)) {
+        if (user == null) {
             return null;
         }
         return apiTokenService.createToken(user, Duration.ofSeconds(duration));

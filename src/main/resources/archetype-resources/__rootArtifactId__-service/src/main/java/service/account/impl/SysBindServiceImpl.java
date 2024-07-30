@@ -77,7 +77,7 @@ public class SysBindServiceImpl implements SysBindService {
                         .and(BindingDynamicSqlSupport.platform, isEqualTo(platform)))
                 .filter(binding -> {
                     Date expiresAt = binding.getExpiresAt();
-                    return Objects.isNull(expiresAt) || expiresAt.after(new Date(System.currentTimeMillis()));
+                    return expiresAt == null || expiresAt.after(new Date(System.currentTimeMillis()));
                 })
                 .isPresent();
     }

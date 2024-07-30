@@ -93,7 +93,7 @@ public class TraceAspect {
 
     private Object[] getArgs(ProceedingJoinPoint point, Method method) {
         Object[] args = point.getArgs();
-        if (Objects.isNull(args)) {
+        if (args == null) {
             return null;
         }
 

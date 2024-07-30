@@ -31,7 +31,7 @@ public class AuthUtils implements ApplicationContextAware {
     @NonNull
     public static User currentUser() {
         Authentication authenticated = SecurityContextHolder.getContext().getAuthentication();
-        if (Objects.isNull(authenticated) || authenticated instanceof AnonymousAuthenticationToken) {
+        if (authenticated == null || authenticated instanceof AnonymousAuthenticationToken) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         Object principal = authenticated.getPrincipal();
@@ -41,7 +41,7 @@ public class AuthUtils implements ApplicationContextAware {
         } else if (principal instanceof String userName) {
             user = userService.loadUserByUsername(userName);
         }
-        if (Objects.isNull(user)) {
+        if (user == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         return user;

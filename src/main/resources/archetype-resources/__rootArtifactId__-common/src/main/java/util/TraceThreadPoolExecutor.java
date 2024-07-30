@@ -22,7 +22,7 @@ public class TraceThreadPoolExecutor extends ThreadPoolExecutor {
 
     @Override
     public void execute(Runnable runnable) {
-        if (Objects.isNull(runnable)) {
+        if (runnable == null) {
             throw new NullPointerException();
         }
 

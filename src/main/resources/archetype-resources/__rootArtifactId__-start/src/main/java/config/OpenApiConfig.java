@@ -28,7 +28,7 @@ public class OpenApiConfig {
             @Value("${symbol_dollar}{auth.token.headerName:${symbol_pound}{null}}") String securityHeaderName,
             @Value("${symbol_dollar}{auth.token.parameterName:${symbol_pound}{null}}") String securityParameterName) {
         OpenAPI openAPI = new OpenAPI();
-        if (Objects.isNull(securityHeaderName) && Objects.isNull(securityParameterName)) {
+        if (securityHeaderName == null && securityParameterName == null) {
             openAPI.components(new Components()
                     .addSecuritySchemes("bearerAuth", new SecurityScheme()
                             .type(SecurityScheme.Type.HTTP)
@@ -69,7 +69,7 @@ public class OpenApiConfig {
         String path = "/README.md";
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         try (InputStream in = OpenApiConfig.class.getResourceAsStream(path)) {
-            if (Objects.isNull(in)) {
+            if (in == null) {
                 return AppMetaUtils.getUrl();
             }
             byte[] data = new byte[512];

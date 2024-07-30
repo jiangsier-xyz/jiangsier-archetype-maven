@@ -45,7 +45,7 @@ public class SysApiTokenServiceImpl implements SysApiTokenService {
             return null;
         }
         Date now = new Date(System.currentTimeMillis());
-        String token = Objects.isNull(prefix) ? "" : prefix;
+        String token = prefix == null ? "" : prefix;
         token += UUID.randomUUID().toString().replaceAll("-", "");
         int rows = apiTokenMapper.insertSelective(new ApiToken()
                 .withGmtCreate(now)

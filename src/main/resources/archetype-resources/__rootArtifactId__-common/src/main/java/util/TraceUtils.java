@@ -46,7 +46,7 @@ public class TraceUtils {
         TRACE_ID.set(null);
         TRACE_TIME.set(null);
         TRACE_ATTRIBUTES.set(null);
-        return Objects.isNull(traceTime) ? 0 : System.currentTimeMillis() - traceTime;
+        return traceTime == null ? 0 : System.currentTimeMillis() - traceTime;
     }
 
     public static boolean isTracing() {
@@ -55,7 +55,7 @@ public class TraceUtils {
 
     public static void setTraceAttribute(String key, Object value) {
         Map<String, Object> attributes = TRACE_ATTRIBUTES.get();
-        if (Objects.isNull(attributes)) {
+        if (attributes == null) {
             attributes = new HashMap<>(1);
             TRACE_ATTRIBUTES.set(attributes);
         }
