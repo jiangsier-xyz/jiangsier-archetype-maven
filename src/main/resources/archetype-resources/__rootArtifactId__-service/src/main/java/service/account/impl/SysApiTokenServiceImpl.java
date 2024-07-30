@@ -98,7 +98,7 @@ public class SysApiTokenServiceImpl implements SysApiTokenService {
         Date now = new Date(System.currentTimeMillis());
         return Objects.nonNull(apiToken) &&
                 apiToken.getIssuedAt().before(now) &&
-                (Objects.isNull(apiToken.getExpiresAt()) || apiToken.getExpiresAt().after(now));
+                (apiToken.getExpiresAt() == null || apiToken.getExpiresAt().after(now));
     }
 
     @Override
