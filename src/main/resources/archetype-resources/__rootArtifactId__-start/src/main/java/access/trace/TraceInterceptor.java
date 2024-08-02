@@ -78,15 +78,14 @@ public class TraceInterceptor implements HandlerInterceptor {
         long elapseTime = TraceUtils.endTrace();
 
         TraceUtils.TraceInfoBuilder builder = new TraceUtils.TraceInfoBuilder();
-        builder.setTraceId(TraceUtils.getTraceId())
-                .setUsername(username)
-                .setMethod(service + "::" + method)
-                .setStatus(status)
-                .setArgs(args)
-                .setResponse(responseCode)
-                .setThrowable(ex)
-                .setElapseTime(elapseTime);
-
+        builder.traceId(TraceUtils.getTraceId())
+                .username(username)
+                .method(service + "::" + method)
+                .status(status)
+                .args(args)
+                .response(responseCode)
+                .throwable(ex)
+                .elapseTime(elapseTime);
         logger.trace(builder.build());
     }
 }
