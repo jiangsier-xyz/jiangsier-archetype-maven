@@ -47,10 +47,11 @@ public class TraceInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         TraceUtils.startTrace();
+        TraceUtils.putTraceAttribute("traceId", TraceUtils.getTraceId());
         Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
-                .ifPresent(username -> TraceUtils.setTraceAttribute("TRACE_USER", username));
+                .ifPresent(username ->  TraceUtils.putTraceAttribute("username", username));
         return true;
     }
 
@@ -63,7 +64,7 @@ public class TraceInterceptor implements HandlerInterceptor {
         String username = Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
-                .orElse((String) TraceUtils.getTraceAttribute("TRACE_USER"));
+                .orElse(TraceUtils.getTraceAttribute("username"));
 
         String service = request.getServletPath();
         String method = request.getMethod();
@@ -75,7 +76,7 @@ public class TraceInterceptor implements HandlerInterceptor {
                     TraceUtils.TraceStatus.BAD_REQUEST :
                     TraceUtils.TraceStatus.FAILED;
         }
-        long elapseTime = TraceUtils.endTrace();
+        long elapseTime = TraceUtils.stopTrace();
 
         TraceUtils.TraceInfoBuilder builder = new TraceUtils.TraceInfoBuilder();
         builder.traceId(TraceUtils.getTraceId())
@@ -87,5 +88,6 @@ public class TraceInterceptor implements HandlerInterceptor {
                 .throwable(ex)
                 .elapseTime(elapseTime);
         logger.trace(builder.build());
+        TraceUtils.endTrace();
     }
 }
