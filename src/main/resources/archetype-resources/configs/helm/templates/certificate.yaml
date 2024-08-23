@@ -2,7 +2,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ include "helpers.name" . }}-letsencrypt-cert
+  name: {{ include "helpers.name" . }}-tls
   labels:
     {{- include "helpers.labels" . | nindent 4 }}
 spec:
@@ -13,5 +13,5 @@ spec:
   issuerRef:
     kind: Issuer
     name: {{ include "helpers.name" . }}-letsencrypt-http01
-  secretName: {{ include "helpers.name" . }}-letsencrypt-cert
+  secretName: {{ include "helpers.name" . }}-tls
 {{- end }}
