@@ -69,7 +69,14 @@ public class TraceInterceptor implements HandlerInterceptor {
         String service = request.getServletPath();
         String method = request.getMethod();
         String[] args = new String[]{ request.getQueryString() };
-        int responseCode = response.getStatus();
+        int responseCode;
+        if (ex instanceof AuthenticationException) {
+            responseCode = HttpStatus.UNAUTHORIZED.value();
+        } else if (ex instanceof AccessDeniedException) {
+            responseCode = HttpStatus.FORBIDDEN.value();
+        } else {
+            responseCode = response.getStatus();
+        }
         TraceUtils.TraceStatus status = TraceUtils.TraceStatus.SUCCESSFUL;
         if (ex != null || responseCode >= 400) {
             status = isBadRequest(responseCode, ex) ?
