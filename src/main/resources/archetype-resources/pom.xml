@@ -16,14 +16,15 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!--dependency versions-->
-    <spring-boot.version>3.2.7</spring-boot.version>
+    <spring-boot.version>3.3.4</spring-boot.version>
     <springdoc.version>2.6.0</springdoc.version>
     <mybatis.version>3.5.15</mybatis.version>
     <mybatis-dynamic-sql.version>1.5.0</mybatis-dynamic-sql.version>
     <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
     <commons-collections4.version>4.4</commons-collections4.version>
     <commons-io.version>2.15.1</commons-io.version>
-    <redisson.version>3.32.0</redisson.version>
+    <commons-lang3.version>3.14.0</commons-lang3.version>
+    <redisson.version>3.36.0</redisson.version>
     <objenesis.version>3.3</objenesis.version>
 
     <!--plugin versions-->
@@ -96,8 +97,8 @@
 
       <dependency>
         <groupId>org.redisson</groupId>
-        <!-- for Spring Data Redis v3.1.x -->
-        <artifactId>redisson-spring-data-31</artifactId>
+        <!-- for Spring Data Redis v3.3.x -->
+        <artifactId>redisson-spring-data-33</artifactId>
         <version>${redisson.version}</version>
       </dependency>
 
