@@ -20,6 +20,6 @@ public class CommonUtils {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             log.error("Failed to construct instance of {}", clazz.getSimpleName(), e);
             throw new RuntimeException(e);
-        };
+        }
     }
 }

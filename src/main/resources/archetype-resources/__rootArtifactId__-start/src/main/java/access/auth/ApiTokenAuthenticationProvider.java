@@ -107,7 +107,7 @@ public class ApiTokenAuthenticationProvider implements AuthenticationProvider, A
             }
         }
 
-        return new ApiTokenAuthenticationToken(sysUser, tokens, false)
+        return new ApiTokenAuthenticationToken(sysUser, tokens, false);
     }
 
     private boolean validateToken(String token) {
