@@ -26,14 +26,11 @@ services:
         - UNAME=${HELM_systemAccount:-admin}
         - UID=${HELM_securityContext_runAsUser:-2024}
         - GID=${HELM_securityContext_runAsGroup:-2024}
-EOF
-
-cat >> ${COMPOSE_CONFIG} <<EOF
-    tags:
-      - ${HELM_image_backend_repository}:${VERSION}
-    platforms:
-      - linux/amd64
-  image: ${HELM_image_backend_repository}:latest
+      tags:
+        - ${HELM_image_repository}:${VERSION}
+      platforms:
+        - linux/amd64
+    image: ${HELM_image_repository}:latest
 EOF
 
 if [[ "${VERBOSE}" == "1" ]];then
