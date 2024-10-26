@@ -7,23 +7,6 @@ check_helm
 
 COMPOSE_CONFIG=$(mktemp -d)/build.yml
 
-cd ${PROJECT_PATH}/${WEB_MODULE}
-
-rm -rf dist
-npm run build;ret=$?
-test ${ret} -eq 0 || die "ERROR: Failed to build ${WEB_MODULE}!"
-
-web_version=$(awk -F'"' '/"version":/ {print $4}' package.json)
-if [[ -n "${web_version}" ]]; then
-  cp -f dist/assets/index.js dist/assets/index-${web_version}.js
-fi
-
-rm -rf ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/assets
-rm -rf ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/img
-cp -R -f ${PROJECT_PATH}/${WEB_MODULE}/dist/assets ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/assets
-cp -R -f ${PROJECT_PATH}/${WEB_MODULE}/dist/img ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/img
-cp -R -f ${PROJECT_PATH}/img/* ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/img/
-
 cd ${SCRIPTS_PATH}
 
 mvn clean package -Dmaven.test.skip=true -f ${PROJECT_PATH}/pom.xml;ret=$?

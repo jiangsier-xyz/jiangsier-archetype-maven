@@ -8,7 +8,6 @@ VERSION=$(sed -n "s#^ *<revision>\([a-zA-Z0-9.-]\{1,\}\)</revision> *\$#\1#p" ${
 DAL_MODULE=${PROJECT_NAME}-dal
 STARTER_MODULE=${PROJECT_NAME}-start
 SDK_MODULE=${PROJECT_NAME}-sdk
-WEB_MODULE=${PROJECT_NAME}-web
 DOCKER_CONFIG_HOME=${PROJECT_PATH}/configs/docker
 HELM_CONFIG_HOME=${PROJECT_PATH}/configs/helm
 
