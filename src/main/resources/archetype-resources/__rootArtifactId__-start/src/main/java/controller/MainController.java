@@ -15,8 +15,6 @@ import java.util.List;
 @Controller
 @SuppressWarnings("unused")
 public class MainController {
-    private static final List<String> FAVICON_STYLES = Arrays.asList("dark", "light");
-
     @RequestMapping("/")
     public String index(Model model) {
         return "redirect:/swagger-ui/index.html";
