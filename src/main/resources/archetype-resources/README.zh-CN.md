@@ -58,7 +58,7 @@ ${artifactId} 基于 Redisson 实现了 Spring Cache，参考 [RedissonCacheConf
 ${symbol_pound}${symbol_pound}${symbol_pound} 分布式会话
 ${artifactId} 基于 Redisson 实现了 Spring Session，并且设置了 Session 过期时间为一小时，参考 [RedissonSessionConfig.java](${scmUrl}/blob/main/${artifactId}-start/src/main/java/${packageDir}/config/RedissonCacheConfig.java)。只要集群里的一台服务器设置了 Session，则整个集群可见。
 
-注意 RedissonConnectionFactory 的实现，与 spring-session-data-redis 版本有关，目前使用的二方包是 redisson-spring-data-27（因为 spring-session-data-redis 采用了 2.7.0）。具体对应关系见 [GitHub](https://github.com/redisson/redisson/tree/master/redisson-spring-data${symbol_pound}usage)。
+注意 RedissonConnectionFactory 的实现，与 spring-session-data-redis 版本有关，目前使用的二方包是 redisson-spring-data-33（因为 spring-session-data-redis 采用了 3.3.x）。具体对应关系见 [GitHub](https://github.com/redisson/redisson/tree/master/redisson-spring-data${symbol_pound}usage)。
 
 ${symbol_pound}${symbol_pound}${symbol_pound} 分布式调度
 TODO
