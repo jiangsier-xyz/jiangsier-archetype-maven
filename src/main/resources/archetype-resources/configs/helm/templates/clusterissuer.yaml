@@ -1,8 +1,8 @@
-{{- if .Values.cert.issuer.enabled -}}
+{{- if .Values.cert.clusterIssuer.enabled -}}
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
-  name: {{ include "helpers.name" . }}-letsencrypt-http01
+  name: {{ include "helpers.fullname" . }}-letsencrypt-http01
   labels:
     {{- include "helpers.labels" . | nindent 4 }}
 spec:

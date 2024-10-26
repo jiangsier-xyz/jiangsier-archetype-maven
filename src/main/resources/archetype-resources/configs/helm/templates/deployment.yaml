@@ -1,3 +1,4 @@
+{{- if .Values.deployment.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,7 +30,8 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: dependencies-listener
-          image: busybox
+          image: '{{ .Values.image.busybox.repository | default "busybox" }}:{{ .Values.image.busybox.tag | default "latest" }}'
+          imagePullPolicy: {{ .Values.image.busybox.pullPolicy | default "IfNotPresent" }}
           command:
             - sh
             - -ec
@@ -43,8 +45,8 @@ spec:
       containers:
         - name: main
           env:
-            - name: JAVA_OPTS
-              value: -Dspring.config.location=classpath:/application.yml,/home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/config/application-private.yml
+            - name: SERVICE_OPTS
+              value: '-Dspring.config.location=classpath:/application.yml,/home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/config/application-private.yml -Dspring.profiles.active=online'
             {{- if .Values.debug.jpda.enabled }}
             - name: JPDA_ENABLE
               value: "true"
@@ -53,8 +55,8 @@ spec:
             {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}'
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           ports:
             - name: http
               containerPort: 8080
@@ -75,19 +77,32 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/config
-              name: config
-            - mountPath: /home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/logs
-              name: logs
+            - name: config-private
+              mountPath: /home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/config
+            - name: config-runtime
+              mountPath: /home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/config.run
+            - name: persistence
+              mountPath: /home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/logs
+              subPath: logs
+            - name: persistence
+              mountPath: /home/{{ .Values.systemAccount }}/{{ include "helpers.name" . }}/data
+              subPath: data
       volumes:
-        - name: config
+        - name: config-private
           secret:
             secretName: {{ include "helpers.fullname" . }}-spring-properties
             items:
               - key: application-private.yml
                 path: application-private.yml
-        - name: logs
-          emptyDir: {}
+        - name: config-runtime
+          configMap:
+            name: {{ include "helpers.fullname" . }}-runtime-configuration
+            items:
+              - key: application-runtime.properties
+                path: application-runtime.properties
+        - name: persistence
+          persistentVolumeClaim:
+            claimName: {{ include "helpers.fullname" . }}-pvc
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -100,3 +115,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}

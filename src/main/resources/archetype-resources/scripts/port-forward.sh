@@ -2,6 +2,8 @@
 
 source $(dirname ${BASH_SOURCE[0]})/setenv.sh
 
+check_kubectl
+
 function stop(){
   exit 0
 }
@@ -9,13 +11,13 @@ function stop(){
 trap stop SIGINT
 
 while true;do
-  pod=$(kubectl get pods -o name --kubeconfig ${KUBE_CONFIG} --namespace ${NAMESPACE} \
-          | awk -F'/' '{print $2}'| grep "${PROJECT_NAME}" \
-          | grep -v -p "mysql" | grep -v -p "redis" | head -1)
-  if [[ -z "${pod}" ]]; then
-    echo "Failed to find pod!"
-    exit -1
-  fi
+  pod=$(kubectl get pods --kubeconfig ${KUBE_CONFIG} --namespace ${NAMESPACE} \
+    | grep "${PROJECT_NAME}-main" | awk -F' ' '{print $1}' | head -1)
+
+  test -n "${pod}" || die "ERROR: Failed to find app pod!"
+
+  echo "Found ${pod}"
+
   kubectl port-forward --kubeconfig ${KUBE_CONFIG} --namespace ${NAMESPACE} \
     pod/${pod} ${HELM_debug_jpda_port}:${HELM_debug_jpda_port}
 done

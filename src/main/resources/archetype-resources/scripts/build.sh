@@ -2,31 +2,63 @@
 
 source $(dirname ${BASH_SOURCE[0]})/setenv.sh
 
-cd ${PROJECT_PATH}
-mvn clean
-mvn package -Dmaven.test.skip=true;ret=$?
-if [[ ${ret} -ne 0 ]]; then
-  exit 1
+check_docker
+check_helm
+
+COMPOSE_CONFIG=$(mktemp -d)/build.yml
+
+cd ${PROJECT_PATH}/${WEB_MODULE}
+
+rm -rf dist
+npm run build;ret=$?
+test ${ret} -eq 0 || die "ERROR: Failed to build ${WEB_MODULE}!"
+
+web_version=$(awk -F'"' '/"version":/ {print $4}' package.json)
+if [[ -n "${web_version}" ]]; then
+  cp -f dist/assets/index.js dist/assets/index-${web_version}.js
 fi
 
-cd ${DOCKER_CONFIG_HOME}
+rm -rf ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/assets
+rm -rf ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/img
+cp -R -f ${PROJECT_PATH}/${WEB_MODULE}/dist/assets ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/assets
+cp -R -f ${PROJECT_PATH}/${WEB_MODULE}/dist/img ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/img
+cp -R -f ${PROJECT_PATH}/img/* ${PROJECT_PATH}/${STARTER_MODULE}/src/main/resources/static/img/
 
-cp -f ${PROJECT_PATH}/${STARTER_MODULE}/target/${STARTER_MODULE}-${VERSION}.jar ${PROJECT_NAME}.jar
+cd ${SCRIPTS_PATH}
 
-iid=$(docker build --platform=linux/amd64 \
-  --build-arg APP_NAME=${PROJECT_NAME} \
-  --build-arg UNAME=${HELM_systemAccount:-admin} \
-  --build-arg UID=${HELM_securityContext_runAsUser:-2023} \
-  --build-arg GID=${HELM_securityContext_runAsGroup:-2023} \
-  ${ARGS[*]} \
-  -t ${HELM_image_repository}:latest \
-  -f Dockerfile . || exit -1)
+mvn clean package -Dmaven.test.skip=true -f ${PROJECT_PATH}/pom.xml;ret=$?
+test ${ret} -eq 0 || die "ERROR: Failed to build ${PROJECT_NAME}!"
 
-if [[ -n "${iid} " ]]; then
-  docker push ${HELM_image_repository}:latest
+cp -f ${PROJECT_PATH}/${STARTER_MODULE}/target/${STARTER_MODULE}-${VERSION}.jar ${DOCKER_CONFIG_HOME}/${PROJECT_NAME}.jar
+
+# compose config
+cat > ${COMPOSE_CONFIG} <<EOF
+services:
+  ${PROJECT_NAME}:
+    build:
+      context: ${DOCKER_CONFIG_HOME}
+      dockerfile: Dockerfile
+      args:
+        - APP_NAME=${PROJECT_NAME}
+        - UNAME=${HELM_systemAccount:-admin}
+        - UID=${HELM_securityContext_runAsUser:-2024}
+        - GID=${HELM_securityContext_runAsGroup:-2024}
+EOF
+
+cat >> ${COMPOSE_CONFIG} <<EOF
+    tags:
+      - ${HELM_image_backend_repository}:${VERSION}
+    platforms:
+      - linux/amd64
+  image: ${HELM_image_backend_repository}:latest
+EOF
+
+if [[ "${VERBOSE}" == "1" ]];then
+  echo "[COMPOSE CONFIG]"
+  cat ${COMPOSE_CONFIG}
 fi
 
-rm -f ${PROJECT_NAME}.jar
+docker compose -f ${COMPOSE_CONFIG} -p ${PROJECT_NAME} build --push ${PROJECT_NAME}
+helm dependency update ${HELM_CONFIG_HOME}
 
-cd ${HELM_CONFIG_HOME}
-helm dependency build ${HELM_CONFIG_HOME}
+rm -f ${DOCKER_CONFIG_HOME}/${PROJECT_NAME}.jar

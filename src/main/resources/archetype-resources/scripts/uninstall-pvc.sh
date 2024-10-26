@@ -6,4 +6,4 @@ check_helm
 
 helm uninstall --kubeconfig ${KUBE_CONFIG} --namespace ${NAMESPACE} \
   ${ARGS[*]} \
-  ${PROJECT_NAME}
+  ${PROJECT_NAME}-pvc

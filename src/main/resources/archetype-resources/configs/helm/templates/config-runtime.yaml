@@ -1,0 +1,11 @@
+{{- if .Values.deployment.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "helpers.fullname" . }}-runtime-configuration
+  labels:
+    {{- include "helpers.labels" . | nindent 4 }}
+data:
+  application-runtime.properties: |
+    config.version=20240620
+{{- end }}

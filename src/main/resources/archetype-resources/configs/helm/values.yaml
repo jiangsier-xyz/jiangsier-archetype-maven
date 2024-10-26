@@ -23,19 +23,25 @@ cert:
   manager:
     namespace: cert-manager
     version: v1.11.0
-  issuer:
-    enabled: false
-  certificate:
+  clusterIssuer:
     enabled: false
   email: ''
 debug:
   jpda:
     enabled: false
     port: 5005
+deployment:
+  enabled: true
+  pvc:
+    enabled: false
+    accessModes: [ReadWriteOnce]
+    storage: 8Gi
 image:
   pullPolicy: Always
   repository: jiangsier/jiangsier-archetype-demo
   tag: 'latest'
+  busybox:
+    repository: ''
 ingress:
   enabled: false
   className: nginx
@@ -59,6 +65,10 @@ redis:
   deployment:
     enabled: true
   url: 'redis://jiangsier-archetype-demo-redis-master:6379'
+pdb:
+  create: true
+  minAvailable: ""
+  maxUnavailable: ""
 replicaCount: 2
 resources:
   limits: {}
