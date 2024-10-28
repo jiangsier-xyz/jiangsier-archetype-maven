@@ -22,10 +22,7 @@ autoscaling:
 cert:
   manager:
     namespace: cert-manager
-    version: v1.11.0
-  clusterIssuer:
-    enabled: false
-  email: ''
+    version: v1.16.1
 debug:
   jpda:
     enabled: false
@@ -43,15 +40,24 @@ image:
   busybox:
     repository: ''
 ingress:
-  enabled: false
+  annotations:
+    cert-manager.io/cluster-issuer: jiangsier-archetype-demo-letsencrypt-http01
+    nginx.ingress.kubernetes.io/proxy-body-size: "20M"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
   className: nginx
+  enabled: false
   hosts:
-    - host: jiangsier.xyz
+    - host: jiangsier-xyz
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: www.jiangsier-xyz
+      redirect: true
       paths:
         - path: /
           pathType: Prefix
   tls:
-    enabled: false
+    enabled: true
 mysql:
   deployment:
     enabled: true
