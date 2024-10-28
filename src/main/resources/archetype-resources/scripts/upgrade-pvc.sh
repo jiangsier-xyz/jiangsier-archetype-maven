@@ -8,6 +8,6 @@ helm upgrade --kubeconfig ${KUBE_CONFIG} --namespace ${NAMESPACE} --create-names
   --set mysql.deployment.enabled=false \
   --set redis.deployment.enabled=false \
   --set deployment.enabled=false \
-  --set deployment.pvc.enabled=true \
+  --set persistence.enabled=true \
   ${ARGS[*]} \
   ${PROJECT_NAME}-pvc ${HELM_CONFIG_HOME}

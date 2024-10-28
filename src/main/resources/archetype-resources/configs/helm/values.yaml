@@ -29,10 +29,6 @@ debug:
     port: 5005
 deployment:
   enabled: true
-  pvc:
-    enabled: false
-    accessModes: [ReadWriteOnce]
-    storage: 8Gi
 image:
   pullPolicy: Always
   repository: jiangsier/jiangsier-archetype-demo
@@ -75,6 +71,10 @@ pdb:
   create: true
   minAvailable: ""
   maxUnavailable: ""
+persistence:
+  enabled: false
+  accessModes: [ ReadWriteOnce ]
+  storage: 8Gi
 replicaCount: 2
 resources:
   limits: {}
