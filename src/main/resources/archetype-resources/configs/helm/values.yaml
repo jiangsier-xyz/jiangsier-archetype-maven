@@ -69,8 +69,8 @@ redis:
   url: 'redis://jiangsier-archetype-demo-redis-master:6379'
 pdb:
   create: true
-  minAvailable: ""
-  maxUnavailable: ""
+  minAvailable: ''
+  maxUnavailable: ''
 persistence:
   enabled: false
   accessModes: [ ReadWriteOnce ]
