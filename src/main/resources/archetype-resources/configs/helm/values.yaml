@@ -1,62 +1,80 @@
 global:
+  defaultStorageClass: 'default'
   storageClass: ''
   redis:
     password: ''
-auth:
-  oauth2:
-    aliyun:
-      enable: true
-      authorizationGrantType: authorization_code
-      clientAuthenticationMethod: client_secret_basic
-      clientName: Aliyun
-      scope: openid
-      clientId: ''
-      clientSecret: ''
-    google:
-      enable: true
-      scope: openid,profile,email
-      clientId: ''
-      clientSecret: ''
+backend:
+  enabled: true
+  auth:
+    oauth2:
+      aliyun:
+        enable: true
+        authorizationGrantType: authorization_code
+        clientAuthenticationMethod: client_secret_basic
+        clientName: Aliyun
+        scope: openid
+        clientId: ''
+        clientSecret: ''
+      google:
+        enable: true
+        scope: openid,profile,email
+        clientId: ''
+        clientSecret: ''
+  debug:
+    jpda:
+      enabled: false
+      port: 5005
+  image:
+    pullPolicy: Always
+    repository: jiangsier/jiangsier-archetype-demo
+    tag: 'latest'
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: jiangsier-archetype-demo-letsencrypt-http01
+      nginx.ingress.kubernetes.io/proxy-body-size: "20M"
+      nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    className: nginx
+    enabled: false
+    hosts:
+      - host: jiangsier-xyz
+        paths:
+          - path: /
+            pathType: Prefix
+      - host: www.jiangsier-xyz
+        redirect: true
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      enabled: true
+  replicaCount: 2
+  resources:
+    limits: {}
+    requests: {}
+  podSecurityContext:
+    fsGroup: 2024
+  securityContext:
+    runAsUser: 2024
+    runAsGroup: 2024
+  service:
+    ports:
+      http: 80
+    type: ClusterIP
+  systemAccount: admin
+  spring: {}
+  busybox:
+    image:
+      pullPolicy: IfNotPresent
+      repository: busybox
+      tag: 'latest'
 autoscaling:
   enabled: false
 cert:
   manager:
     namespace: cert-manager
     version: v1.16.1
-debug:
-  jpda:
-    enabled: false
-    port: 5005
-deployment:
-  enabled: true
-image:
-  pullPolicy: Always
-  repository: jiangsier/jiangsier-archetype-demo
-  tag: 'latest'
-  busybox:
-    repository: ''
-ingress:
-  annotations:
-    cert-manager.io/cluster-issuer: jiangsier-archetype-demo-letsencrypt-http01
-    nginx.ingress.kubernetes.io/proxy-body-size: "20M"
-    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
-  className: nginx
-  enabled: false
-  hosts:
-    - host: jiangsier-xyz
-      paths:
-        - path: /
-          pathType: Prefix
-    - host: www.jiangsier-xyz
-      redirect: true
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    enabled: true
 mysql:
-  deployment:
-    enabled: true
+  enabled: true
   url: 'jdbc:mysql://jiangsier-archetype-demo-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8'
   auth:
     database: accounts
@@ -64,8 +82,7 @@ mysql:
     rootPassword: ''
     username: ''
 redis:
-  deployment:
-    enabled: true
+  enabled: true
   url: 'redis://jiangsier-archetype-demo-redis-master:6379'
 pdb:
   create: true
@@ -75,18 +92,5 @@ persistence:
   enabled: false
   accessModes: [ ReadWriteOnce ]
   storage: 8Gi
-replicaCount: 2
-resources:
-  limits: {}
-  requests: {}
-securityContext:
-  runAsUser: 2023
-  runAsGroup: 2023
-service:
-  ports:
-    http: 80
-  type: ClusterIP
 serviceAccount:
   create: true
-systemAccount: admin
-spring: {}

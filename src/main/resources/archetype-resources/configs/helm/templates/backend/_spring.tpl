@@ -6,13 +6,13 @@ spring:
     username: {{ default "root" .auth.username }}
     password: {{ default .auth.rootPassword .auth.password }}
     {{- end }}
-  {{- if .Values.auth.oauth2 }}
+  {{- if .Values.backend.auth.oauth2 }}
   security:
     oauth2:
       client:
         registration:
-          {{- if and .Values.auth.oauth2.aliyun .Values.auth.oauth2.aliyun.enabled }}
-          {{- with .Values.auth.oauth2.aliyun }}
+          {{- if and .Values.backend.auth.oauth2.aliyun .Values.backend.auth.oauth2.aliyun.enabled }}
+          {{- with .Values.backend.auth.oauth2.aliyun }}
           aliyun:
             authorizationGrantType: {{ default "authorization_code" .authorizationGrantType }}
             clientAuthenticationMethod: {{ default "client_secret_basic" .clientAuthenticationMethod }}
@@ -22,8 +22,8 @@ spring:
             clientSecret: {{ .clientSecret | quote }}
           {{- end }}
           {{- end }}
-          {{- if and .Values.auth.oauth2.google .Values.auth.oauth2.google.enabled }}
-          {{- with .Values.auth.oauth2.google }}
+          {{- if and .Values.backend.auth.oauth2.google .Values.backend.auth.oauth2.google.enabled }}
+          {{- with .Values.backend.auth.oauth2.google }}
           google:
             authorizationGrantType: {{ default "authorization_code" .authorizationGrantType }}
             clientAuthenticationMethod: {{ default "client_secret_basic" .clientAuthenticationMethod }}
@@ -34,8 +34,8 @@ spring:
           {{- end }}
           {{- end }}
   {{- end }}
-  {{- if .Values.spring }}
-  {{- toYaml .Values.spring | nindent 2 }}
+  {{- if .Values.backend.spring }}
+  {{- toYaml .Values.backend.spring | nindent 2 }}
   {{- end }}
 redis:
   datasource:

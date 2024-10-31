@@ -31,11 +31,11 @@ mgb.sh 首先在你的机器上使用 `docker run` 运行一个 MySQL 实例，�
 3. 拉取 Helm 配置中声明的依赖 charts，目前依赖了 bitnami/mysql 和 bitnami/redis。
 
 ### 安装、升级和卸载应用程序
-你可以分别使用 [install.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/install.sh)、[upgrade.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/upgrade.sh)、[uninstall.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/uninstall.sh) 来安装、升级、卸载你的应用及其依赖（MySQL & Redis）。注意，诸如数据库 URL、密码等信息，会通过安装时生成的一个 Spring 配置文件（application-private.yml） 以 Secret 资源的方式挂载到容器，并被 Spring-boot 应用加载。具体内容可以参考 [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/_spring.tpl) 和 [deployment.yaml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/deployment.yaml)。
+你可以分别使用 [install.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/install.sh)、[upgrade.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/upgrade.sh)、[uninstall.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/uninstall.sh) 来安装、升级、卸载你的应用及其依赖（MySQL & Redis）。注意，诸如数据库 URL、密码等信息，会通过安装时生成的一个 Spring 配置文件（application-private.yml） 以 Secret 资源的方式挂载到容器，并被 Spring-boot 应用加载。具体内容可以参考 [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/backend/_spring.tpl) 和 [deployment.yaml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/backend/deployment.yaml)。
 
 ### 调试应用程序
 #### 本地调试
-默认情况下，awesome-app 使用 helm 中的部分配置来生成运行时需要的 Spring 配置，尽量避免同一个参数在多个地方、多种系统里维护（比如 MySQL URL）。具体的渲染模版请参考 [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/_spring.tpl)。渲染结果会以名为“awesome-app-spring-properties”的 Secret 资源被应用程序访问，对应的键/文件名是“application-private.yml”。
+默认情况下，awesome-app 使用 helm 中的部分配置来生成运行时需要的 Spring 配置，尽量避免同一个参数在多个地方、多种系统里维护（比如 MySQL URL）。具体的渲染模版请参考 [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/backend/_spring.tpl)。渲染结果会以名为“awesome-app-spring-properties”的 Secret 资源被应用程序访问，对应的键/文件名是“application-private.yml”。
 
 如果想要进行本地调试，一般不会运行 helm 渲染，并且，许多服务的连接地址通常也不是 k8s 中自动部署的服务地址。你需要自行解决依赖服务（如 MySQL、Redis）的问题，并根据实际情况，手工维护一份 [application-local.yml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/resources/application-local.yml)，再在 IDE 的调试选项中加载它，就可以正常调试你的应用了。
 > [local-deps.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/scripts/local-deps.sh) 可以帮助你运行/停止一个本地 MySQL 和 Redis，希望能有助于你的调试。
@@ -155,8 +155,7 @@ ac11000216560387254571001d0093|-|c.a.t.e.c.c.TestComponent::login|S|19|Alice,*|t
 当然，从运维的角度，也许您更希望购买有 SLA(Service Level Agreement) 保障的云服务，那么只需要设置 [Helm 配置](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/values.yaml)参数为
 ```yaml
 mysql:
-  deployment:
-    enabled: false
+  enabled: false
   url: <your mysql url>
   auth:
     rootPassword: <your mysql root password>
@@ -164,8 +163,7 @@ mysql:
     password: <your mysql password for the username>
 
 redis:
-  deployment:
-    enabled: false
+  enabled: false
   url: <your redis url>
   auth:
     password: <your redis password>

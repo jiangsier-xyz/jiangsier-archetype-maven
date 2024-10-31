@@ -2,20 +2,22 @@ annotations:
   licenses: Apache-2.0
   group: xyz.jiangsier
 apiVersion: v1
-appVersion: 0.0.1-SNAPSHOT
+appVersion: latest
 dependencies:
-  - condition: mysql.deployment.enabled
+  - condition: mysql.enabled
     name: mysql
     repository: https://charts.bitnami.com/bitnami
     tags:
+      - backend
       - mysql
       - sql
       - database
     version: 11.x.x
-  - condition: redis.deployment.enabled
+  - condition: redis.enabled
     name: redis
     repository: https://charts.bitnami.com/bitnami
     tags:
+      - backend
       - redis
       - keyvalue
       - database

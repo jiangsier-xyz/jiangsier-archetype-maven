@@ -31,11 +31,11 @@ You can use [build.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-mave
 3. Pull the dependent charts declared in the Helm configuration, currently relying on bitnami/mysql and bitnami/redis.
 
 ### Install, upgrade and uninstall the application
-You can use [install.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/install.sh), [upgrade.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/upgrade.sh), [uninstall.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/uninstall.sh) to install, upgrade, uninstall your application and Its dependencies (MySQL & Redis). Note that information such as database URL, password, etc. will be mounted to the container as a Secret resource through a Spring configuration file (application-private.yml) generated during installation, and loaded by the Spring-boot application. For details, please refer to [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/_spring.tpl) and [deployment.yaml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/deployment.yaml).
+You can use [install.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/install.sh), [upgrade.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/upgrade.sh), [uninstall.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/bin/uninstall.sh) to install, upgrade, uninstall your application and Its dependencies (MySQL & Redis). Note that information such as database URL, password, etc. will be mounted to the container as a Secret resource through a Spring configuration file (application-private.yml) generated during installation, and loaded by the Spring-boot application. For details, please refer to [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/backend/_spring.tpl) and [deployment.yaml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/backend/deployment.yaml).
 
 ### Debugging the application
 #### Local debugging
-By default, awesome-app uses part of the configuration in helm to generate the Spring configuration needed at runtime, and try to avoid maintaining same parameters in multiple places and systems (such as MySQL URL). The rendering template is [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/_spring.tpl). The rendering result will be accessed by the application as a Secret resource named "awesome-app-spring-properties", and the corresponding key/file name is "application-private.yml".
+By default, awesome-app uses part of the configuration in helm to generate the Spring configuration needed at runtime, and try to avoid maintaining same parameters in multiple places and systems (such as MySQL URL). The rendering template is [_spring.tpl](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/templates/backend/_spring.tpl). The rendering result will be accessed by the application as a Secret resource named "awesome-app-spring-properties", and the corresponding key/file name is "application-private.yml".
 
 If you want to debug locally, you generally don't run helm rendering, and the connection addresses of many services are usually not the service addresses automatically deployed in k8s. You need to solve the problem of dependent services (such as MySQL, Redis) by yourself, and manually maintain an [application-local.yml](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/__rootArtifactId__-start/src/main/resources/application-local.yml), and load it in the debug option of the IDE, then you can debug your application normally.
 > [local-deps.sh](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/scripts/local-deps.sh) can help you run/stop a local MySQL and Redis, hope they can help your debugging.
@@ -155,8 +155,7 @@ As a cloud-native application, the services that awesome-app depends on are all 
 But, from the perspective of operation and maintenance, you may prefer to purchase cloud services guaranteed by SLA (Service Level Agreement), then you only need to set [Helm Configurations](https://github.com/jiangsier-xyz/jiangsier-archetype-maven/blob/main/src/main/resources/archetype-resources/configs/helm/values.yaml) parameters as
 ```yaml
 mysql:
-  deployment:
-    enabled: false
+   enabled: false
    url: <your mysql url>
    auth:
      rootPassword: <your mysql root password>
@@ -164,8 +163,7 @@ mysql:
      password: <your mysql password for the username>
 
 redis:
-  deployment:
-    enabled: false
+   enabled: false
    url: <your redis url>
    auth:
      password: <your redis password>

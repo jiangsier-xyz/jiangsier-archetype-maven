@@ -23,14 +23,14 @@ services:
       dockerfile: Dockerfile
       args:
         - APP_NAME=${PROJECT_NAME}
-        - UNAME=${HELM_systemAccount:-admin}
-        - UID=${HELM_securityContext_runAsUser:-2024}
-        - GID=${HELM_securityContext_runAsGroup:-2024}
+        - UNAME=${HELM_backend_systemAccount:-admin}
+        - UID=${HELM_backend_securityContext_runAsUser:-2024}
+        - GID=${HELM_backend_securityContext_runAsGroup:-2024}
       tags:
-        - ${HELM_image_repository}:${VERSION}
+        - ${HELM_backend_image_repository}:${VERSION}
       platforms:
         - linux/amd64
-    image: ${HELM_image_repository}:latest
+    image: ${HELM_backend_image_repository}:latest
 EOF
 
 if [[ "${VERBOSE}" == "1" ]];then
