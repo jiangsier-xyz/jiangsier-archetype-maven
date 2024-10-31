@@ -24,8 +24,8 @@ services:
       args:
         - APP_NAME=${PROJECT_NAME}
         - UNAME=${HELM_backend_systemAccount:-admin}
-        - UID=${HELM_backend_securityContext_runAsUser:-2024}
-        - GID=${HELM_backend_securityContext_runAsGroup:-2024}
+        - UID=${HELM_backend_securityContext_runAsUser:-10000}
+        - GID=${HELM_backend_securityContext_runAsGroup:-10000}
       tags:
         - ${HELM_backend_image_repository}:${VERSION}
       platforms:

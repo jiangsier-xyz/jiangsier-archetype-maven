@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "helpers.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
+  {{- if not .Values.backend.autoscaling.enabled }}
   replicas: {{ .Values.backend.replicaCount }}
   {{- end }}
   selector:

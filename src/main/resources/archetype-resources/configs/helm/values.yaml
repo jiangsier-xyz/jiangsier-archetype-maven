@@ -20,6 +20,8 @@ backend:
         scope: openid,profile,email
         clientId: ''
         clientSecret: ''
+  autoscaling:
+    enabled: false
   debug:
     jpda:
       enabled: false
@@ -47,15 +49,19 @@ backend:
             pathType: Prefix
     tls:
       enabled: true
+  pdb:
+    create: true
+    minAvailable: ''
+    maxUnavailable: ''
+  podSecurityContext:
+    fsGroup: 10000
   replicaCount: 2
   resources:
     limits: {}
     requests: {}
-  podSecurityContext:
-    fsGroup: 2024
   securityContext:
-    runAsUser: 2024
-    runAsGroup: 2024
+    runAsUser: 10000
+    runAsGroup: 10000
   service:
     ports:
       http: 80
@@ -67,8 +73,6 @@ backend:
       pullPolicy: IfNotPresent
       repository: busybox
       tag: 'latest'
-autoscaling:
-  enabled: false
 cert:
   manager:
     namespace: cert-manager
@@ -84,10 +88,6 @@ mysql:
 redis:
   enabled: true
   url: 'redis://jiangsier-archetype-demo-redis-master:6379'
-pdb:
-  create: true
-  minAvailable: ''
-  maxUnavailable: ''
 persistence:
   enabled: false
   accessModes: [ ReadWriteOnce ]
