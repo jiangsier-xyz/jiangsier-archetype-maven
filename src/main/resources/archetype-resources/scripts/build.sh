@@ -3,7 +3,6 @@
 source $(dirname ${BASH_SOURCE[0]})/setenv.sh
 
 check_docker
-check_helm
 
 COMPOSE_CONFIG=$(mktemp -d)/build.yml
 
@@ -39,6 +38,5 @@ if [[ "${VERBOSE}" == "1" ]];then
 fi
 
 docker compose -f ${COMPOSE_CONFIG} -p ${PROJECT_NAME} build --push ${PROJECT_NAME}
-helm dependency update ${HELM_CONFIG_HOME}
 
 rm -f ${DOCKER_CONFIG_HOME}/${PROJECT_NAME}.jar
