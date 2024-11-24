@@ -7,21 +7,21 @@ dependencies:
   - condition: mysql.enabled
     name: mysql
     repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
     tags:
       - backend
       - mysql
       - sql
       - database
-    version: 11.x.x
   - condition: redis.enabled
     name: redis
     repository: https://charts.bitnami.com/bitnami
+    version: 19.x.x
     tags:
       - backend
       - redis
       - keyvalue
       - database
-    version: 19.x.x
 description: A Helm chart for jiangsier-archetype-demo
 maintainers:
 - email: leiyi.jp@gmail.com
