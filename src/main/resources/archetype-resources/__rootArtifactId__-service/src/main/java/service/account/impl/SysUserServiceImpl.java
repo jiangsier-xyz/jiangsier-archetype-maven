@@ -9,13 +9,12 @@ import ${package}.model.User;
 import ${package}.service.account.SysUserService;
 import ${package}.service.cache.MiddlePeriodCache;
 import ${package}.service.cache.MiddlePeriodCacheEvict;
+import ${package}.util.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
@@ -34,7 +33,7 @@ public class SysUserServiceImpl implements SysUserService {
         int rows = userMapper.insertSelective(user
                 .withGmtCreate(now)
                 .withGmtModified(now)
-                .withUserId(UUID.randomUUID().toString().replaceAll("-", "")));
+                .withUserId(IdUtils.newId());
 
         if (rows == 0) {
             user.withUserId(null)
