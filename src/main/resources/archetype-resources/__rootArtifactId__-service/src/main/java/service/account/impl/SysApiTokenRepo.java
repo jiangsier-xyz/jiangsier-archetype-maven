@@ -22,8 +22,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.*;
 @Component
 @SuppressWarnings("unused")
 public class SysApiTokenRepo {
-    final static String TOKEN_CACHE_KEY = "'SysApiTokenRepo_token_' + ${symbol_pound}p0";
-    final static String USER_CACHE_KEY = "'SysApiTokenRepo_user_' + ${symbol_pound}p0";
+    static final String TOKEN_CACHE_KEY = "'SysApiTokenRepo_token_' + ${symbol_pound}p0";
+    static final String USER_CACHE_KEY = "'SysApiTokenRepo_user_' + ${symbol_pound}p0";
 
     @Autowired
     private ApiTokenMapper apiTokenMapper;

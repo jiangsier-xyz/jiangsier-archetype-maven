@@ -21,8 +21,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 @Service
 @SuppressWarnings("unused")
 public class SysUserServiceImpl implements SysUserService {
-    private final static String CACHE_KEY = "'SysUserServiceImpl_' + ${symbol_pound}p0";
-    private final static String CACHE_KEY_FROM_USER = CACHE_KEY + ".username";
+    private static final String CACHE_KEY = "'SysUserServiceImpl_' + ${symbol_pound}p0";
+    private static final String CACHE_KEY_FROM_USER = CACHE_KEY + ".username";
 
     @Autowired
     private UserMapper userMapper;
