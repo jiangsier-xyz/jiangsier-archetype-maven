@@ -1,5 +1,5 @@
 ## What is jiangsier-archetype-maven
-jiangsier-archetype-maven is an archetype project used to reduce non-business-related development time in the process of application creation.
+jiangsier-archetype-maven is a scaffolding project that helps build enterprise-level Java systems. It pre-integrates multiple distributed frameworks. Using jiangsier-archetype-maven, you can quickly generate the basic engineering structure of large-scale Java applications and a large amount of reusable code, effectively reducing non-business-related development time during application creation.
 
 ## Why do jiangsier-archetype-maven
 Modern frameworks, such as Spring Boot, have greatly reduced the non-business-related development workload in the application creation process. But as a "framework", they need to take into account flexibility and scalability, which brings a lot of complex configuration work. Some configuration items are difficult to understand, and you even have to read the source code of the framework project to set them correctly.
