@@ -17,20 +17,24 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!--dependency versions-->
-    <spring-boot.version>3.3.6</spring-boot.version>
+    <spring-boot.version>3.4.0</spring-boot.version>
     <springdoc.version>2.7.0</springdoc.version>
+    <lombok.version>1.18.36</lombok.version>
     <mybatis.version>3.5.15</mybatis.version>
     <mybatis-dynamic-sql.version>1.5.2</mybatis-dynamic-sql.version>
     <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
     <commons-collections4.version>4.4</commons-collections4.version>
     <commons-io.version>2.15.1</commons-io.version>
     <commons-lang3.version>3.14.0</commons-lang3.version>
-    <redisson.version>3.39.0</redisson.version>
+    <redisson.version>3.40.1</redisson.version>
     <objenesis.version>3.3</objenesis.version>
 
     <!--plugin versions-->
     <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+    <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+    <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+    <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
     <mybatis-generator-maven-plugin.version>1.4.2</mybatis-generator-maven-plugin.version>
   </properties>
 
@@ -98,8 +102,8 @@
 
       <dependency>
         <groupId>org.redisson</groupId>
-        <!-- for Spring Data Redis v3.3.x -->
-        <artifactId>redisson-spring-data-33</artifactId>
+        <!-- for Spring Data Redis v3.4.x -->
+        <artifactId>redisson-spring-data-34</artifactId>
         <version>${redisson.version}</version>
       </dependency>
 
@@ -156,15 +160,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <compilerArgs>
-              <arg>-parameters</arg>
-            </compilerArgs>
-          </configuration>
-        </plugin>
-
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>${maven-antrun-plugin.version}</version>
@@ -189,6 +184,57 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration combine.children="append">
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+          <compilerArgs>
+            <arg>-parameters</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration combine.children="append">
+          <systemPropertyVariables>
+            <tinylog.level>info</tinylog.level>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!-- failsafe will be in charge of running the integration tests (everything that ends in IT) -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven-failsafe-plugin.version}</version>
+        <configuration combine.children="append">
+          <systemPropertyVariables>
+            <tinylog.level>info</tinylog.level>
+          </systemPropertyVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
 </project>

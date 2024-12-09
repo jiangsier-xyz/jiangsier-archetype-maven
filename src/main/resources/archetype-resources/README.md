@@ -58,7 +58,7 @@ The cache configuration is in [cache-config.yml](${scmUrl}/blob/main/${artifactI
 ${symbol_pound}${symbol_pound}${symbol_pound} Distributed Session
 ${artifactId} implements Spring Session based on Redisson, and sets the Session expiration time to one hour, refer to [RedissonSessionConfig.java](${scmUrl}/blob/main/${artifactId}-start/src/main/java/${packageDir}/config/RedissonCacheConfig.java). As long as a server in the cluster has a Session set, the entire cluster will know.
 
-Note that the implementation of RedissonConnectionFactory is related to the version of spring-session-data-redis. The second-party package currently used is redisson-spring-data-33 (because spring-session-data-redis uses 3.3.x). For specific correspondence, see [GitHub](https://github.com/redisson/redisson/tree/master/redisson-spring-data${symbol_pound}usage).
+Note that the implementation of RedissonConnectionFactory is related to the version of spring-session-data-redis. The second-party package currently used is redisson-spring-data-34 (because spring-session-data-redis uses 3.3.x). For specific correspondence, see [GitHub](https://github.com/redisson/redisson/tree/master/redisson-spring-data${symbol_pound}usage).
 
 ${symbol_pound}${symbol_pound}${symbol_pound} Distributed Scheduling
 TODO
