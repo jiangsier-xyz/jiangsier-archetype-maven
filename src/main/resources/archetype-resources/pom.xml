@@ -20,7 +20,7 @@
     <spring-boot.version>3.3.6</spring-boot.version>
     <springdoc.version>2.7.0</springdoc.version>
     <mybatis.version>3.5.15</mybatis.version>
-    <mybatis-dynamic-sql.version>1.5.0</mybatis-dynamic-sql.version>
+    <mybatis-dynamic-sql.version>1.5.2</mybatis-dynamic-sql.version>
     <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
     <commons-collections4.version>4.4</commons-collections4.version>
     <commons-io.version>2.15.1</commons-io.version>
@@ -29,7 +29,7 @@
     <objenesis.version>3.3</objenesis.version>
 
     <!--plugin versions-->
-    <buildnumber-maven-plugin.version>3.2.0</buildnumber-maven-plugin.version>
+    <buildnumber-maven-plugin.version>3.2.1</buildnumber-maven-plugin.version>
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
     <mybatis-generator-maven-plugin.version>1.4.2</mybatis-generator-maven-plugin.version>
   </properties>
