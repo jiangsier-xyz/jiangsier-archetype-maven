@@ -22,7 +22,7 @@ ${symbol_pound}${symbol_pound}${symbol_pound} Debugging the application
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} Local debugging
 By default, ${artifactId} uses part of the configuration in helm to generate the Spring configuration needed at runtime, and try to avoid maintaining same parameters in multiple places and systems (such as MySQL URL). The rendering template is [_spring.tpl](${scmUrl}/blob/main/configs/helm/templates/backend/\_spring.tpl). The rendering result will be accessed by the application as a Secret resource named "${artifactId}-spring-properties", and the corresponding key/file name is "application-private.yml".
 
-If you want to debug locally, you generally don't run helm rendering, and the connection addresses of many services are usually not the service addresses automatically deployed in k8s. You need to solve the problem of dependent services (such as MySQL, Redis) by yourself, and manually maintain an [application-local.yml](${scmUrl}/blob/main/${artifactId}-start/src/main/resources/application-local.yml), and load it in the debug option of the IDE, then you can debug your application normally.
+If you want to debug locally, you generally don't run helm rendering, and the connection addresses of many services are usually not the service addresses automatically deployed in k8s. You need to solve the problem of dependent services (such as MySQL, Redis) by yourself.
 > [local-deps.sh](${scmUrl}/blob/main/scripts/local-deps.sh) can help you run/stop a local MySQL and Redis, hope they can help your debugging.
 
 ${symbol_pound}${symbol_pound}${symbol_pound}${symbol_pound} Remote debugging

@@ -25,9 +25,14 @@ cache:
 redis:
   mode: single
   datasource:
+    url: redis://localhost:6379
+    password: hello1234
     timeout: 10000
 spring:
   datasource:
+    url: jdbc:mysql://localhost:3306/accounts?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: hello1234
     driverClassName: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
@@ -40,6 +45,10 @@ spring:
             tokenUri: https://oauth.aliyun.com/v1/token
             userInfoUri: https://oauth.aliyun.com/v1/userinfo
             userNameAttribute: sub
+        registration:
+          github:
+            clientId: 'fakeId'
+            clientSecret: 'fakeSecret'
 springdoc:
   apiDocs:
     path: /public/openapi/v3/api-docs
