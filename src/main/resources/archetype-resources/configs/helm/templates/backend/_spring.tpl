@@ -1,4 +1,4 @@
-{{- define "application-private.yml" -}}
+{{- define "application-online.yml" -}}
 spring:
   datasource:
     {{- with .Values.mysql }}
