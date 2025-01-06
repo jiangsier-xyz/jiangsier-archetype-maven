@@ -49,6 +49,14 @@ spring:
           github:
             clientId: 'fakeId'
             clientSecret: 'fakeSecret'
+  task:
+    execution:
+      threadNamePrefix: default-task-
+      pool:
+        queueCapacity: 256
+        keepAlive: 60s
+        coreSize: 2
+        maxSize: 16
 springdoc:
   apiDocs:
     path: /public/openapi/v3/api-docs
