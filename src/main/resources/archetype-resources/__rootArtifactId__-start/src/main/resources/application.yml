@@ -15,7 +15,7 @@ auth:
     adminUri: /admin/**,/api/admin/**
     apiUri: /api/**
     privateUri: /private/**
-    publicUri: /public/**,/css/**,/js/**,/logo/**,/favicon.ico
+    publicUri: /public/**,/api/public/**,/css/**,/js/**,/logo/**,/favicon.ico
   token:
     maxCountPerUser: 5
     prefix: JSRAPI
