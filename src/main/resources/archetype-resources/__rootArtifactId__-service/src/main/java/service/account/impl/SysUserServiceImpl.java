@@ -33,7 +33,7 @@ public class SysUserServiceImpl implements SysUserService {
         int rows = userMapper.insertSelective(user
                 .withGmtCreate(now)
                 .withGmtModified(now)
-                .withUserId(IdUtils.newId());
+                .withUserId(IdUtils.newId()));
 
         if (rows == 0) {
             user.withUserId(null)

@@ -52,7 +52,6 @@ public class RedissonClientConfig {
                 UnmodifiableCollectionsSerializer.registerSerializers(kryo);
                 return kryo;
             }
-            }
         };
     }
 }
