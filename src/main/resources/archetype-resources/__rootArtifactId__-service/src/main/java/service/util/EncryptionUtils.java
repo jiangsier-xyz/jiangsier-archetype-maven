@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 @Slf4j
+@SuppressWarnings("unused")
 public class EncryptionUtils {
     private final Cipher encryptCipher;
     private final Cipher decryptCipher;
