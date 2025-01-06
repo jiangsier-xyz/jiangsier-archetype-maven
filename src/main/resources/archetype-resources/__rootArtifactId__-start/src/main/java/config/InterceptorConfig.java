@@ -11,8 +11,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ${package}.access.trace.TraceInterceptor;
 
-import java.util.Objects;
-
 @Configuration
 @SuppressWarnings("unused")
 public class InterceptorConfig implements WebMvcConfigurer {
