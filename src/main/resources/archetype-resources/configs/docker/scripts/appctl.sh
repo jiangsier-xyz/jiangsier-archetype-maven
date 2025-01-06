@@ -49,7 +49,7 @@ check_start() {
   local time=600
   while true
   do
-    curl -sf "http://localhost:${SERVER_PORT:-8080}/public/check/ready" &>/dev/null
+    curl -sf "http://localhost:${SERVER_PORT}/public/check/ready" &>/dev/null
     ret=$?
     if [ $ret -ne 0 ]; then
       sleep 1
