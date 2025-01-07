@@ -93,12 +93,7 @@ public class AppMetaUtils {
 
     public static String getRunningEnv() {
         String activeProfile = System.getProperty("spring.profiles.active");
-        if (StringUtils.isNotBlank(activeProfile)) {
-            return activeProfile;
-        }
-
-        String envUrl = "http://jmenv.tbsite.net:8080/env";
-        return Optional.ofNullable(HttpUtils.get(envUrl)).map(String::trim).orElse("daily");
+        return StringUtils.isNotBlank(activeProfile) ? activeProfile : "testing";
 
     }
 
