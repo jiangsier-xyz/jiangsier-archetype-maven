@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
+@SuppressWarnings("unused")
 public class AuthUtils implements ApplicationContextAware {
     private static SysUserService userService;
 
@@ -36,8 +37,8 @@ public class AuthUtils implements ApplicationContextAware {
         }
         Object principal = authenticated.getPrincipal();
         User user = null;
-        if (principal instanceof User) {
-            user = (User) principal;
+        if (principal instanceof User sysUser) {
+            user = sysUser;
         } else if (principal instanceof String userName) {
             user = userService.loadUserByUsername(userName);
         }
