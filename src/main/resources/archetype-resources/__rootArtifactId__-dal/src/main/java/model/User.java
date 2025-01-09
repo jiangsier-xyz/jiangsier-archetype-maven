@@ -12,6 +12,9 @@ public class User implements Serializable {
     private String userId;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    private Long id;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Date gmtCreate;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -40,9 +43,6 @@ public class User implements Serializable {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String profile;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private String picture;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String website;
@@ -90,6 +90,9 @@ public class User implements Serializable {
     private Date passwordExpiresAt;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    private String picture;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String address;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -109,6 +112,22 @@ public class User implements Serializable {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public Long getId() {
+        return id;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public User withId(Long id) {
+        this.setId(id);
+        return this;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -269,22 +288,6 @@ public class User implements Serializable {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public void setProfile(String profile) {
         this.profile = profile == null ? null : profile.trim();
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public String getPicture() {
-        return picture;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public User withPicture(String picture) {
-        this.setPicture(picture);
-        return this;
-    }
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public void setPicture(String picture) {
-        this.picture = picture == null ? null : picture.trim();
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -528,6 +531,22 @@ public class User implements Serializable {
     }
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public String getPicture() {
+        return picture;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public User withPicture(String picture) {
+        this.setPicture(picture);
+        return this;
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public void setPicture(String picture) {
+        this.picture = picture == null ? null : picture.trim();
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public String getAddress() {
         return address;
     }
@@ -557,33 +576,32 @@ public class User implements Serializable {
         }
         User other = (User) that;
         return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getGmtCreate() == null ? other.getGmtCreate() == null : this.getGmtCreate().equals(other.getGmtCreate()))
-            && (this.getGmtModified() == null ? other.getGmtModified() == null : this.getGmtModified().equals(other.getGmtModified()))
-            && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getNickname() == null ? other.getNickname() == null : this.getNickname().equals(other.getNickname()))
-            && (this.getGivenName() == null ? other.getGivenName() == null : this.getGivenName().equals(other.getGivenName()))
-            && (this.getMiddleName() == null ? other.getMiddleName() == null : this.getMiddleName().equals(other.getMiddleName()))
-            && (this.getFamilyName() == null ? other.getFamilyName() == null : this.getFamilyName().equals(other.getFamilyName()))
-            && (this.getPreferredUsername() == null ? other.getPreferredUsername() == null : this.getPreferredUsername().equals(other.getPreferredUsername()))
-            && (this.getProfile() == null ? other.getProfile() == null : this.getProfile().equals(other.getProfile()))
-            && (this.getPicture() == null ? other.getPicture() == null : this.getPicture().equals(other.getPicture()))
-            && (this.getWebsite() == null ? other.getWebsite() == null : this.getWebsite().equals(other.getWebsite()))
-            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getEmailVerified() == null ? other.getEmailVerified() == null : this.getEmailVerified().equals(other.getEmailVerified()))
-            && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
-            && (this.getBirthdate() == null ? other.getBirthdate() == null : this.getBirthdate().equals(other.getBirthdate()))
-            && (this.getZoneinfo() == null ? other.getZoneinfo() == null : this.getZoneinfo().equals(other.getZoneinfo()))
-            && (this.getLocale() == null ? other.getLocale() == null : this.getLocale().equals(other.getLocale()))
-            && (this.getPhoneNumber() == null ? other.getPhoneNumber() == null : this.getPhoneNumber().equals(other.getPhoneNumber()))
-            && (this.getPhoneNumberVerified() == null ? other.getPhoneNumberVerified() == null : this.getPhoneNumberVerified().equals(other.getPhoneNumberVerified()))
-            && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()))
-            && (this.getPlatform() == null ? other.getPlatform() == null : this.getPlatform().equals(other.getPlatform()))
-            && (this.getEnabled() == null ? other.getEnabled() == null : this.getEnabled().equals(other.getEnabled()))
-            && (this.getLocked() == null ? other.getLocked() == null : this.getLocked().equals(other.getLocked()))
-            && (this.getExpiresAt() == null ? other.getExpiresAt() == null : this.getExpiresAt().equals(other.getExpiresAt()))
-            && (this.getPasswordExpiresAt() == null ? other.getPasswordExpiresAt() == null : this.getPasswordExpiresAt().equals(other.getPasswordExpiresAt()))
-            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()));
+                && (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+                && (this.getGmtCreate() == null ? other.getGmtCreate() == null : this.getGmtCreate().equals(other.getGmtCreate()))
+                && (this.getGmtModified() == null ? other.getGmtModified() == null : this.getGmtModified().equals(other.getGmtModified()))
+                && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
+                && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
+                && (this.getNickname() == null ? other.getNickname() == null : this.getNickname().equals(other.getNickname()))
+                && (this.getGivenName() == null ? other.getGivenName() == null : this.getGivenName().equals(other.getGivenName()))
+                && (this.getMiddleName() == null ? other.getMiddleName() == null : this.getMiddleName().equals(other.getMiddleName()))
+                && (this.getFamilyName() == null ? other.getFamilyName() == null : this.getFamilyName().equals(other.getFamilyName()))
+                && (this.getPreferredUsername() == null ? other.getPreferredUsername() == null : this.getPreferredUsername().equals(other.getPreferredUsername()))
+                && (this.getProfile() == null ? other.getProfile() == null : this.getProfile().equals(other.getProfile()))
+                && (this.getWebsite() == null ? other.getWebsite() == null : this.getWebsite().equals(other.getWebsite()))
+                && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
+                && (this.getEmailVerified() == null ? other.getEmailVerified() == null : this.getEmailVerified().equals(other.getEmailVerified()))
+                && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
+                && (this.getBirthdate() == null ? other.getBirthdate() == null : this.getBirthdate().equals(other.getBirthdate()))
+                && (this.getZoneinfo() == null ? other.getZoneinfo() == null : this.getZoneinfo().equals(other.getZoneinfo()))
+                && (this.getLocale() == null ? other.getLocale() == null : this.getLocale().equals(other.getLocale()))
+                && (this.getPhoneNumber() == null ? other.getPhoneNumber() == null : this.getPhoneNumber().equals(other.getPhoneNumber()))
+                && (this.getPhoneNumberVerified() == null ? other.getPhoneNumberVerified() == null : this.getPhoneNumberVerified().equals(other.getPhoneNumberVerified()))
+                && (this.getUpdatedAt() == null ? other.getUpdatedAt() == null : this.getUpdatedAt().equals(other.getUpdatedAt()))
+                && (this.getPlatform() == null ? other.getPlatform() == null : this.getPlatform().equals(other.getPlatform()))
+                && (this.getEnabled() == null ? other.getEnabled() == null : this.getEnabled().equals(other.getEnabled()))
+                && (this.getLocked() == null ? other.getLocked() == null : this.getLocked().equals(other.getLocked()))
+                && (this.getExpiresAt() == null ? other.getExpiresAt() == null : this.getExpiresAt().equals(other.getExpiresAt()))
+                && (this.getPasswordExpiresAt() == null ? other.getPasswordExpiresAt() == null : this.getPasswordExpiresAt().equals(other.getPasswordExpiresAt()));
     }
 
     @Override
@@ -592,6 +610,7 @@ public class User implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getGmtCreate() == null) ? 0 : getGmtCreate().hashCode());
         result = prime * result + ((getGmtModified() == null) ? 0 : getGmtModified().hashCode());
         result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
@@ -602,7 +621,6 @@ public class User implements Serializable {
         result = prime * result + ((getFamilyName() == null) ? 0 : getFamilyName().hashCode());
         result = prime * result + ((getPreferredUsername() == null) ? 0 : getPreferredUsername().hashCode());
         result = prime * result + ((getProfile() == null) ? 0 : getProfile().hashCode());
-        result = prime * result + ((getPicture() == null) ? 0 : getPicture().hashCode());
         result = prime * result + ((getWebsite() == null) ? 0 : getWebsite().hashCode());
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getEmailVerified() == null) ? 0 : getEmailVerified().hashCode());
@@ -618,7 +636,6 @@ public class User implements Serializable {
         result = prime * result + ((getLocked() == null) ? 0 : getLocked().hashCode());
         result = prime * result + ((getExpiresAt() == null) ? 0 : getExpiresAt().hashCode());
         result = prime * result + ((getPasswordExpiresAt() == null) ? 0 : getPasswordExpiresAt().hashCode());
-        result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         return result;
     }
 
@@ -630,6 +647,7 @@ public class User implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", userId=").append(userId);
+        sb.append(", id=").append(id);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", username=").append(username);
@@ -640,7 +658,6 @@ public class User implements Serializable {
         sb.append(", familyName=").append(familyName);
         sb.append(", preferredUsername=").append(preferredUsername);
         sb.append(", profile=").append(profile);
-        sb.append(", picture=").append(picture);
         sb.append(", website=").append(website);
         sb.append(", email=").append(email);
         sb.append(", emailVerified=").append(emailVerified);
@@ -656,6 +673,7 @@ public class User implements Serializable {
         sb.append(", locked=").append(locked);
         sb.append(", expiresAt=").append(expiresAt);
         sb.append(", passwordExpiresAt=").append(passwordExpiresAt);
+        sb.append(", picture=").append(picture);
         sb.append(", address=").append(address);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

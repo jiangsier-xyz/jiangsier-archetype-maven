@@ -18,6 +18,9 @@ public final class UserDynamicSqlSupport {
     public static final SqlColumn<String> userId = user.userId;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public static final SqlColumn<Long> id = user.id;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Date> gmtCreate = user.gmtCreate;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
@@ -46,9 +49,6 @@ public final class UserDynamicSqlSupport {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> profile = user.profile;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    public static final SqlColumn<String> picture = user.picture;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> website = user.website;
@@ -96,11 +96,16 @@ public final class UserDynamicSqlSupport {
     public static final SqlColumn<Date> passwordExpiresAt = user.passwordExpiresAt;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public static final SqlColumn<String> picture = user.picture;
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> address = user.address;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final class User extends AliasableSqlTable<User> {
         public final SqlColumn<String> userId = column("user_id", JDBCType.VARCHAR);
+
+        public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
         public final SqlColumn<Date> gmtCreate = column("gmt_create", JDBCType.TIMESTAMP);
 
@@ -121,8 +126,6 @@ public final class UserDynamicSqlSupport {
         public final SqlColumn<String> preferredUsername = column("preferred_username", JDBCType.VARCHAR);
 
         public final SqlColumn<String> profile = column("profile", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> picture = column("picture", JDBCType.VARCHAR);
 
         public final SqlColumn<String> website = column("website", JDBCType.VARCHAR);
 
@@ -153,6 +156,8 @@ public final class UserDynamicSqlSupport {
         public final SqlColumn<Date> expiresAt = column("expires_at", JDBCType.TIMESTAMP);
 
         public final SqlColumn<Date> passwordExpiresAt = column("password_expires_at", JDBCType.TIMESTAMP);
+
+        public final SqlColumn<String> picture = column("picture", JDBCType.LONGVARCHAR);
 
         public final SqlColumn<String> address = column("address", JDBCType.LONGVARCHAR);
 

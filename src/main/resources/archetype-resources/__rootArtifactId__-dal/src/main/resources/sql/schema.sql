@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT EXISTS `accounts` CHARACTER SET utf8mb4;
 USE `accounts`;
 
 CREATE TABLE IF NOT EXISTS `user` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `gmt_create` datetime NOT NULL,
   `gmt_modified` datetime NOT NULL,
   `user_id` varchar(32) NOT NULL COMMENT 'immutable user identifier',
@@ -13,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `family_name` varchar(128) DEFAULT NULL,
   `preferred_username` varchar(128) DEFAULT NULL,
   `profile` varchar(256) DEFAULT NULL,
-  `picture` varchar(512) DEFAULT NULL,
+  `picture` text DEFAULT NULL,
   `website` varchar(256) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   `email_verified` TINYINT NOT NULL DEFAULT 0,
@@ -30,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `locked` tinyint NOT NULL DEFAULT 0,
   `expires_at` datetime DEFAULT NULL,
   `password_expires_at` datetime DEFAULT NULL,
+  KEY `id` (`id`),
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `uk_username` (`username`),
   KEY `idx_user_pass` (`username`,`password`),

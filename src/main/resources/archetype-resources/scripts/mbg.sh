@@ -8,7 +8,7 @@ MODULE_PATH=${PROJECT_PATH}/${PROJECT_NAME}-dal
 RESOURCE_PATH=${MODULE_PATH}/src/main/resources
 
 MYSQL_DRIVER=com.mysql.cj.jdbc.Driver
-MYSQL_TAG=8.3.0
+MYSQL_TAG=latest
 MYSQL_URL="jdbc:mysql://127.0.0.1:3309?useUnicode=true&characterEncoding=utf-8"
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=passwordformgb
@@ -48,7 +48,7 @@ cid=$(docker run --name ${MYSQL_NAME} -d -p 3309:3306 \
   -v ${MYSQL_DATA}/conf.d:/etc/mysql/conf.d \
   -e MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD} \
   --health-cmd='mysqladmin ping --silent' \
-  bitnami/mysql:${MYSQL_TAG} || exit -1)
+  mysql:${MYSQL_TAG} || exit -1)
 
 if [[ -z "${cid}" ]]; then
     echo "Create MySQL failed!"

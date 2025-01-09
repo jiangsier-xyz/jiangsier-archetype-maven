@@ -31,16 +31,18 @@ import static ${package}.mapper.UserDynamicSqlSupport.*;
 @Mapper
 public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, CommonUpdateMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    BasicColumn[] selectList = BasicColumn.columnList(userId, gmtCreate, gmtModified, username, password, nickname, givenName, middleName, familyName, preferredUsername, profile, picture, website, email, emailVerified, gender, birthdate, zoneinfo, locale, phoneNumber, phoneNumberVerified, updatedAt, platform, enabled, locked, expiresAt, passwordExpiresAt, address);
+    BasicColumn[] selectList = BasicColumn.columnList(userId, id, gmtCreate, gmtModified, username, password, nickname, givenName, middleName, familyName, preferredUsername, profile, website, email, emailVerified, gender, birthdate, zoneinfo, locale, phoneNumber, phoneNumberVerified, updatedAt, platform, enabled, locked, expiresAt, passwordExpiresAt, picture, address);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
+    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="row.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<User> insertStatement);
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="UserResult", value = {
         @Result(column="user_id", property="userId", jdbcType=JdbcType.VARCHAR, id=true),
+        @Result(column="id", property="id", jdbcType=JdbcType.BIGINT),
         @Result(column="gmt_create", property="gmtCreate", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="gmt_modified", property="gmtModified", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="username", property="username", jdbcType=JdbcType.VARCHAR),
@@ -51,7 +53,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
         @Result(column="family_name", property="familyName", jdbcType=JdbcType.VARCHAR),
         @Result(column="preferred_username", property="preferredUsername", jdbcType=JdbcType.VARCHAR),
         @Result(column="profile", property="profile", jdbcType=JdbcType.VARCHAR),
-        @Result(column="picture", property="picture", jdbcType=JdbcType.VARCHAR),
         @Result(column="website", property="website", jdbcType=JdbcType.VARCHAR),
         @Result(column="email", property="email", jdbcType=JdbcType.VARCHAR),
         @Result(column="email_verified", property="emailVerified", jdbcType=JdbcType.TINYINT),
@@ -67,6 +68,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
         @Result(column="locked", property="locked", jdbcType=JdbcType.TINYINT),
         @Result(column="expires_at", property="expiresAt", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="password_expires_at", property="passwordExpiresAt", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="picture", property="picture", jdbcType=JdbcType.LONGVARCHAR),
         @Result(column="address", property="address", jdbcType=JdbcType.LONGVARCHAR)
     })
     List<User> selectMany(SelectStatementProvider selectStatement);
@@ -88,7 +90,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int deleteByPrimaryKey(String userId_) {
-        return delete(c -> 
+        return delete(c ->
             c.where(userId, isEqualTo(userId_))
         );
     }
@@ -107,7 +109,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .map(familyName).toProperty("familyName")
             .map(preferredUsername).toProperty("preferredUsername")
             .map(profile).toProperty("profile")
-            .map(picture).toProperty("picture")
             .map(website).toProperty("website")
             .map(email).toProperty("email")
             .map(emailVerified).toProperty("emailVerified")
@@ -123,6 +124,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .map(locked).toProperty("locked")
             .map(expiresAt).toProperty("expiresAt")
             .map(passwordExpiresAt).toProperty("passwordExpiresAt")
+            .map(picture).toProperty("picture")
             .map(address).toProperty("address")
         );
     }
@@ -141,7 +143,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .map(familyName).toPropertyWhenPresent("familyName", row::getFamilyName)
             .map(preferredUsername).toPropertyWhenPresent("preferredUsername", row::getPreferredUsername)
             .map(profile).toPropertyWhenPresent("profile", row::getProfile)
-            .map(picture).toPropertyWhenPresent("picture", row::getPicture)
             .map(website).toPropertyWhenPresent("website", row::getWebsite)
             .map(email).toPropertyWhenPresent("email", row::getEmail)
             .map(emailVerified).toPropertyWhenPresent("emailVerified", row::getEmailVerified)
@@ -157,6 +158,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .map(locked).toPropertyWhenPresent("locked", row::getLocked)
             .map(expiresAt).toPropertyWhenPresent("expiresAt", row::getExpiresAt)
             .map(passwordExpiresAt).toPropertyWhenPresent("passwordExpiresAt", row::getPasswordExpiresAt)
+            .map(picture).toPropertyWhenPresent("picture", row::getPicture)
             .map(address).toPropertyWhenPresent("address", row::getAddress)
         );
     }
@@ -201,7 +203,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
                 .set(familyName).equalTo(row::getFamilyName)
                 .set(preferredUsername).equalTo(row::getPreferredUsername)
                 .set(profile).equalTo(row::getProfile)
-                .set(picture).equalTo(row::getPicture)
                 .set(website).equalTo(row::getWebsite)
                 .set(email).equalTo(row::getEmail)
                 .set(emailVerified).equalTo(row::getEmailVerified)
@@ -217,6 +218,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
                 .set(locked).equalTo(row::getLocked)
                 .set(expiresAt).equalTo(row::getExpiresAt)
                 .set(passwordExpiresAt).equalTo(row::getPasswordExpiresAt)
+                .set(picture).equalTo(row::getPicture)
                 .set(address).equalTo(row::getAddress);
     }
 
@@ -233,7 +235,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
                 .set(familyName).equalToWhenPresent(row::getFamilyName)
                 .set(preferredUsername).equalToWhenPresent(row::getPreferredUsername)
                 .set(profile).equalToWhenPresent(row::getProfile)
-                .set(picture).equalToWhenPresent(row::getPicture)
                 .set(website).equalToWhenPresent(row::getWebsite)
                 .set(email).equalToWhenPresent(row::getEmail)
                 .set(emailVerified).equalToWhenPresent(row::getEmailVerified)
@@ -249,6 +250,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
                 .set(locked).equalToWhenPresent(row::getLocked)
                 .set(expiresAt).equalToWhenPresent(row::getExpiresAt)
                 .set(passwordExpiresAt).equalToWhenPresent(row::getPasswordExpiresAt)
+                .set(picture).equalToWhenPresent(row::getPicture)
                 .set(address).equalToWhenPresent(row::getAddress);
     }
 
@@ -265,7 +267,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .set(familyName).equalTo(row::getFamilyName)
             .set(preferredUsername).equalTo(row::getPreferredUsername)
             .set(profile).equalTo(row::getProfile)
-            .set(picture).equalTo(row::getPicture)
             .set(website).equalTo(row::getWebsite)
             .set(email).equalTo(row::getEmail)
             .set(emailVerified).equalTo(row::getEmailVerified)
@@ -281,6 +282,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .set(locked).equalTo(row::getLocked)
             .set(expiresAt).equalTo(row::getExpiresAt)
             .set(passwordExpiresAt).equalTo(row::getPasswordExpiresAt)
+            .set(picture).equalTo(row::getPicture)
             .set(address).equalTo(row::getAddress)
             .where(userId, isEqualTo(row::getUserId))
         );
@@ -299,7 +301,6 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .set(familyName).equalToWhenPresent(row::getFamilyName)
             .set(preferredUsername).equalToWhenPresent(row::getPreferredUsername)
             .set(profile).equalToWhenPresent(row::getProfile)
-            .set(picture).equalToWhenPresent(row::getPicture)
             .set(website).equalToWhenPresent(row::getWebsite)
             .set(email).equalToWhenPresent(row::getEmail)
             .set(emailVerified).equalToWhenPresent(row::getEmailVerified)
@@ -315,6 +316,7 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
             .set(locked).equalToWhenPresent(row::getLocked)
             .set(expiresAt).equalToWhenPresent(row::getExpiresAt)
             .set(passwordExpiresAt).equalToWhenPresent(row::getPasswordExpiresAt)
+            .set(picture).equalToWhenPresent(row::getPicture)
             .set(address).equalToWhenPresent(row::getAddress)
             .where(userId, isEqualTo(row::getUserId))
         );
