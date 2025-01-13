@@ -66,6 +66,11 @@ public class SecurityConfig {
     @Value("${symbol_dollar}{auth.login.oauth2.baseUri:${symbol_pound}{T(org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter).DEFAULT_AUTHORIZATION_REQUEST_BASE_URI}}")
     private String authorizationRequestBaseUri;
 
+    @Value("${symbol_dollar}{auth.logout.uri}")
+    private String logoutUri;
+    @Value("${symbol_dollar}{auth.logout.successUri}")
+    private String logoutSuccessUri;
+
     private void configPrivatePath(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
         if (ArrayUtils.isNotEmpty(privateUri)) {
             registry.requestMatchers(privateUri).denyAll();
@@ -105,6 +110,12 @@ public class SecurityConfig {
             configApiPath(registry);
             registry.anyRequest().authenticated();
         });
+
+        http.logout(logout ->
+                logout.logoutUrl(logoutUri)
+                        .logoutSuccessUrl(logoutSuccessUri)
+                        .permitAll()
+        );
 
         http.formLogin(portal ->
                 portal.loginPage(loginUri)

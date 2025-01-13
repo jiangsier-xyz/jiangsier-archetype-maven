@@ -11,6 +11,9 @@ auth:
     portal:
       failureUri: /login/portal/failure
       successUri: /login/portal/success
+  logout:
+    uri: /logout
+    successUri: /
   role:
     adminUri: /admin/**,/api/admin/**
     apiUri: /api/**
