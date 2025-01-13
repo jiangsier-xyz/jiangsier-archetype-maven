@@ -22,6 +22,8 @@ auth:
 cache:
   redisson:
     config: classpath:/cache-config.yml
+disk:
+  workdir: ${APP_HOME}/data
 redis:
   mode: single
   datasource:
