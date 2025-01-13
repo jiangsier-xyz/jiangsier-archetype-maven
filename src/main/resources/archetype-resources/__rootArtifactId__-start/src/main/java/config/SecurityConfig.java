@@ -147,17 +147,18 @@ public class SecurityConfig {
         return http.build();
     }
 
+
+    @Bean
+    public PasswordEncoder passwordEncoder(EncryptionService encryptionService) {
+        return new SysUserPasswordEncoder(encryptionService);
+    }
+
     @Bean
     public UserDetailsManager users(SysUserService userService,
                                     SysBindService bindService,
                                     SysAuthorityService authorityService,
                                     PasswordEncoder passwordEncoder) {
         return new SysUserDetailsManager(userService, bindService, authorityService, passwordEncoder);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     private RequestMatcher toRequestMatcher(String[] paths) {
