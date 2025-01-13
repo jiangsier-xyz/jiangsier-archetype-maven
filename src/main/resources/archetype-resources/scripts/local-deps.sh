@@ -6,7 +6,7 @@ check_docker
 
 MODULE_PATH=${PROJECT_PATH}/${PROJECT_NAME}-dal
 RESOURCE_PATH=${MODULE_PATH}/src/main/resources
-SERVICE_NAMES="mysql redis milvus"
+SERVICE_NAMES="mysql redis"
 SERVICES_CONFIG=local-deps.yml
 
 export MYSQL_TAG=latest
@@ -23,16 +23,6 @@ export REDIS_PORT=6379
 export REDIS_HOST_PORT=6379
 export REDIS_VOLUME=${PROJECT_PATH}/local-data/redis
 
-export MILVUS_TAG=latest
-export MILVUS_USERNAME=root
-export MILVUS_PASSWORD=hello1234
-export MILVUS_NAME=${PROJECT_NAME}-milvus
-export MILVUS_PORT=19530
-export MILVUS_HOST_PORT=19530
-export MILVUS_CONTROL_PORT=9091
-export MILVUS_CONTROL_HOST_PORT=9091
-export MILVUS_VOLUME=${PROJECT_PATH}/local-data/milvus
-
 if [[ " ${ARGS[*]} " =~ " --start " ]]; then
   # config mysql
   mkdir -p ${MYSQL_VOLUME}/conf.d
@@ -46,18 +36,6 @@ EOF
 
   mkdir -p ${MYSQL_VOLUME}/docker-entrypoint-initdb.d
   cp -f ${RESOURCE_PATH}/sql/schema.sql ${MYSQL_VOLUME}/docker-entrypoint-initdb.d/initdb-1.sql
-  cp -f ${RESOURCE_PATH}/sql/data.sql ${MYSQL_VOLUME}/docker-entrypoint-initdb.d/initdb-2.sql
-  cp -f ${RESOURCE_PATH}/sql/data-local.sql ${MYSQL_VOLUME}/docker-entrypoint-initdb.d/initdb-3.sql
-
-  # config milvus
-  mkdir -p ${MILVUS_VOLUME}/configs
-  cat << EOF > ${MILVUS_VOLUME}/configs/embedEtcd.yaml
-listen-client-urls: http://0.0.0.0:2379
-advertise-client-urls: http://0.0.0.0:2379
-quota-backend-bytes: 4294967296
-auto-compaction-mode: revision
-auto-compaction-retention: '1000'
-EOF
 
   docker compose -f ${SERVICES_CONFIG} -p ${PROJECT_NAME} up --wait ${SERVICE_NAMES}
 elif [[ " ${ARGS[*]} " =~ " --stop " ]]; then

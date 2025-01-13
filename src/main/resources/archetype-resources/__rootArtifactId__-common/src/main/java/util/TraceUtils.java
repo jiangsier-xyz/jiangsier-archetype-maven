@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class TraceUtils {
     private static final ThreadLocal<String> TRACE_ID = new ThreadLocal<>();
     private static final ThreadLocal<Long> TRACE_TIME = new ThreadLocal<>();
-    private static final ThreadLocal<Map<String, Object>> TRACE_ATTRIBUTES = new ThreadLocal<>();
 
     public static String getTraceId() {
         String traceId = TRACE_ID.get();
@@ -180,8 +179,8 @@ public class TraceUtils {
                     String className = shortenClassName(methodObj.getDeclaringClass().getCanonicalName());
                     String methodName = methodObj.getName();
                     methodInfo = className + "::" + methodName;
-                } else if (method instanceof String) {
-                    methodInfo = (String) method;
+                } else if (method instanceof String label) {
+                    methodInfo = label;
                 }
             }
 

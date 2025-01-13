@@ -81,7 +81,7 @@ done
 
 MODULE_PATH=${PROJECT_PATH}/${PROJECT_NAME}-dal
 RESOURCE_PATH=${MODULE_PATH}/src/main/resources
-SERVICE_NAMES="mysql redis milvus ${PROJECT_NAME}"
+SERVICE_NAMES="mysql redis ${PROJECT_NAME}"
 
 export MYSQL_TAG=latest
 export MYSQL_PASSWORD=hello1234
