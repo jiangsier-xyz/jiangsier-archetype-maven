@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.validation.constraints.NotBlank;
 
-@Controller
+@RestController
 @Tag(name = "account")
 @RequestMapping("/api/account")
 @ResponseBody
@@ -40,7 +40,7 @@ public class AccountApi {
     public UserBasicInfoDTO basic(
             @Schema(description = "Username") @PathVariable("username") @NotBlank String username) {
         User user = userService.loadUserByUsername(username);
-        return CommonUtils.convert(user, UserBasicInfoDTO.class);
+        return UserBasicInfoDTO.from(user);
     }
 
     @Operation(
@@ -49,6 +49,6 @@ public class AccountApi {
     @GetMapping("/details")
     public UserDetailsDTO details() {
         User user = AuthUtils.currentUser();
-        return CommonUtils.convert(user, UserDetailsDTO.class);
+        return UserDetailsDTO.from(user);
     }
 }
