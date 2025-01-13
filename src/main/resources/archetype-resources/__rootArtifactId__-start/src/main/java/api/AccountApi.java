@@ -36,10 +36,15 @@ public class AccountApi {
             summary = "Get basic user information.",
             description = "Return the basic user information of the account, including: username, nickname, picture/avatar link."
     )
-    @GetMapping("/basic/{username}")
+    @GetMapping(value = {"/basic/{username}", "/basic"})
     public UserBasicInfoDTO basic(
             @Schema(description = "Username") @PathVariable("username") @NotBlank String username) {
-        User user = userService.loadUserByUsername(username);
+        User user;
+        if (username.isPresent()) {
+            user = userService.loadUserByUsername(username.get());
+        } else {
+            user = AuthUtils.currentUser();
+        }
         return UserBasicInfoDTO.from(user);
     }
 
@@ -49,6 +54,8 @@ public class AccountApi {
     @GetMapping("/details")
     public UserDetailsDTO details() {
         User user = AuthUtils.currentUser();
+        // reload no-cached object
+        user = userService.loadUserByUsernameAndPlatform(user.getUsername(), user.getPlatform());
         return UserDetailsDTO.from(user);
     }
 }
