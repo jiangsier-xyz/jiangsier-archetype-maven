@@ -111,6 +111,8 @@ public class SecurityConfig {
             registry.anyRequest().authenticated();
         });
 
+        http.userDetailsService(userDetailsManager);
+
         http.logout(logout ->
                 logout.logoutUrl(logoutUri)
                         .logoutSuccessUrl(logoutSuccessUri)
@@ -152,8 +154,6 @@ public class SecurityConfig {
                     apiAuthenticationFilter(apiTokenAuthenticationProvider), UsernamePasswordAuthenticationFilter.class);
             http.csrf(csrfConf -> csrfConf.ignoringRequestMatchers(apiUri));
         }
-
-        http.userDetailsService(userDetailsManager);
 
         return http.build();
     }

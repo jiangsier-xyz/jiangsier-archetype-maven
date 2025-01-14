@@ -7,7 +7,9 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.map.LinkedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import ${package}.service.config.RuntimeConfig;
 import ${package}.util.YamlUtils;
 
+/**
+ * This configuration is in YAML format and can be used to override spring properties.
+ */
 @Component("applicationConfig")
 @Slf4j
 @SuppressWarnings("unused")
@@ -31,6 +36,8 @@ public class ConfigMapApplicationConfig implements RuntimeConfig {
 
     @Value("${symbol_dollar}{configmap.workdir}")
     private String workdir;
+    @Autowired
+    private Environment environment;
     private final AtomicLong configModifiedTime = new AtomicLong(0L);
     private final AtomicReference<String> configText = new AtomicReference<>("");
     private final AtomicReference<Properties> configProperties =
@@ -46,7 +53,7 @@ public class ConfigMapApplicationConfig implements RuntimeConfig {
     }
 
     @Override
-    public String get() {
+    public String String getContent() {
         return configText.get();
     }
 
@@ -67,6 +74,12 @@ public class ConfigMapApplicationConfig implements RuntimeConfig {
             return null;
         }
         return YamlUtils.toObject(text);
+    }
+
+    @Override
+    public String get(String key) {
+        // Prioritize fetching from the config map; if it does not exist, return the spring property.
+        return configProperties.get().getProperty(key, environment.getProperty(key));
     }
 
     @Scheduled(fixedDelay = 5000L)
