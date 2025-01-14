@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,7 +27,7 @@ import ${package}.util.YamlUtils;
 /**
  * This configuration is in YAML format and can be used to override spring properties.
  */
-@Component("applicationConfig")
+@Service("applicationConfig")
 @Slf4j
 @SuppressWarnings("unused")
 public class ConfigMapApplicationConfig implements RuntimeConfig {
