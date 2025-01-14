@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.exception;
+package ${package}.service.exception;
 
 @SuppressWarnings("unused")
 public class BadRequestException extends RuntimeException {

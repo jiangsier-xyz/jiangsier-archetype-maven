@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.servlet.HandlerInterceptor;
-import ${package}.exception.BadRequestException;
+import ${package}.service.exception.BadRequestException;
 import ${package}.util.TraceUtils;
 
 import java.security.Principal;

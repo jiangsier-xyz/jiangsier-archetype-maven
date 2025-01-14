@@ -22,7 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ${package}.annotation.Secret;
 import ${package}.annotation.Trace;
-import ${package}.exception.BadRequestException;
+import ${package}.service.exception.BadRequestException;
 import ${package}.util.SpELUtils;
 import ${package}.util.TraceUtils;
 
