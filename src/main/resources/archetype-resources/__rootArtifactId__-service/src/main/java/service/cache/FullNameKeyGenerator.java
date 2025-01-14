@@ -3,6 +3,8 @@
 #set( $symbol_escape = '\' )
 package ${package}.service.cache;
 
+import jakarta.annotation.Nullable;
+import lombok.NonNull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +35,7 @@ public class FullNameKeyGenerator implements KeyGenerator {
     private static final String[] LONG_PERIOD_CACHE_NAMES = new String[]{"longPeriod"};
 
     @Override
-    public Object generate(Object target, Method method, Object... params) {
+    public @NonNull Object generate(@NonNull Object target, @NonNull Method method, @Nullable Object... params) {
         Pair<String[], String> cachesKeyExpr = getCachesKeyExpr(method);
         String key = null;
         if (cachesKeyExpr != null && !ObjectUtils.isEmpty(cachesKeyExpr.getRight())) {
@@ -68,7 +70,7 @@ public class FullNameKeyGenerator implements KeyGenerator {
 
     private String generateDefaultKey(Object target, Method method, Object[] params) {
         String key = target.getClass().getName() + "::" + method.getName() + "_";
-        if (params.length > 0) {
+        if (params != null && params.length > 0) {
             key += StringUtils.arrayToDelimitedString(params, "_");
         }
         return key;
