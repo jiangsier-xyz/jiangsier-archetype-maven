@@ -3,12 +3,13 @@
 #set( $symbol_escape = '\' )
 package ${package}.access.trace;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -25,9 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 public class TraceInterceptor implements HandlerInterceptor {
-    private static final Logger logger = LoggerFactory.getLogger(TraceInterceptor.class);
-
     private final List<Class<? extends Exception>> badRequestExceptions = Arrays.asList(
             BadRequestException.class,
             ServletRequestBindingException.class,
@@ -46,9 +46,10 @@ public class TraceInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(@NonNull HttpServletRequest request,
+                             @NonNull HttpServletResponse response,
+                             @Nullable Object handler) {
         TraceUtils.startTrace();
-        TraceUtils.putTraceAttribute("traceId", TraceUtils.getTraceId());
         Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
@@ -95,7 +96,7 @@ public class TraceInterceptor implements HandlerInterceptor {
                 .response(responseCode)
                 .throwable(ex)
                 .elapseTime(elapseTime);
-        logger.trace(builder.build());
+        log.trace(builder.build());
         TraceUtils.endTrace();
     }
 }
