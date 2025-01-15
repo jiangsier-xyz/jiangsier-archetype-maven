@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <archetype-plugin.version>3.3.1</archetype-plugin.version>
-        <spotless-maven-plugin.version>2.44.1</spotless-maven-plugin.version>
+        <spotless-maven-plugin.version>2.44.2</spotless-maven-plugin.version>
     </properties>
 
     <build>
