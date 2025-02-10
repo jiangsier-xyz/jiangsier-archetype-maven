@@ -49,6 +49,13 @@ backend:
             pathType: Prefix
     tls:
       enabled: true
+  persistence:
+    enabled: true
+    accessModes:
+      - ReadWriteOnce
+    annotations:
+      helm.sh/resource-policy: keep
+    size: 8Gi
   pdb:
     create: true
     minAvailable: ''
@@ -88,9 +95,5 @@ mysql:
 redis:
   enabled: true
   url: 'redis://jiangsier-archetype-demo-redis-master:6379'
-persistence:
-  enabled: false
-  accessModes: [ ReadWriteOnce ]
-  storage: 8Gi
 serviceAccount:
   create: true
