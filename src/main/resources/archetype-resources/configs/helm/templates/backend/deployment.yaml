@@ -85,10 +85,10 @@ spec:
               mountPath: /home/{{ .Values.backend.systemAccount }}/{{ include "helpers.name" . }}/config
             - name: config-runtime
               mountPath: /home/{{ .Values.backend.systemAccount }}/{{ include "helpers.name" . }}/config.run
-            - name: persistence
+            - name: storage
               mountPath: /home/{{ .Values.backend.systemAccount }}/{{ include "helpers.name" . }}/logs
               subPath: logs
-            - name: persistence
+            - name: storage
               mountPath: /home/{{ .Values.backend.systemAccount }}/{{ include "helpers.name" . }}/data
               subPath: data
       volumes:
@@ -104,9 +104,14 @@ spec:
             items:
               - key: application-runtime.properties
                 path: application-runtime.properties
-        - name: persistence
+        {{- if .Values.backend.persistence.enabled }}
+        - name: storage
           persistentVolumeClaim:
             claimName: {{ include "helpers.fullname" . }}-pvc
+        {{- else }}
+        - name: storage
+          emptyDir: {}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
