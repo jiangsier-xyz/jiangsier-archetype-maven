@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.servlet.HandlerInterceptor;
-import ${package}.service.exception.BadRequestException;
 import ${package}.util.TraceUtils;
 
 import java.security.Principal;
@@ -29,7 +28,7 @@ import java.util.Optional;
 @Slf4j
 public class TraceInterceptor implements HandlerInterceptor {
     private final List<Class<? extends Exception>> badRequestExceptions = Arrays.asList(
-            BadRequestException.class,
+            IllegalArgumentException.class,
             ServletRequestBindingException.class,
             RequestRejectedException.class,
             AuthenticationException.class,

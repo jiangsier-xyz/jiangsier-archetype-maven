@@ -16,7 +16,7 @@ import ${package}.config.util.UnmodifiableCollectionsSerializer;
 
 @Configuration
 @SuppressWarnings("unused")
-public class RedissonClientConfig {
+public class RedissonConfig {
     @Value("${symbol_dollar}{redis.mode:single}")
     private String mode;
     @Value("${symbol_dollar}{redis.datasource.url}")

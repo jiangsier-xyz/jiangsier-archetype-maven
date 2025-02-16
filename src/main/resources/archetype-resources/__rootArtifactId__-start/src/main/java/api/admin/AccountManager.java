@@ -13,9 +13,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,10 +28,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Controller
+@RestController
 @Tag(name = "account manager (for admin)")
 @RequestMapping("/api/admin")
-@ResponseBody
 @Validated
 @SuppressWarnings("unused")
 public class AccountManager {
@@ -75,7 +76,7 @@ public class AccountManager {
                 : 0;
         return userService.listUsers(limit, offset)
                 .stream()
-                .map(UserBasicInfoDTO::fromUser)
+                .map(UserBasicInfoDTO::from)
                 .toList();
     }
 
@@ -88,7 +89,7 @@ public class AccountManager {
             @Parameter(description = "Username") @PathVariable("username") @NotBlank
             String username) {
         User user = userService.loadUserByUsername(username);
-        return UserDetailsDTO.fromUser(user);
+        return UserDetailsDTO.from(user);
     }
 
     @Operation(
@@ -155,7 +156,7 @@ public class AccountManager {
             Set<String> authorities) {
         User user = userService.loadUserByUsername(username);
         if (user == null) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Failed to find user");
         }
         return authorityService.updateAuthorities(user, authorities);
     }
@@ -222,6 +223,6 @@ public class AccountManager {
     public UserDetailsDTO tokenBy(
             @Parameter(description = "Api token") @PathVariable("token") @NotBlank
             String token) {
-        return UserDetailsDTO.fromUser(apiTokenService.getUser(token));
+        return UserDetailsDTO.from(apiTokenService.getUser(token));
     }
 }

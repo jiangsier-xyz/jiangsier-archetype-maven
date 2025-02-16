@@ -20,7 +20,7 @@ public class UserBasicInfoDTO extends TraceableDTO{
     @Schema(description = "Picture/Atavar")
     private String picture;
 
-    public static UserBasicInfoDTO fromUser(User user) {
+    public static UserBasicInfoDTO from(User user) {
         if (user == null) {
             return null;
         }

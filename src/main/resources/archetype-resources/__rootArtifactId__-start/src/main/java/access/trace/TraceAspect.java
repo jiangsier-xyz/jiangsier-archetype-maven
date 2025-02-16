@@ -22,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ${package}.annotation.Secret;
 import ${package}.annotation.Trace;
-import ${package}.service.exception.BadRequestException;
 import ${package}.util.SpELUtils;
 import ${package}.util.TraceUtils;
 
@@ -53,7 +52,7 @@ public class TraceAspect {
         Method method = methodSignature.getMethod();
         try {
             response = point.proceed();
-        } catch (BadRequestException e) {
+        } catch (IllegalArgumentException e) {
             status = TraceUtils.TraceStatus.BAD_REQUEST;
             throwable = e;
             throw e;

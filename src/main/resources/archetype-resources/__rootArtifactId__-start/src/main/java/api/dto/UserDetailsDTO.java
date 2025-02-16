@@ -38,7 +38,7 @@ public class UserDetailsDTO extends TraceableDTO {
     private Date passwordExpiresAt;
     private String address;
 
-    public static UserDetailsDTO fromUser(User user) {
+    public static UserDetailsDTO from(User user) {
         if (user == null) {
             return null;
         }

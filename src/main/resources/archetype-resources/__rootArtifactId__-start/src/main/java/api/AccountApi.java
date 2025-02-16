@@ -10,7 +10,7 @@ import ${package}.api.util.AuthUtils;
 import ${package}.api.util.CommonUtils;
 import ${package}.model.User;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.validation.constraints.NotBlank;
+import java.util.Optional;
 
 @RestController
 @Tag(name = "account")
@@ -38,7 +38,8 @@ public class AccountApi {
     )
     @GetMapping(value = {"/basic/{username}", "/basic"})
     public UserBasicInfoDTO basic(
-            @Schema(description = "Username") @PathVariable("username") @NotBlank String username) {
+            @Parameter(description = "Username") @PathVariable("username")
+            Optional<String> username) {
         User user;
         if (username.isPresent()) {
             user = userService.loadUserByUsername(username.get());

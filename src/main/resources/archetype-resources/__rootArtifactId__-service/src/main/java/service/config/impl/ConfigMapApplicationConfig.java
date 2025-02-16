@@ -53,7 +53,7 @@ public class ConfigMapApplicationConfig implements RuntimeConfig {
     }
 
     @Override
-    public String String getContent() {
+    public String getContent() {
         return configText.get();
     }
 
