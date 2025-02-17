@@ -59,7 +59,7 @@ public class OpenApiConfig {
 
         openAPI.info(new Info()
                         .title(AppMetaUtils.getName() + " OpenAPI Definition")
-                        .description(AppMetaUtils.getUrl())
+                        .description(getReadmeContent())
                         .version(AppMetaUtils.getVersion()))
                 .addServersItem(new Server().url("/"));
 
