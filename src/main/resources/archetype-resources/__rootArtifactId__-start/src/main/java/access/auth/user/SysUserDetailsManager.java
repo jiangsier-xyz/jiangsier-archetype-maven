@@ -186,8 +186,15 @@ public class SysUserDetailsManager implements UserDetailsManager {
         return username + "@" + platform;
     }
 
-    private String generatePassword() {
-        return UUID.randomUUID().toString();
+    private String getDefaultPassword(OAuth2User oAuth2User, String platform) {
+        return getSub(oAuth2User, platform);
+    }
+
+    public String getPassword(OAuth2User oAuth2User, String platform) {
+        String username = getUsername(oAuth2User, platform);
+        User user = userService.loadUserByUsernameAndPlatform(username, platform);
+        String rawPassword = user != null ? user.getPassword() : getDefaultPassword(oAuth2User, platform);
+        return passwordEncoder.encode(rawPassword);
     }
 
     private String getNickname(OAuth2User oAuth2User, String platform) {
@@ -307,7 +314,7 @@ public class SysUserDetailsManager implements UserDetailsManager {
 
             user = new User()
                     .withUsername(getUsername(oAuth2User, platform))
-                    .withPassword(generatePassword())
+                    .withPassword(getDefaultPassword(oAuth2User, platform))
                     .withNickname(getNickname(oAuth2User, platform))
                     .withGivenName(oAuth2User.getAttribute(StandardClaimNames.GIVEN_NAME))
                     .withMiddleName(oAuth2User.getAttribute(StandardClaimNames.MIDDLE_NAME))
