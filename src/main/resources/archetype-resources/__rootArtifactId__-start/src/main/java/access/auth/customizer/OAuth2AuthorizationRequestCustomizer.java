@@ -24,6 +24,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,7 @@ public class OAuth2AuthorizationRequestCustomizer implements Consumer<OAuth2Auth
     private static final String CACHED_AUTHENTICATION_PREFIX =
             OAuth2AuthorizationRequestCustomizer.class.getName() + "-";
 
-    private static final long CACHED_AUTHENTICATION_TIMEOUT_S = 600;
+    private static final Duration CACHED_AUTHENTICATION_TIMEOUT = Duration.ofMinutes(10);
 
     private static final StringKeyGenerator DEFAULT_STATE_GENERATOR =
             new Base64StringKeyGenerator(Base64.getUrlEncoder());
@@ -88,7 +89,7 @@ public class OAuth2AuthorizationRequestCustomizer implements Consumer<OAuth2Auth
             if (authentication != null && authentication.isAuthenticated()) {
                 String state = DEFAULT_STATE_GENERATOR.generateKey();
                 RBucket<Authentication> bucket = persistentClient.getBucket(CACHED_AUTHENTICATION_PREFIX + state);
-                bucket.set(authentication, CACHED_AUTHENTICATION_TIMEOUT_S, TimeUnit.SECONDS);
+                bucket.set(authentication, CACHED_AUTHENTICATION_TIMEOUT);
                 builder.state(state);
             }
         }
