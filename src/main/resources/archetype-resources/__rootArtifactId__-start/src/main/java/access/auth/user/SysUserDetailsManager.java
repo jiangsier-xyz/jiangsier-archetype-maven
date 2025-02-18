@@ -3,6 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.access.auth.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,10 +36,9 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public class SysUserDetailsManager implements UserDetailsManager {
-    private static final Logger logger = LoggerFactory.getLogger(SysUserDetailsManager.class);
-
     private final SysUserService userService;
     private final SysBindService bindService;
     private final SysAuthorityService authorityService;
@@ -55,7 +55,7 @@ public class SysUserDetailsManager implements UserDetailsManager {
     }
 
     private User mapUser(UserDetails userDetails, User user) {
-        Date now = new Date(System.currentTimeMillis());
+        Date now = new Date();
 
         if (user == null) {
             user = new User();
@@ -265,7 +265,7 @@ public class SysUserDetailsManager implements UserDetailsManager {
             LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ISO_DATE);
             return Date.from(date.atStartOfDay(ZoneId.of(zoneInfo)).toInstant());
         } catch (DateTimeException e) {
-            logger.warn("Wrong date format: {}", dateStr);
+            log.warn("Wrong date format: {}", dateStr);
         }
         return null;
     }
@@ -276,15 +276,13 @@ public class SysUserDetailsManager implements UserDetailsManager {
         }
 
         try {
-            if (timestamp instanceof String timestampStr) {
-                return Date.from(Instant.parse(timestampStr));
-            } else if (timestamp instanceof Long timestampLong) {
-                return new Date(timestampLong);
-            } else {
-                throw new IllegalArgumentException("Unknown timestamp class: " + timestamp.getClass());
-            }
+            return switch (timestamp) {
+                case String timestampStr -> Date.from(Instant.parse(timestampStr));
+                case Long timestampLong -> new Date(timestampLong);
+                default -> throw new IllegalArgumentException("Unknown timestamp class: " + timestamp.getClass());
+            };
         } catch (IllegalArgumentException | DateTimeParseException e) {
-            logger.warn("Unknown timestamp {}", timestamp, e);
+            log.warn("Unknown timestamp {}", timestamp, e);
             return null;
         }
     }

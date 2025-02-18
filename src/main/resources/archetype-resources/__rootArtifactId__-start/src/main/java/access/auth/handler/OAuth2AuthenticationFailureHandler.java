@@ -18,11 +18,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @SuppressWarnings("unused")
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    private static final Logger logger = LoggerFactory.getLogger(OAuth2AuthenticationFailureHandler.class);
-
     private final OAuth2AuthorizationRequestCustomizer oAuth2AuthorizationRequestCustomizer;
 
     public OAuth2AuthenticationFailureHandler(OAuth2AuthorizationRequestCustomizer oAuth2AuthorizationRequestCustomizer) {
@@ -44,7 +44,7 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
             SecurityContextHolder.getContext().setAuthentication(sysAuth);
         }
 
-        logger.warn("Failed to authenticate by oauth2!", exception);
+        log.warn("Failed to authenticate by oauth2!", exception);
         super.onAuthenticationFailure(request, response, exception);
     }
 }
