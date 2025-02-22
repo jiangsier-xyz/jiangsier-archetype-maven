@@ -16,7 +16,7 @@ public class SpELUtils {
     private static final Logger logger = LoggerFactory.getLogger(SpELUtils.class);
 
     public static Map<String, Object> extractInfo(Object target, Method method, Object[] args) {
-        Map<String, Object> info = new HashMap<>(args.length * 3 + 5);
+        Map<String, Object> info = HashMap.newHashMap(args.length * 3 + 5);
 
         info.put("methodName", method.getName());
         info.put("method", method);
