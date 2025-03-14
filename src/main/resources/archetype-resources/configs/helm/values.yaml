@@ -22,6 +22,11 @@ backend:
         clientSecret: ''
   autoscaling:
     enabled: false
+  container:
+    server:
+      port: 8080
+    management:
+      port: 8081
   debug:
     jpda:
       enabled: false
