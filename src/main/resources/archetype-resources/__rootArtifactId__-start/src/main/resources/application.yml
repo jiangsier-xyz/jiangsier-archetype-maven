@@ -8,6 +8,7 @@ auth:
     oauth2:
       failureUri: /login/oauth2/failure
       successUri: /login/oauth2/success
+      targetUrlParameter: redirectUrl
     portal:
       failureUri: /login/portal/failure
       successUri: /login/portal/success

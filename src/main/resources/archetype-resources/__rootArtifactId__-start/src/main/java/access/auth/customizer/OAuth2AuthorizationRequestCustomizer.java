@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
@@ -46,19 +47,11 @@ public class OAuth2AuthorizationRequestCustomizer implements Consumer<OAuth2Auth
     private static final StringKeyGenerator DEFAULT_STATE_GENERATOR =
             new Base64StringKeyGenerator(Base64.getUrlEncoder());
 
+    @Value("${auth.login.oauth2.targetUrlParameter:#{null}}")
+    private String targetUrlParameter;
     @Autowired
     private RedissonClient persistentClient;
-
     private ApplicationContext applicationContext;
-
-    private boolean isBinding() {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        if (requestAttributes instanceof ServletRequestAttributes attributes) {
-            HttpServletRequest request = attributes.getRequest();
-            return "1".equals(request.getParameter(BIND_MODE_PARAMETER_NAME));
-        }
-        return false;
-    }
 
     @Override
     public void accept(OAuth2AuthorizationRequest.Builder builder) {
@@ -78,21 +71,38 @@ public class OAuth2AuthorizationRequestCustomizer implements Consumer<OAuth2Auth
             logger.warn("Failed to find resolver for {}", registrationId, e);
         }
 
-        boolean isBinding = isBinding();
+        boolean isBinding = false;
+        String redirectUrl = null;
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes instanceof ServletRequestAttributes attributes) {
+            HttpServletRequest request = attributes.getRequest();
+            isBinding = "1".equals(request.getParameter(BIND_MODE_PARAMETER_NAME));
+            if (StringUtils.isNotBlank(targetUrlParameter)) {
+                redirectUrl = request.getParameter(targetUrlParameter);
+            }
+        }
 
         if (registrationCustomizer != null) {
             registrationCustomizer.accept(builder, isBinding);
         }
 
+        Authentication authenticated = null;
+
         if (isBinding) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.isAuthenticated()) {
-                String state = DEFAULT_STATE_GENERATOR.generateKey();
-                RBucket<Authentication> bucket = persistentClient.getBucket(CACHED_AUTHENTICATION_PREFIX + state);
-                bucket.set(authentication, CACHED_AUTHENTICATION_TIMEOUT);
-                builder.state(state);
+                authenticated = authentication;
             }
         }
+
+        OAuth2StateValue stateValue = OAuth2StateValue.builder()
+                .authentication(authenticated)
+                .redirectUrl(redirectUrl)
+                .build();
+        String state = DEFAULT_STATE_GENERATOR.generateKey();
+        RBucket<OAuth2StateValue> bucket = persistentClient.getBucket(CACHED_AUTHENTICATION_PREFIX + state);
+        bucket.set(stateValue, CACHED_AUTHENTICATION_TIMEOUT);
+        builder.state(state);
     }
 
     @Override
@@ -100,9 +110,9 @@ public class OAuth2AuthorizationRequestCustomizer implements Consumer<OAuth2Auth
         this.applicationContext = applicationContext;
     }
 
-    public Authentication getAndDeleteCachedAuthentication(String state) {
+    public OAuth2StateValue getAndDeleteStateValue(String state) {
         if (StringUtils.isNotBlank(state)) {
-            RBucket<Authentication> bucket = persistentClient.getBucket(CACHED_AUTHENTICATION_PREFIX + state);
+            RBucket<OAuth2StateValue> bucket = persistentClient.getBucket(CACHED_AUTHENTICATION_PREFIX + state);
             if (bucket.isExists()) {
                 return bucket.getAndDelete();
             }

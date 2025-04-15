@@ -43,8 +43,10 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         String state = request.getParameter(OAuth2ParameterNames.STATE);
-        Authentication sysAuth = StringUtils.isNotBlank(state) ?
-                oAuth2AuthorizationRequestCustomizer.getAndDeleteCachedAuthentication(state) : null;
+        OAuth2StateValue stateValue = StringUtils.isNotBlank(state) ?
+                oAuth2AuthorizationRequestCustomizer.getAndDeleteStateValue(state) : null;
+        Authentication sysAuth = stateValue != null ? stateValue.getAuthentication() : null;
+        String redirectUrl = stateValue != null ? stateValue.getRedirectUrl() : null;
 
         if (authentication instanceof OAuth2AuthenticationToken oAuth2Auth) {
             String clientRegistrationId = oAuth2Auth.getAuthorizedClientRegistrationId();
@@ -66,6 +68,14 @@ public class OAuth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
             SecurityContextHolder.getContext().setAuthentication(sysAuth);
             authentication = sysAuth;
         }
-        super.onAuthenticationSuccess(request, response, authentication);
+
+        if (StringUtils.isNotBlank(redirectUrl)) {
+            String defaultTargetUrl = getDefaultTargetUrl();
+            setDefaultTargetUrl(redirectUrl);
+            super.onAuthenticationSuccess(request, response, authentication);
+            setDefaultTargetUrl(defaultTargetUrl);
+        } else {
+            super.onAuthenticationSuccess(request, response, authentication);
+        }
     }
 }
