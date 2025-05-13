@@ -29,6 +29,9 @@ nbdist/
 configs/helm/**/*.tgz
 configs/helm/**/*.lock
 
+### Generated jar ###
+configs/docker/*.jar
+
 ### Local files ###
 .DS_Store
 **/.DS_Store
