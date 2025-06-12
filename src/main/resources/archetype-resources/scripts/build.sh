@@ -37,6 +37,10 @@ if [[ "${VERBOSE}" == "1" ]];then
   cat ${COMPOSE_CONFIG}
 fi
 
-docker compose -f ${COMPOSE_CONFIG} -p ${PROJECT_NAME} build --push ${PROJECT_NAME}
+if [[ " ${ARGS[*]} " =~ " --push " ]]; then
+  docker-compose -f ${COMPOSE_CONFIG} -p ${WEB_MODULE} build --push ${WEB_MODULE}
+else
+  docker-compose -f ${COMPOSE_CONFIG} -p ${WEB_MODULE} build ${WEB_MODULE}
+fi
 
 rm -f ${DOCKER_CONFIG_HOME}/${PROJECT_NAME}.jar

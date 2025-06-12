@@ -125,12 +125,12 @@ EOF
   cp -f ${RESOURCE_PATH}/sql/data.sql ${MYSQL_VOLUME}/docker-entrypoint-initdb.d/initdb-2.sql
   cp -f ${RESOURCE_PATH}/sql/data-local.sql ${MYSQL_VOLUME}/docker-entrypoint-initdb.d/initdb-3.sql
 
-  docker compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} up -d --wait ${SERVICE_NAMES}
+  docker-compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} up -d --wait ${SERVICE_NAMES}
 elif [[ "${COMMAND}" == "stop" ]]; then
-  docker compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} down
+  docker-compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} down
 elif [[ "${COMMAND}" == "update" ]];then
-  docker compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} pull ${PROJECT_NAME}
-  docker compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} up -d --force-recreate --wait ${PROJECT_NAME}
+  docker-compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} pull ${PROJECT_NAME}
+  docker-compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} up -d --force-recreate --wait ${PROJECT_NAME}
 else
-  docker compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} top
+  docker-compose -f ${DEP_CONFIG} -f ${APP_CONFIG} -p ${PROJECT_NAME} top
 fi

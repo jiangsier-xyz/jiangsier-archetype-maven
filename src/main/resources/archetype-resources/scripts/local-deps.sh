@@ -37,9 +37,9 @@ EOF
   mkdir -p ${MYSQL_VOLUME}/docker-entrypoint-initdb.d
   cp -f ${RESOURCE_PATH}/sql/schema.sql ${MYSQL_VOLUME}/docker-entrypoint-initdb.d/initdb-1.sql
 
-  docker compose -f ${SERVICES_CONFIG} -p ${PROJECT_NAME} up --wait ${SERVICE_NAMES}
+  docker-compose -f ${SERVICES_CONFIG} -p ${PROJECT_NAME} up --wait ${SERVICE_NAMES}
 elif [[ " ${ARGS[*]} " =~ " --stop " ]]; then
-  docker compose -f ${SERVICES_CONFIG} -p ${PROJECT_NAME} down
+  docker-compose -f ${SERVICES_CONFIG} -p ${PROJECT_NAME} down
 else
-  docker compose -f ${SERVICES_CONFIG} -p ${PROJECT_NAME} top
+  docker-compose -f ${SERVICES_CONFIG} -p ${PROJECT_NAME} top
 fi
