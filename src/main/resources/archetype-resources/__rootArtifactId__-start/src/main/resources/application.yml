@@ -3,6 +3,8 @@ app:
     home: ${APP_HOME}/logs
     level: info
 auth:
+  aes:
+    key: hello1234
   login:
     uri: /login
     oauth2:
@@ -15,6 +17,8 @@ auth:
   logout:
     uri: /logout
     successUri: /
+  rememberMe:
+    alwaysRemember: true
   role:
     adminUri: /admin/**,/api/admin/**
     apiUri: /api/**

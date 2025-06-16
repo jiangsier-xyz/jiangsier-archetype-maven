@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFilter;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -24,8 +25,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import ${package}.access.auth.customizer.OAuth2AuthorizationRequestCustomizer;
 import ${package}.access.auth.handler.OAuth2AuthenticationFailureHandler;
 import ${package}.access.auth.handler.OAuth2AuthenticationSuccessHandler;
-import ${package}.access.auth.ApiTokenAuthenticationProvider;
 import ${package}.access.auth.user.SysUserDetailsManager;
+import ${package}.access.auth.ApiTokenAuthenticationProvider;
+import ${package}.access.auth.OAuth2TokenBasedRememberMeServices;
 import ${package}.service.account.SysAuthorityService;
 import ${package}.service.account.SysBindService;
 import ${package}.service.account.SysUserService;
@@ -36,40 +38,34 @@ import java.util.Arrays;
 @Configuration
 @SuppressWarnings("unused")
 public class SecurityConfig {
+    @Value("${auth.aes.key}")
+    private String aesKey;
     @Value("${symbol_dollar}{auth.role.adminUri:${symbol_pound}{null}}")
     private String[] adminUri;
-
     @Value("${symbol_dollar}{auth.role.apiUri:${symbol_pound}{null}}")
     private String[] apiUri;
-
     @Value("${symbol_dollar}{auth.role.privateUri:${symbol_pound}{null}}")
     private String[] privateUri;
-
     @Value("${symbol_dollar}{auth.role.publicUri:${symbol_pound}{null}}")
     private String[] publicUri;
-
     @Value("${symbol_dollar}{auth.login.uri}")
     private String loginUri;
-
     @Value("${symbol_dollar}{auth.login.oauth2.successUri}")
     private String oauth2LoginSuccessUri;
-
     @Value("${symbol_dollar}{auth.login.oauth2.failureUri}")
     private String oauth2LoginFailureUri;
-
     @Value("${symbol_dollar}{auth.login.portal.successUri}")
     private String portalLoginSuccessUri;
-
     @Value("${symbol_dollar}{auth.login.portal.failureUri}")
     private String portalLoginFailureUri;
-
     @Value("${symbol_dollar}{auth.login.oauth2.baseUri:${symbol_pound}{T(org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter).DEFAULT_AUTHORIZATION_REQUEST_BASE_URI}}")
     private String authorizationRequestBaseUri;
-
     @Value("${symbol_dollar}{auth.logout.uri}")
     private String logoutUri;
     @Value("${symbol_dollar}{auth.logout.successUri}")
     private String logoutSuccessUri;
+    @Value("${symbol_dollar}{auth.rememberMe.alwaysRemember:false}")
+    private Boolean alwaysRemember;
 
     private void configPrivatePath(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
         if (ArrayUtils.isNotEmpty(privateUri)) {
@@ -101,7 +97,8 @@ public class SecurityConfig {
                                            OAuth2AuthorizationRequestCustomizer oAuth2AuthorizationRequestCustomizer,
                                            OAuth2AuthorizedClientService oAuth2ClientService,
                                            UserDetailsManager userDetailsManager,
-                                           ApiTokenAuthenticationProvider apiTokenAuthenticationProvider
+                                           ApiTokenAuthenticationProvider apiTokenAuthenticationProvider,
+                                           RedissonClient redissonClient
                                            ) throws Exception {
         http.authorizeHttpRequests(registry -> {
             configPrivatePath(registry);
@@ -155,6 +152,9 @@ public class SecurityConfig {
             http.csrf(csrfConf -> csrfConf.ignoringRequestMatchers(apiUri));
         }
 
+        http.rememberMe(rememberMe ->
+                rememberMe.rememberMeServices(rememberMeServices(userDetailsManager, redissonClient)));
+
         return http.build();
     }
 
@@ -177,6 +177,14 @@ public class SecurityConfig {
                 .map(AntPathRequestMatcher::new)
                 .map(RequestMatcher.class::cast)
                 .toList());
+    }
+
+    private RememberMeServices rememberMeServices(
+            UserDetailsService userDetailsService, RedissonClient redissonClient) {
+        OAuth2TokenBasedRememberMeServices rememberMeServices =
+                new OAuth2TokenBasedRememberMeServices(aesKey, userDetailsService, redissonClient);
+        rememberMeServices.setAlwaysRemember(alwaysRemember);
+        return rememberMeServices;
     }
 
     private AuthenticationFilter apiAuthenticationFilter(ApiTokenAuthenticationProvider provider) {
