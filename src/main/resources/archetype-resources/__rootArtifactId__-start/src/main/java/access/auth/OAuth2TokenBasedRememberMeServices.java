@@ -21,6 +21,7 @@ import ${package}.util.AuthorityUtils;
 import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class OAuth2TokenBasedRememberMeServices extends TokenBasedRememberMeServices {
@@ -36,11 +37,11 @@ public class OAuth2TokenBasedRememberMeServices extends TokenBasedRememberMeServ
     @Override
     protected UserDetails processAutoLoginCookie(
             String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
-        if (cookieTokens.length < 3 || !StringUtils.hasText(cookieTokens[2])) {
-            throw new InvalidCookieException("Cookie token did not contain expected token signature");
-        }
-
-        String tokenSignature = cookieTokens[2];
+        String tokenSignature = Optional.of(cookieTokens)
+                .filter(tokens -> tokens.length > 2)
+                .map(OAuth2TokenBasedRememberMeServices::getTokenSignature)
+                .filter(StringUtils::hasLength)
+                .orElseThrow(() -> new InvalidCookieException("Cookie token did not contain expected token signature"));
 
         RBucket<String> blacklistedBucket = redissonClient.getBucket(BLACKLIST_KEY_PREFIX + tokenSignature);
         if (blacklistedBucket.isExists()) {
@@ -59,7 +60,7 @@ public class OAuth2TokenBasedRememberMeServices extends TokenBasedRememberMeServ
                 String[] tokens = decodeCookie(rememberMeCookie);
                 if (tokens.length >= 3 && StringUtils.hasText(tokens[2])) {
                     String username = tokens[0];
-                    String tokenSignature = tokens[2];
+                    String tokenSignature = getTokenSignature(tokens);
                     logger.debug("Blacklisting remember-me, username: " + username + ", token: " + tokenSignature);
                     RBucket<String> blacklistedBucket = redissonClient.getBucket(BLACKLIST_KEY_PREFIX + tokenSignature);
                     blacklistedBucket.set(username, Duration.ofSeconds(getTokenValiditySeconds()));
@@ -92,5 +93,9 @@ public class OAuth2TokenBasedRememberMeServices extends TokenBasedRememberMeServ
             return sysUserDetailsManager.getPassword(oAuth2User, platform);
         }
         return super.retrievePassword(authentication);
+    }
+
+    private static String getTokenSignature(String[] cookieTokens) {
+        return cookieTokens.length == 4 ? cookieTokens[3] : cookieTokens[2];
     }
 }
