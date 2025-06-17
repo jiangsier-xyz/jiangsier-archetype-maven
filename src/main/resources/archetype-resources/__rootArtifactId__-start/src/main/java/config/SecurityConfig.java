@@ -4,6 +4,7 @@
 package ${package}.config;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import ${package}.access.auth.customizer.OAuth2AuthorizationRequestCustomizer;
@@ -174,7 +175,7 @@ public class SecurityConfig {
 
     private RequestMatcher toRequestMatcher(String[] paths) {
         return new OrRequestMatcher(Arrays.stream(paths)
-                .map(AntPathRequestMatcher::new)
+                .map(path -> PathPatternRequestMatcher.withDefaults().matcher(path))
                 .map(RequestMatcher.class::cast)
                 .toList());
     }

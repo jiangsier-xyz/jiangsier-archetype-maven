@@ -16,13 +16,9 @@ import org.springframework.security.web.authentication.rememberme.InvalidCookieE
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.util.StringUtils;
 import ${package}.access.auth.user.SysUserDetailsManager;
-import ${package}.util.AuthorityUtils;
 
 import java.time.Duration;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class OAuth2TokenBasedRememberMeServices extends TokenBasedRememberMeServices {
     private final String BLACKLIST_KEY_PREFIX = "remember_me:blacklist:";
