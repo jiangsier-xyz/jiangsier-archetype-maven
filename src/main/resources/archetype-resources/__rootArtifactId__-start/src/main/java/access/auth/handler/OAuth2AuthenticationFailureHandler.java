@@ -16,7 +16,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,11 +43,6 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
                         SecurityContextHolder.getContext().setAuthentication(authentication));
 
         log.warn("Failed to authenticate by oauth2!", exception);
-
-        String targetUrl =  String.format("%s?msg=%s", failureUrl,
-                URLEncoder.encode(exception.getMessage(), StandardCharsets.UTF_8));
-        setDefaultFailureUrl(targetUrl);
         super.onAuthenticationFailure(request, response, exception);
-        setDefaultFailureUrl(failureUrl);
     }
 }

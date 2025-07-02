@@ -5,7 +5,7 @@ package ${package}.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.annotation.processing.Generated;
+import jakarta.annotation.Generated;
 
 public class Binding implements Serializable {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")

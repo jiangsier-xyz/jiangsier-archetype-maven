@@ -8,7 +8,7 @@ import static ${package}.mapper.ApiTokenDynamicSqlSupport.*;
 
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.processing.Generated;
+import jakarta.annotation.Generated;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;

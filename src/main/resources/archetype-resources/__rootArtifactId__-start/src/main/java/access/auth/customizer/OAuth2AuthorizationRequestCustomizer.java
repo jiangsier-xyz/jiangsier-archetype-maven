@@ -47,7 +47,7 @@ public class OAuth2AuthorizationRequestCustomizer implements Consumer<OAuth2Auth
     private static final StringKeyGenerator DEFAULT_STATE_GENERATOR =
             new Base64StringKeyGenerator(Base64.getUrlEncoder());
 
-    @Value("${auth.login.oauth2.targetUrlParameter:#{null}}")
+    @Value("${symbol_dollar}{auth.login.oauth2.targetUrlParameter:#{null}}")
     private String targetUrlParameter;
     @Autowired
     private RedissonClient persistentClient;

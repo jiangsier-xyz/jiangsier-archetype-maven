@@ -3,7 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.model;
 
-import javax.annotation.processing.Generated;
+import jakarta.annotation.Generated;
 import java.io.Serializable;
 import java.util.Date;
 

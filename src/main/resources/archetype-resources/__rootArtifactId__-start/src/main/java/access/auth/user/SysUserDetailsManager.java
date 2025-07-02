@@ -169,7 +169,7 @@ public class SysUserDetailsManager implements UserDetailsManager {
                 .build();
     }
 
-    private String getUsername(OAuth2User oAuth2User, String platform) {
+    public String getUsername(OAuth2User oAuth2User, String platform) {
         String username = oAuth2User.getName();
         if ("aliyun".equalsIgnoreCase(platform)) {
             String uid = oAuth2User.getAttribute("uid");

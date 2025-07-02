@@ -43,11 +43,11 @@ backend:
     className: nginx
     enabled: false
     hosts:
-      - host: jiangsier-xyz
+      - host: jiangsier.xyz
         paths:
           - path: /
             pathType: Prefix
-      - host: www.jiangsier-xyz
+      - host: www.jiangsier.xyz
         redirect: true
         paths:
           - path: /

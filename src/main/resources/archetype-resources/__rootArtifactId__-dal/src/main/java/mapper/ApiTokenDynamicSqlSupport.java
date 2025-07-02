@@ -5,7 +5,7 @@ package ${package}.mapper;
 
 import java.sql.JDBCType;
 import java.util.Date;
-import javax.annotation.processing.Generated;
+import jakarta.annotation.Generated;
 import org.mybatis.dynamic.sql.AliasableSqlTable;
 import org.mybatis.dynamic.sql.SqlColumn;
 

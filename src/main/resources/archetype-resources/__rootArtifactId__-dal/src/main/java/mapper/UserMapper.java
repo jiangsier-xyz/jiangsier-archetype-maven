@@ -21,7 +21,7 @@ import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 import ${package}.model.User;
 
-import javax.annotation.processing.Generated;
+import jakarta.annotation.Generated;
 import java.util.List;
 import java.util.Optional;
 
