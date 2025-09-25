@@ -1,4 +1,4 @@
-FROM openjdk:21-bullseye
+FROM openjdk:25-bullseye
 
 ARG APP_NAME
 ARG UNAME=admin
