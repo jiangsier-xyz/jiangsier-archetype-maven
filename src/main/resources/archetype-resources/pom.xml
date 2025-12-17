@@ -96,8 +96,8 @@
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
-                <!-- for Spring Data Redis v3.5.x -->
-                <artifactId>redisson-spring-data-35</artifactId>
+                <!-- for Spring Data Redis v4.0.x -->
+                <artifactId>redisson-spring-data-40</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
 
