@@ -25,7 +25,7 @@
         <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-io.version>2.21.0</commons-io.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
-        <redisson.version>3.52.0</redisson.version>
+        <redisson.version>4.0.0</redisson.version>
         <objenesis.version>3.4</objenesis.version>
 
         <!--plugin versions-->
@@ -96,8 +96,8 @@
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>
-                <!-- for Spring Data Redis v3.5.x -->
-                <artifactId>redisson-spring-data-35</artifactId>
+                <!-- for Spring Data Redis v4.0.x -->
+                <artifactId>redisson-spring-data-40</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
 
