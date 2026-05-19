@@ -1,0 +1,40 @@
+name: test-archetype
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  generate-and-compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+          # Invalidate the Maven cache when either the archetype's own pom or
+          # any templated pom inside archetype-resources/ changes.
+          cache-dependency-path: |
+            pom.xml
+            src/main/resources/archetype-resources/**/pom.xml
+
+      - name: Generate project and verify it compiles
+        run: bin/test-gen-proj.sh
+
+      # Only fires on failure; combined with the script's default --cleanup
+      # mode (on-success) this means a green run uploads nothing and a red run
+      # leaves the broken tree downloadable for inspection.
+      - name: Upload generated project on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-project
+          path: target/test-gen-proj/
+          retention-days: 7

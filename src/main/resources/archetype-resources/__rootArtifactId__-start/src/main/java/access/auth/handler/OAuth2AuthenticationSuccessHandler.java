@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import ${package}.access.auth.customizer.OAuth2AuthorizationRequestCustomizer;
+import ${package}.access.auth.customizer.OAuth2StateValue;
 import ${package}.access.auth.user.SysUserDetails;
 import ${package}.access.auth.user.SysUserDetailsManager;
 

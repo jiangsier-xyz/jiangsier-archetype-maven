@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import ${package}.access.auth.customizer.OAuth2AuthorizationRequestCustomizer;
+import ${package}.access.auth.customizer.OAuth2StateValue;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

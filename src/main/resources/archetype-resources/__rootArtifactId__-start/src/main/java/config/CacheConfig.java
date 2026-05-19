@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.concurrent.TimeUnit;
 
-import ${package}.service.util.CacheUtils.*;
+import static ${package}.service.util.CacheUtils.*;
 
 @Configuration
 @SuppressWarnings("unused")
