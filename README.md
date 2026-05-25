@@ -173,7 +173,7 @@ Then awesome-app will not automatically install MySQL and Redis, and directly us
 ### MySQL
 Almost all applications are inseparable from the database, and awesome-app is the same. Considering the popularity of MySQL, awesome-app uses MySQL as its own database to store authentication-related information, and uses standard SQL sentences as much as possible to avoid hardcoding the MySQL dialect.
 
-awesome-app deploys [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) to the same namespace by default. And the default MySQL url is `jdbc:mysql://awesome-app-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8`
+awesome-app deploys [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) to the same namespace by default. And the default MySQL url is `jdbc:mysql://awesome-app-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC`
 
 You can also specify other MySQL instances.
 
