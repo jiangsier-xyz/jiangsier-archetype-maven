@@ -158,7 +158,7 @@ Then ${artifactId} will not automatically install MySQL and Redis, and directly 
 ${symbol_pound}${symbol_pound}${symbol_pound} MySQL
 Almost all applications are inseparable from the database, and ${artifactId} is the same. Considering the popularity of MySQL, ${artifactId} uses MySQL as its own database to store authentication-related information, and uses standard SQL sentences as much as possible to avoid hardcoding the MySQL dialect.
 
-${artifactId} deploys [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) to the same namespace by default. And the default MySQL url is `jdbc:mysql://${artifactId}-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8`
+${artifactId} deploys [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) to the same namespace by default. And the default MySQL url is `jdbc:mysql://${artifactId}-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC`
 
 You can also specify other MySQL instances.
 

@@ -105,7 +105,7 @@ export APP_NAME
 export SERVICE_OPTS="\
   -Dspring.config.location=classpath:/application.yml \
   -Dspring.profiles.active=local \
-  -Dspring.datasource.url=\"jdbc:mysql://mysql:${MYSQL_PORT}/${PROJECT_NAME}?useUnicode=true&characterEncoding=utf-8\" \
+  -Dspring.datasource.url=\"jdbc:mysql://mysql:${MYSQL_PORT}/${PROJECT_NAME}?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC\" \
   -Dredis.datasource.url=\"redis://redis:${REDIS_PORT}\" \
   ${APP_ARGS[@]}"
 

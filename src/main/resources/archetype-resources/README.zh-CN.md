@@ -158,7 +158,7 @@ redis:
 ${symbol_pound}${symbol_pound}${symbol_pound} MySQL
 几乎所有的应用都离不开数据库，${artifactId} 也一样。考虑到 MySQL 的流行度，${artifactId} 使用 MySQL 来作为自身的数据库，存放认证相关的信息，并且尽量使用标准的 SQL 语法，避免硬编码 MySQL 方言。
 
-${artifactId} 默认部署 [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) 到同一命名空间，这时，MySQL url 默认是 `jdbc:mysql://${artifactId}-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8`
+${artifactId} 默认部署 [bitnami/mysql](https://artifacthub.io/packages/helm/bitnami/mysql) 到同一命名空间，这时，MySQL url 默认是 `jdbc:mysql://${artifactId}-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC`
 
 你也可以指定其他的 MySQL 实例。
 

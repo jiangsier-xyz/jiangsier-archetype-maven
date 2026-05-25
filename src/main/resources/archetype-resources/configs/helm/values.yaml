@@ -91,7 +91,7 @@ cert:
     version: v1.16.1
 mysql:
   enabled: true
-  url: 'jdbc:mysql://jiangsier-archetype-demo-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8'
+  url: 'jdbc:mysql://jiangsier-archetype-demo-mysql:3306/accounts?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC'
   auth:
     database: accounts
     password: ''
