@@ -14,7 +14,7 @@ import ${package}.mapper.UserMapper;
 import ${package}.model.ApiToken;
 import ${package}.model.User;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
@@ -38,7 +38,7 @@ public class SysApiTokenRepo {
     }
 
     public List<ApiToken> listApiTokens(String userId) {
-        Date now = new Date(System.currentTimeMillis());
+        LocalDateTime now = LocalDateTime.now();
         return apiTokenMapper.select(c -> c.where(ApiTokenDynamicSqlSupport.userId, isEqualTo(userId))
                         .and(ApiTokenDynamicSqlSupport.issuedAt, isLessThanOrEqualTo(now))
                         .and(ApiTokenDynamicSqlSupport.expiresAt, isGreaterThanOrEqualTo(now)));

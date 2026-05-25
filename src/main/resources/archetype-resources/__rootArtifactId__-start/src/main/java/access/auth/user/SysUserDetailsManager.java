@@ -30,6 +30,7 @@ import java.net.URL;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -55,7 +56,7 @@ public class SysUserDetailsManager implements UserDetailsManager {
     }
 
     private User mapUser(UserDetails userDetails, User user) {
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
 
         if (user == null) {
             user = new User();
@@ -259,7 +260,7 @@ public class SysUserDetailsManager implements UserDetailsManager {
         return profile;
     }
 
-    private Date toDate(String dateStr, String zoneInfo) {
+    private LocalDateTime toDate(String dateStr, String zoneInfo) {
         if (StringUtils.isBlank(dateStr)) {
             return null;
         }
@@ -270,22 +271,22 @@ public class SysUserDetailsManager implements UserDetailsManager {
 
         try {
             LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ISO_DATE);
-            return Date.from(date.atStartOfDay(ZoneId.of(zoneInfo)).toInstant());
+            return date.atStartOfDay();
         } catch (DateTimeException e) {
             log.warn("Wrong date format: {}", dateStr);
         }
         return null;
     }
 
-    private Date timestampToDate(Object timestamp) {
+    private LocalDateTime timestampToDate(Object timestamp) {
         if (timestamp == null) {
             return null;
         }
 
         try {
             return switch (timestamp) {
-                case String timestampStr -> Date.from(Instant.parse(timestampStr));
-                case Long timestampLong -> new Date(timestampLong);
+                case String timestampStr -> LocalDateTime.ofInstant(Instant.parse(timestampStr), ZoneId.systemDefault());
+                case Long timestampLong -> LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampLong), ZoneId.systemDefault());
                 default -> throw new IllegalArgumentException("Unknown timestamp class: " + timestamp.getClass());
             };
         } catch (IllegalArgumentException | DateTimeParseException e) {
@@ -366,13 +367,13 @@ public class SysUserDetailsManager implements UserDetailsManager {
         String refreshTokenValue = Optional.ofNullable(refreshToken)
                 .map(AbstractOAuth2Token::getTokenValue)
                 .orElse(null);
-        Date issuedAt = Optional.ofNullable(refreshToken)
+        LocalDateTime issuedAt = Optional.ofNullable(refreshToken)
                 .map(AbstractOAuth2Token::getIssuedAt)
-                .map(Date::from)
-                .orElseGet(Date::new);
-        Date expiresAt = Optional.ofNullable(refreshToken)
+                .map(instant -> LocalDateTime.ofInstant(instant, ZoneId.systemDefault()))
+                .orElseGet(LocalDateTime::now);
+        LocalDateTime expiresAt = Optional.ofNullable(refreshToken)
                 .map(AbstractOAuth2Token::getExpiresAt)
-                .map(Date::from)
+                .map(instant -> LocalDateTime.ofInstant(instant, ZoneId.systemDefault()))
                 .orElse(null);
         String sub = getSub(oAuth2User, platform);
         URL iss = oAuth2User.getAttribute(IdTokenClaimNames.ISS);

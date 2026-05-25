@@ -13,8 +13,8 @@ import ${package}.model.Binding;
 import ${package}.model.User;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
@@ -33,8 +33,8 @@ public class SysBindServiceImpl implements SysBindService {
     }
     @Override
     public boolean bind(User user, String platform, String sub, URL iss, Collection<String> aud,
-                        String refreshToken, Date issuedAt, Date expiresAt) {
-        Date now = new Date(System.currentTimeMillis());
+                        String refreshToken, LocalDateTime issuedAt, LocalDateTime expiresAt) {
+        LocalDateTime now = LocalDateTime.now();
         Binding binding = new Binding()
                 .withGmtCreate(now)
                 .withGmtModified(now)
@@ -76,8 +76,8 @@ public class SysBindServiceImpl implements SysBindService {
         return bindingMapper.selectOne(c -> c.where(BindingDynamicSqlSupport.userId, isEqualTo(user.getUserId()))
                         .and(BindingDynamicSqlSupport.platform, isEqualTo(platform)))
                 .filter(binding -> {
-                    Date expiresAt = binding.getExpiresAt();
-                    return expiresAt == null || expiresAt.after(new Date(System.currentTimeMillis()));
+                    LocalDateTime expiresAt = binding.getExpiresAt();
+                    return expiresAt == null || expiresAt.isAfter(LocalDateTime.now());
                 })
                 .isPresent();
     }

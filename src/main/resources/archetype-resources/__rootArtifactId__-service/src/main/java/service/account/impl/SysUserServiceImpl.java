@@ -13,7 +13,7 @@ import ${package}.util.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
@@ -29,7 +29,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public boolean createUser(User user) {
-        Date now = new Date(System.currentTimeMillis());
+        LocalDateTime now = LocalDateTime.now();
         int rows = userMapper.insertSelective(user
                 .withGmtCreate(now)
                 .withGmtModified(now)
@@ -63,7 +63,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @MiddlePeriodCacheEvict(keyBy = CACHE_KEY_FROM_USER)
     public boolean updateUser(User user) {
-        Date now = new Date(System.currentTimeMillis());
+        LocalDateTime now = LocalDateTime.now();
         int rows = userMapper.updateByPrimaryKeySelective(user.withGmtModified(now));
         return rows > 0;
     }

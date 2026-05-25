@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ${package}.service.account.SysAuthorityService;
 import ${package}.model.User;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +33,7 @@ public class SysUserDetails extends User implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return Optional.ofNullable(getExpiresAt())
-                .map(expiresAt -> expiresAt.after(new Date(System.currentTimeMillis())))
+                .map(expiresAt -> expiresAt.isAfter(LocalDateTime.now()))
                 .orElse(Boolean.TRUE);
     }
 
@@ -45,7 +45,7 @@ public class SysUserDetails extends User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return Optional.ofNullable(getPasswordExpiresAt())
-                .map(expiresAt -> expiresAt.after(new Date(System.currentTimeMillis())))
+                .map(expiresAt -> expiresAt.isAfter(LocalDateTime.now()))
                 .orElse(Boolean.TRUE);
     }
 
