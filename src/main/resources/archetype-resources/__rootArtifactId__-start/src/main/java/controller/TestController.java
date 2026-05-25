@@ -47,6 +47,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -273,7 +274,7 @@ public class TestController {
 
     @GetMapping("/accounts/user")
     public String user(Model model) {
-        Date now = new Date(System.currentTimeMillis());
+        LocalDateTime now = LocalDateTime.now();
 
         User testUser = new User().withUsername(UUID.randomUUID().toString())
                 .withPassword(UUID.randomUUID().toString())

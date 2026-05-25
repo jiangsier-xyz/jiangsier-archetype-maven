@@ -9,7 +9,7 @@ import ${package}.model.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Schema(description = "User details.")
@@ -26,16 +26,16 @@ public class UserDetailsDTO extends TraceableDTO {
     private String website;
     private String email;
     private String gender;
-    private Date birthdate;
+    private LocalDateTime birthdate;
     private String zoneinfo;
     private String locale;
     private String phoneNumber;
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
     private String platform;
     private Byte enabled;
     private Byte locked;
-    private Date expiresAt;
-    private Date passwordExpiresAt;
+    private LocalDateTime expiresAt;
+    private LocalDateTime passwordExpiresAt;
     private String address;
 
     public static UserDetailsDTO from(User user) {

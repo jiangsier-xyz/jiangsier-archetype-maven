@@ -14,7 +14,7 @@ import ${package}.model.Authority;
 import ${package}.model.User;
 import ${package}.util.AuthorityUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,7 +41,7 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
     @Override
     @Transactional
     public boolean updateAuthorities(User user, Set<String> authorities) {
-        Date now = new Date(System.currentTimeMillis());
+        LocalDateTime now = LocalDateTime.now();
         authorityMapper.delete(c -> c.where(AuthorityDynamicSqlSupport.userId, isEqualTo(user.getUserId())));
         for (String authority : authorities) {
             if (AuthorityUtils.USER.equalsIgnoreCase(authority)) {

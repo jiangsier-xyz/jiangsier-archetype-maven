@@ -3,17 +3,27 @@
 #set( $symbol_escape = '\' )
 package ${package}.mapper;
 
-import org.apache.ibatis.annotations.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
+import static ${package}.mapper.UserDynamicSqlSupport.*;
+
+import java.util.List;
+import java.util.Optional;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
-import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
+import org.mybatis.dynamic.sql.dsl.CountDSLCompleter;
+import org.mybatis.dynamic.sql.dsl.DeleteDSLCompleter;
+import org.mybatis.dynamic.sql.dsl.SelectDSLCompleter;
+import org.mybatis.dynamic.sql.dsl.UpdateDSL;
+import org.mybatis.dynamic.sql.dsl.UpdateDSLCompleter;
 import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
-import org.mybatis.dynamic.sql.select.CountDSLCompleter;
-import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
-import org.mybatis.dynamic.sql.update.UpdateDSL;
-import org.mybatis.dynamic.sql.update.UpdateDSLCompleter;
-import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonCountMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonDeleteMapper;
@@ -21,24 +31,14 @@ import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 import ${package}.model.User;
 
-import jakarta.annotation.Generated;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-import static ${package}.mapper.UserDynamicSqlSupport.*;
-
 @Mapper
 public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, CommonUpdateMapper {
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     BasicColumn[] selectList = BasicColumn.columnList(userId, id, gmtCreate, gmtModified, username, password, nickname, givenName, middleName, familyName, preferredUsername, profile, website, email, emailVerified, gender, birthdate, zoneinfo, locale, phoneNumber, phoneNumberVerified, updatedAt, platform, enabled, locked, expiresAt, passwordExpiresAt, picture, address);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
     @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="row.id", before=false, resultType=Long.class)
     int insert(InsertStatementProvider<User> insertStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @Results(id="UserResult", value = {
         @Result(column="user_id", property="userId", jdbcType=JdbcType.VARCHAR, id=true),
@@ -73,126 +73,115 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
     })
     List<User> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
     @ResultMap("UserResult")
     Optional<User> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, user, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, user, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int deleteByPrimaryKey(String userId_) {
-        return delete(c ->
+        return delete(c -> 
             c.where(userId, isEqualTo(userId_))
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insert(User row) {
         return MyBatis3Utils.insert(this::insert, row, user, c ->
-            c.map(userId).toProperty("userId")
-            .map(gmtCreate).toProperty("gmtCreate")
-            .map(gmtModified).toProperty("gmtModified")
-            .map(username).toProperty("username")
-            .map(password).toProperty("password")
-            .map(nickname).toProperty("nickname")
-            .map(givenName).toProperty("givenName")
-            .map(middleName).toProperty("middleName")
-            .map(familyName).toProperty("familyName")
-            .map(preferredUsername).toProperty("preferredUsername")
-            .map(profile).toProperty("profile")
-            .map(website).toProperty("website")
-            .map(email).toProperty("email")
-            .map(emailVerified).toProperty("emailVerified")
-            .map(gender).toProperty("gender")
-            .map(birthdate).toProperty("birthdate")
-            .map(zoneinfo).toProperty("zoneinfo")
-            .map(locale).toProperty("locale")
-            .map(phoneNumber).toProperty("phoneNumber")
-            .map(phoneNumberVerified).toProperty("phoneNumberVerified")
-            .map(updatedAt).toProperty("updatedAt")
-            .map(platform).toProperty("platform")
-            .map(enabled).toProperty("enabled")
-            .map(locked).toProperty("locked")
-            .map(expiresAt).toProperty("expiresAt")
-            .map(passwordExpiresAt).toProperty("passwordExpiresAt")
-            .map(picture).toProperty("picture")
-            .map(address).toProperty("address")
+            c.withMappedColumn(userId)
+            .withMappedColumn(gmtCreate)
+            .withMappedColumn(gmtModified)
+            .withMappedColumn(username)
+            .withMappedColumn(password)
+            .withMappedColumn(nickname)
+            .withMappedColumn(givenName)
+            .withMappedColumn(middleName)
+            .withMappedColumn(familyName)
+            .withMappedColumn(preferredUsername)
+            .withMappedColumn(profile)
+            .withMappedColumn(website)
+            .withMappedColumn(email)
+            .withMappedColumn(emailVerified)
+            .withMappedColumn(gender)
+            .withMappedColumn(birthdate)
+            .withMappedColumn(zoneinfo)
+            .withMappedColumn(locale)
+            .withMappedColumn(phoneNumber)
+            .withMappedColumn(phoneNumberVerified)
+            .withMappedColumn(updatedAt)
+            .withMappedColumn(platform)
+            .withMappedColumn(enabled)
+            .withMappedColumn(locked)
+            .withMappedColumn(expiresAt)
+            .withMappedColumn(passwordExpiresAt)
+            .withMappedColumn(picture)
+            .withMappedColumn(address)
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insertSelective(User row) {
         return MyBatis3Utils.insert(this::insert, row, user, c ->
-            c.map(userId).toPropertyWhenPresent("userId", row::getUserId)
-            .map(gmtCreate).toPropertyWhenPresent("gmtCreate", row::getGmtCreate)
-            .map(gmtModified).toPropertyWhenPresent("gmtModified", row::getGmtModified)
-            .map(username).toPropertyWhenPresent("username", row::getUsername)
-            .map(password).toPropertyWhenPresent("password", row::getPassword)
-            .map(nickname).toPropertyWhenPresent("nickname", row::getNickname)
-            .map(givenName).toPropertyWhenPresent("givenName", row::getGivenName)
-            .map(middleName).toPropertyWhenPresent("middleName", row::getMiddleName)
-            .map(familyName).toPropertyWhenPresent("familyName", row::getFamilyName)
-            .map(preferredUsername).toPropertyWhenPresent("preferredUsername", row::getPreferredUsername)
-            .map(profile).toPropertyWhenPresent("profile", row::getProfile)
-            .map(website).toPropertyWhenPresent("website", row::getWebsite)
-            .map(email).toPropertyWhenPresent("email", row::getEmail)
-            .map(emailVerified).toPropertyWhenPresent("emailVerified", row::getEmailVerified)
-            .map(gender).toPropertyWhenPresent("gender", row::getGender)
-            .map(birthdate).toPropertyWhenPresent("birthdate", row::getBirthdate)
-            .map(zoneinfo).toPropertyWhenPresent("zoneinfo", row::getZoneinfo)
-            .map(locale).toPropertyWhenPresent("locale", row::getLocale)
-            .map(phoneNumber).toPropertyWhenPresent("phoneNumber", row::getPhoneNumber)
-            .map(phoneNumberVerified).toPropertyWhenPresent("phoneNumberVerified", row::getPhoneNumberVerified)
-            .map(updatedAt).toPropertyWhenPresent("updatedAt", row::getUpdatedAt)
-            .map(platform).toPropertyWhenPresent("platform", row::getPlatform)
-            .map(enabled).toPropertyWhenPresent("enabled", row::getEnabled)
-            .map(locked).toPropertyWhenPresent("locked", row::getLocked)
-            .map(expiresAt).toPropertyWhenPresent("expiresAt", row::getExpiresAt)
-            .map(passwordExpiresAt).toPropertyWhenPresent("passwordExpiresAt", row::getPasswordExpiresAt)
-            .map(picture).toPropertyWhenPresent("picture", row::getPicture)
-            .map(address).toPropertyWhenPresent("address", row::getAddress)
+            c.withMappedColumnWhenPresent(userId, row::getUserId)
+            .withMappedColumnWhenPresent(gmtCreate, row::getGmtCreate)
+            .withMappedColumnWhenPresent(gmtModified, row::getGmtModified)
+            .withMappedColumnWhenPresent(username, row::getUsername)
+            .withMappedColumnWhenPresent(password, row::getPassword)
+            .withMappedColumnWhenPresent(nickname, row::getNickname)
+            .withMappedColumnWhenPresent(givenName, row::getGivenName)
+            .withMappedColumnWhenPresent(middleName, row::getMiddleName)
+            .withMappedColumnWhenPresent(familyName, row::getFamilyName)
+            .withMappedColumnWhenPresent(preferredUsername, row::getPreferredUsername)
+            .withMappedColumnWhenPresent(profile, row::getProfile)
+            .withMappedColumnWhenPresent(website, row::getWebsite)
+            .withMappedColumnWhenPresent(email, row::getEmail)
+            .withMappedColumnWhenPresent(emailVerified, row::getEmailVerified)
+            .withMappedColumnWhenPresent(gender, row::getGender)
+            .withMappedColumnWhenPresent(birthdate, row::getBirthdate)
+            .withMappedColumnWhenPresent(zoneinfo, row::getZoneinfo)
+            .withMappedColumnWhenPresent(locale, row::getLocale)
+            .withMappedColumnWhenPresent(phoneNumber, row::getPhoneNumber)
+            .withMappedColumnWhenPresent(phoneNumberVerified, row::getPhoneNumberVerified)
+            .withMappedColumnWhenPresent(updatedAt, row::getUpdatedAt)
+            .withMappedColumnWhenPresent(platform, row::getPlatform)
+            .withMappedColumnWhenPresent(enabled, row::getEnabled)
+            .withMappedColumnWhenPresent(locked, row::getLocked)
+            .withMappedColumnWhenPresent(expiresAt, row::getExpiresAt)
+            .withMappedColumnWhenPresent(passwordExpiresAt, row::getPasswordExpiresAt)
+            .withMappedColumnWhenPresent(picture, row::getPicture)
+            .withMappedColumnWhenPresent(address, row::getAddress)
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default Optional<User> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, user, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default List<User> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, user, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default List<User> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, user, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default Optional<User> selectByPrimaryKey(String userId_) {
         return selectOne(c ->
             c.where(userId, isEqualTo(userId_))
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, user, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    static UpdateDSL<UpdateModel> updateAllColumns(User row, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL updateAllColumns(User row, UpdateDSL dsl) {
         return dsl.set(userId).equalTo(row::getUserId)
+                .set(id).equalTo(row::getId)
                 .set(gmtCreate).equalTo(row::getGmtCreate)
                 .set(gmtModified).equalTo(row::getGmtModified)
                 .set(username).equalTo(row::getUsername)
@@ -222,9 +211,9 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
                 .set(address).equalTo(row::getAddress);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(User row, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL updateSelectiveColumns(User row, UpdateDSL dsl) {
         return dsl.set(userId).equalToWhenPresent(row::getUserId)
+                .set(id).equalToWhenPresent(row::getId)
                 .set(gmtCreate).equalToWhenPresent(row::getGmtCreate)
                 .set(gmtModified).equalToWhenPresent(row::getGmtModified)
                 .set(username).equalToWhenPresent(row::getUsername)
@@ -254,10 +243,10 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
                 .set(address).equalToWhenPresent(row::getAddress);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKey(User row) {
         return update(c ->
-            c.set(gmtCreate).equalTo(row::getGmtCreate)
+            c.set(id).equalTo(row::getId)
+            .set(gmtCreate).equalTo(row::getGmtCreate)
             .set(gmtModified).equalTo(row::getGmtModified)
             .set(username).equalTo(row::getUsername)
             .set(password).equalTo(row::getPassword)
@@ -288,10 +277,10 @@ public interface UserMapper extends CommonCountMapper, CommonDeleteMapper, Commo
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKeySelective(User row) {
         return update(c ->
-            c.set(gmtCreate).equalToWhenPresent(row::getGmtCreate)
+            c.set(id).equalToWhenPresent(row::getId)
+            .set(gmtCreate).equalToWhenPresent(row::getGmtCreate)
             .set(gmtModified).equalToWhenPresent(row::getGmtModified)
             .set(username).equalToWhenPresent(row::getUsername)
             .set(password).equalToWhenPresent(row::getPassword)
