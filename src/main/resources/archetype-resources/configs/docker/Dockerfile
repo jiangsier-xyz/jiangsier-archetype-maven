@@ -1,4 +1,4 @@
-FROM openjdk:25-bullseye
+FROM eclipse-temurin:25-jre-jammy
 
 ARG APP_NAME
 ARG UNAME=admin
