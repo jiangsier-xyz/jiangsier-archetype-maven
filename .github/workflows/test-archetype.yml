@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: "25"
+          java-version: "25.0.4+101.0.LTS"
           cache: maven
           # Invalidate the Maven cache when either the archetype's own pom or
           # any templated pom inside archetype-resources/ changes.
