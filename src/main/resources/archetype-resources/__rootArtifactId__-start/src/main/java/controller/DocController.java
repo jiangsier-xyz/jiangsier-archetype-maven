@@ -5,9 +5,6 @@ package ${package}.controller;
 
 import ${package}.service.cache.LongPeriodCache;
 import ${package}.util.HttpUtils;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
@@ -21,6 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
@@ -120,7 +121,7 @@ public class DocController {
             }
             apiDocs = rootNode.toString();
 
-        } catch (IOException e) {
+        } catch (IOException | JacksonException e) {
             log.warn("Failed to load {}", localizedDocPath, e);
         }
         return apiDocs;
@@ -130,7 +131,7 @@ public class DocController {
         Object propertyValue = property.getValue();
         // type-safe mapping
         return switch(value.getNodeType()) {
-            case STRING -> TextNode.valueOf(propertyValue.toString());
+            case STRING -> StringNode.valueOf(propertyValue.toString());
             case BOOLEAN -> {
                 if (propertyValue instanceof Boolean booleanValue) {
                     yield BooleanNode.valueOf(booleanValue);
