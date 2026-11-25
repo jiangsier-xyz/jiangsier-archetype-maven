@@ -4,11 +4,12 @@
 package ${package}.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,15 +60,16 @@ public class TestController {
     private static final String RESULT = "result";
 
     private ObjectMapper createObjectMapper() {
-        return new ObjectMapper()
-                .findAndRegisterModules()
-                .configure(SerializationFeature.INDENT_OUTPUT, true)
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .setTimeZone(TimeZone.getTimeZone("GMT"))
-                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        return JsonMapper.builder()
+                .findAndAddModules()
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                // WRITE_DATES_AS_TIMESTAMPS was removed in Jackson 3; dates are ISO-8601 by default
+                .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .defaultTimeZone(TimeZone.getTimeZone("GMT"))
+                .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
+                .defaultDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
+                .build();
     }
 
     /*==== trace ====*/
@@ -300,7 +302,7 @@ public class TestController {
             userDetails = userDetailsManager.loadUserByUsername(testUser.getUsername());
             result.append("Updated User:${symbol_escape}n").append(objectMapper.writeValueAsString(userDetails)).append("${symbol_escape}n");
             model.addAttribute(RESULT, result.toString());
-        } catch (JsonProcessingException | InterruptedException e) {
+        } catch (JacksonException | InterruptedException e) {
             model.addAttribute(RESULT, e.getMessage());
         } finally {
             userDetailsManager.deleteUser(testUser.getUsername());
@@ -328,7 +330,7 @@ public class TestController {
             } else {
                 model.addAttribute(RESULT, "anonymous");
             }
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             model.addAttribute(RESULT, e.getMessage());
         }
 
@@ -368,7 +370,7 @@ public class TestController {
                 try {
                     JsonNode json = objectMapper.readTree(body);
                     requestInfo.put("body", json);
-                } catch (JsonProcessingException e) {
+                } catch (JacksonException e) {
                     requestInfo.put("body", body);
                 }
             }
@@ -378,7 +380,7 @@ public class TestController {
 
         try {
             model.addAttribute(RESULT, objectMapper.writeValueAsString(requestInfo));
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             model.addAttribute(RESULT, e.getMessage());
         }
         return TEST_PAGE;
